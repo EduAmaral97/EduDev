@@ -1,0 +1,29 @@
+
+/*---------------------ORC PAI----------------------*/
+
+
+SELECT L2_ORCRES, * FROM SL2010 WHERE D_E_L_E_T_ ='' AND L2_FILIAL = '0101' AND L2_NUM = '018242' 
+
+
+/*---------------------ORC FILHOS----------------------*/
+
+
+SELECT L2_FILRES, L2_PEDRES, * FROM SL2010 WHERE D_E_L_E_T_ ='' AND L2_FILIAL = '0101' AND L2_NUM = '018243' 
+
+SELECT L2_FILRES, L2_PEDRES, * FROM SL2010 WHERE D_E_L_E_T_ ='' AND L2_FILIAL = '0102' AND L2_NUM = '012030' 
+
+
+
+/*---------------------PEDIDO DE VENDA DOS FILHOS---------------------*/
+
+
+SELECT * FROM SC6010 WHERE D_E_L_E_T_ = '' AND C6_NUM = '009485' AND C6_FILIAL = '0101'
+
+
+SELECT * FROM SC6010 WHERE D_E_L_E_T_ = '' AND C6_NUM = '001922' AND C6_FILIAL = '0102'
+
+
+/*---------------------SAIDA DE NOTAS---------------------*/
+
+
+SELECT D2_PEDIDO AS PEDIDO_VENDAS, * FROM SD2010 WHERE D_E_L_E_T_ = '' AND D2_SERIE = '001'  AND D2_DOC = '000028065'

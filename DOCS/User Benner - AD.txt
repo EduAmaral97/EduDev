@@ -1,0 +1,69 @@
+___________________________________________________
+
+Usuario Benner AD
+Usuario: Benner
+Senha: q96P#k25H4S!vb%X^7Drx
+
+SQL
+Sa
+mdc@2014.db
+
+Server: MDCSQL
+IP: 192.168.0.90
+Port: 1433
+BD: SuperServer
+Collation: SQL_Latin1_General_CP1_CI_AS
+Compatibility Level: 110 (SQL Server 2012)
+SQL User: benner
+Pass: Wexs4005Vboe4131
+
+
+SISCON
+medicar.diego
+V*V0Pw6bWcr7
+
+_______________________________________________________
+
+Usuario Benner Sistem Corp
+
+Usuario sysdba 
+Senha Antiga: Jz4a_t[I
+Senha: lz2I!0zojoPjF3O8P8@PH
+Senha 29/05: U4w*1K!6bEYqG%h
+
+Agendamento
+senha: 5Im3R?-{
+
+Benner
+senha: benner
+
+ServerManager
+usuario: administrador
+senha: K+YG*[WT=MED
+
+
+Usuario RH - SYS (Fabio)
+GeradorRel
+1^m#rpTO
+
+http://192.168.0.49/RH_MEDICAR_PRD/admin.aspx
+http://192.168.0.49/RH_MEDICAR_HML/admin.aspx
+http://192.168.0.49/CORP_MEDICAR_PRD/admin.aspx
+http://192.168.0.49/CORP_MEDICAR_HML/admin.aspx
+
+
+____________________________________________________
+
+
+Link API
+
+Interno: http://192.168.0.49/CORP_MEDICAR_PRD/swagger/ui/index
+
+
+___________________________________________________
+
+Publicacao Externa
+
+http://clientes.medicar.com.br:5200/CORP_MEDICAR_PRD
+
+___________________________________________________

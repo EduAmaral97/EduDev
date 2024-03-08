@@ -1,0 +1,12 @@
+
+
+
+SELECT 
+U7_ZLIMDES, 
+* 
+FROM SU7010 
+WHERE 1=1
+AND D_E_L_E_T_ = ''
+
+
+

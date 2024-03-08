@@ -1,0 +1,109 @@
+
+/*----------------------------------*/
+
+CREATE TABLE TMP
+    (
+     PEM_CODPROD VARCHAR(15),
+     PEM_CODAPRE VARCHAR(40),
+     PEM_ALTURA FLOAT,
+     PEM_LARGURA FLOAT,
+     PEM_PROFUNDIDADE FLOAT,
+     PEM_PESO FLOAT,  
+     PEM_CUBAGEM FLOAT,        
+	)
+
+
+CREATE TABLE ARQMKT01
+    (
+     PEM_CODPROD VARCHAR(15),
+     PEM_CODAPRE VARCHAR(40),
+     PEM_ALTURA FLOAT,
+     PEM_LARGURA FLOAT,
+     PEM_PROFUNDIDADE FLOAT,
+     PEM_PESO FLOAT,
+     PEM_CUBAGEM FLOAT,          
+     R_E_C_N_O_ INT IDENTITY(1,1),
+	)
+	
+	/*---------TESTE-------*/
+	CREATE TABLE ARQMKT01
+    (
+     PEM_CODPROD VARCHAR(15),
+     PEM_CODAPRE VARCHAR(40),
+     PEM_ALTURA FLOAT,
+     PEM_LARGURA FLOAT,
+     PEM_PROFUNDIDADE FLOAT,
+     PEM_CUBAGEM FLOAT,
+     PEM_PESO FLOAT,     
+     R_E_C_N_O_ INT IDENTITY(3243,1),
+	)
+
+/*-----------------------------------------------*/
+		
+	BULK 
+INSERT TMP
+        FROM 'C:\TEMP\Produtos ativos bd.csv'
+            WITH
+    (
+                FIELDTERMINATOR = ';',
+                ROWTERMINATOR = '\n'
+    )
+GO
+
+/*-------------------------------------------------------*/
+
+
+INSERT INTO ARQMKT01(PEM_CODPROD, PEM_CODAPRE, PEM_ALTURA, PEM_LARGURA, PEM_PROFUNDIDADE, PEM_CUBAGEM, PEM_PESO) 
+SELECT * FROM #TMP
+
+/*--------------------------------------------------------*/
+
+
+INSERT INTO MKT_DIMENSOES(DM_CODPROD, DM_PRODUTO, DM_CODAPRE, DM_CODFOR, DM_FORNECEDOR, DM_ALTURA, DM_LARGURA, DM_PROFUNDIDADE, DM_CUBAGEM, DM_PESO) 
+SELECT 
+A.PEM_CODPROD,
+B.B1_DESC,
+A.PEM_CODAPRE,
+B.B1_PROC,
+C.A2_NOME,
+A.PEM_ALTURA,
+A.PEM_LARGURA,
+A.PEM_PROFUNDIDADE,
+A.PEM_CUBAGEM,
+A.PEM_PESO
+FROM ARQMKT01 A, SB1010 B, SA2010 C
+WHERE 1=1
+AND B.D_E_L_E_T_ = ''
+AND C.D_E_L_E_T_ = ''
+AND A.PEM_CODPROD = B.B1_COD
+AND B.B1_PROC = C.A2_COD
+
+
+/*------------------------------------------------------*/
+
+
+SELECT * FROM #TMP
+
+SELECT * FROM ARQMKT01
+
+SELECT * FROM MKT_DIMENSOES
+
+
+DELETE FROM MKT_DIMENSOES
+
+DELETE FROM ARQMKT01
+
+DELETE FROM #TMP
+
+DROP TABLE ARQMKT01
+
+DROP TABLE #TMP
+
+
+/*---------------------------------------------------*/
+
+SELECT * FROM PESOS_MEDIDAS
+
+
+SELECT B5_ALTURA, * FROM SB5010 WHERE D_E_L_E_T_ = ''
+

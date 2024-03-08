@@ -1,0 +1,39 @@
+
+DECLARE @JSON VARCHAR(MAX)
+DECLARE @VARJSON VARCHAR(MAX)
+DECLARE @DATA VARCHAR(MAX)
+DECLARE @CUSTOMER VARCHAR(MAX)
+DECLARE @BUILD VARCHAR(MAX)
+
+
+/*AQUI VAI O TEXTO DO JSON*/
+
+SET @VATJSON = ''
+
+
+
+/*MAPEAMNETO*/
+
+
+SET @JSON = 		@VARJSON
+SET @DATA = 		ISNULL((SELECT value FROM OpenJson(@JSON) WHERE [key] = '0'),'')
+
+
+SET @CUSTOMER =		ISNULL((SELECT value FROM OpenJson(@DATA) WHERE [key] = 'customer'),'')
+SET @BUILD =		ISNULL((SELECT value FROM OpenJson(@DATA) WHERE [key] = 'billing_address'),'')
+
+
+
+/*RESULTADOS*/
+
+/*OBRIGATORIO*/
+--SELECT * FROM openjson(@JSON) 
+--SELECT * FROM openjson(@DATA) 
+
+
+/*OPCIONAIS*/
+--SELECT * FROM openjson(@CUSTOMER) 
+--SELECT * FROM openjson(@BUILD) 
+
+
+

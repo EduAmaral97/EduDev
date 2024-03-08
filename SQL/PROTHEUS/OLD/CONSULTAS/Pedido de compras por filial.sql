@@ -1,0 +1,30 @@
+SELECT * FROM SA1010
+
+/*-----Documentos de entrada----*//
+
+SELECT * FROM SF1010
+
+SELECT * FROM SD1010
+
+/*-----Documentos de saida----*//
+
+SELECT * FROM SF2010
+
+SELECT * FROM SD2010
+
+DEFINE @filial VARCHAR(4)
+DECLARE @filial VARCHAR(6)
+SET @filial = $(@filial)
+SELECT 
+	A.C7_FILIAL,
+	A.C7_PRODUTO,
+	B.B1_DESC,
+	B.B1_TIPO,
+	A.C7_UM,
+	A.C7_QUANT
+	FROM SC7010 AS A, SB1010 AS B
+WHERE 
+A.C7_FILIAL LIKE @filial AND
+A.C7_PRODUTO = B.B1_COD AND
+A.D_E_L_E_T_ = '' AND
+B.D_E_L_E_T_ = '' 

@@ -1,0 +1,25 @@
+/* --------------------------- TOTVS --------------------------- */
+
+
+IP : 10.0.2.3,7891
+IP : 10.255.87.7,7891
+IP : 10.101.26.1,7891
+DATABASE : CKAY7E_146708_PR_DV |
+USER: ?
+SENHA: ?
+
+
+/* --------------------------- SENIOR --------------------------- */
+
+IP: 191.238.216.86,1515
+DATABASE: MedVet_prd |
+USER: usrMedBI
+SENHA: 2023AhP57#$NF2#!pl
+
+
+/* --------------------------- BENNER --------------------------- */
+
+IP : 192.168.0.90
+DATABASE : CORP_MEDICAR_PRD | CORP_MEDICAR_HML | RH_MEDICAR_PROD | RH_MEDICAR_HML
+USER: SA
+SENHA: mdc@2014.db

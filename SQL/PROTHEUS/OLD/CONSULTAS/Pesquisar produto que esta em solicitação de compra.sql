@@ -1,0 +1,37 @@
+/*-------------Pesquisar produto que esta em solicitação de compra-------------------*/
+
+
+SELECT * FROM SL2010
+	
+
+DEFINE @produto VARCHAR(30)
+DECLARE @produto VARCHAR(30)
+SET @produto = $(@produto)
+SELECT 
+A.C1_FILIAL,
+A.C1_NUM,
+A.C1_PRODUTO,
+B.B1_COD,
+B.B1_DESC 
+FROM SC1010 AS A, SB1010 AS B WHERE 
+B.B1_DESC LIKE @produto AND
+A.C1_PRODUTO = B.B1_COD  AND
+A.D_E_L_E_T_ = ''
+
+
+
+SELECT 
+A.C1_FILIAL,
+A.C1_NUM,
+A.C1_PRODUTO,
+B.B1_COD,
+B.B1_DESC 
+FROM SC1010 AS A, SB1010 AS B WHERE 
+A.C1_PRODUTO = B.B1_COD  AND
+A.D_E_L_E_T_ = ''
+
+SELECT * FROM SL1010
+
+SELECT * FROM SF4010
+
+

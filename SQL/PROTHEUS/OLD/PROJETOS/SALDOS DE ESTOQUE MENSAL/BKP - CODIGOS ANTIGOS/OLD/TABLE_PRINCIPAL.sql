@@ -1,0 +1,77 @@
+--------------------------CREAT TABLE------------------------/
+
+
+CREATE TABLE #SALDO_ESTOQUE_MENSAL
+    (
+     SEM_CODPROD VARCHAR(15),
+   	 SEM_PRODUTO VARCHAR(70),
+	 SEM_UND	 VARCHAR(2),
+	 SEM_CUSTPROD FLOAT,
+	 SEM_CODFOR VARCHAR(6),
+	 SEM_LOJFOR VARCHAR(2),
+	 SEM_GRUPPROD VARCHAR(4),
+     SEM_CODLIN VARCHAR(2),
+     SEM_CODFAM VARCHAR(6),
+   	 SEM_DATSLD VARCHAR(6),
+	 SEM_SALDO FLOAT,
+	 SEM_CUSTO FLOAT,
+		
+	
+	
+/-----------------INSERT NA TABELA TEMPORARIA----------------------/
+
+INSERT INTO #SALDO_ESTOQUE_MENSAL (SEM_CODPROD, SEM_PRODUTO, SEM_UND) 
+SELECT * FROM #AUX
+
+/*---------------------------------------------------------------*/
+
+UPDATE
+    #SALDO_ESTOQUE_MENSAL
+SET
+    #SALDO_ESTOQUE_MENSAL.Z201802 = #AUX.SALDO_FINAL,
+    #SALDO_ESTOQUE_MENSAL.ZCUST201802 = #AUX.CUSTO_FINAL
+FROM
+    #SALDO_ESTOQUE_MENSAL
+INNER JOIN
+    #AUX
+ON
+    #SALDO_ESTOQUE_MENSAL.SEM_CODPROD = #AUX.CODPROD
+
+
+/---------------SELECT TABELA TEMPORARIA--------------------/
+
+
+SELECT 
+ 	 *
+FROM #SALDO_ESTOQUE_MENSAL
+
+
+/---------------DROP TABELA---------------------------/
+
+
+DROP TABLE #SALDO_ESTOQUE_MENSAL 
+
+
+/--------------------FIM------------------------------/
+
+
+
+SELECT 
+A.B1_COD,
+A.B1_DESC,
+A.B1_UM,
+A.B1_CUSTD,
+A.B1_PROC ,
+A.B1_LOJPROC ,
+A.B1_GRUPO ,
+A.B1_ZCODLIN ,
+A.B1_ZCODFAM 
+FROM SB1010 A
+	
+
+
+
+
+
+
+

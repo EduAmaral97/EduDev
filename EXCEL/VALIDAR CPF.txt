@@ -1,0 +1,75 @@
+
+/* --------------------- VALIDAR PRIMEIRO DIGITO --------------------- */
+
+PASSO 1 - CPF EXEMPLO: 529.982.247-25
+
+PASSO 2 - FORMULA: 5 * 10 + 2 * 9 + 9 * 8 + 9 * 7 + 8 * 6 + 2 * 5 + 2 * 4 + 4 * 3 + 7 * 2
+
+PASSO 3 - RESULTADO: 295
+
+PASSO 4 - 295 * 10 / 11
+
+PASSO 5 - O resultado da divisão acima é '268' e o RESTO é 2 (O resto deve ser o primeiro digito verificador no caso "2")
+
+
+/* --------------------- VALIDAR SEGUNDO DIGITO --------------------- */
+
+PASSO 1 - CPF EXEMPLO: 529.982.247-25
+
+PASSO 2 - FORMULA: 5 * 11 + 2 * 10 + 9 * 9 + 9 * 8 + 8 * 7 + 2 * 6 + 2 * 5 + 4 * 4 + 7 * 3 + 2 * 2
+
+PASSO 3 - RESULTADO: 347
+
+PASSO 4 - 347 * 10 / 11
+
+PASSO 5 - O resultado da divisão é '315' e o RESTO é 5 (O resto deve ser o primeiro digito verificador no caso "5")
+
+
+
+/* --------------------- FORUMLAS DE EXCEL PASSO A PASSO --------------------- */
+
+PASSO 1 -CPF EXEMPLO: 529.982.247-25
+
+PASSO 2 - FORMULA: EXT.TEXTO(A1;1;1) * 10 + EXT.TEXTO(A1;2;1) * 9 + EXT.TEXTO(A1;3;1) * 8 + EXT.TEXTO(A1;5;1) * 7 + EXT.TEXTO(A1;6;1) * 6 + EXT.TEXTO(A1;7;1) * 5 + 
+EXT.TEXTO(A1;9;1) * 4 + EXT.TEXTO(A1;10;1) * 3 + EXT.TEXTO(A1;11;1) * 2 
+
+PASSO 3 - 
+
+SE(
+MOD(
+((EXT.TEXTO(A1;1;1) * 10 + EXT.TEXTO(A1;2;1) * 9 + EXT.TEXTO(A1;3;1) * 8 + EXT.TEXTO(A1;5;1) * 7 + EXT.TEXTO(A1;6;1) * 6 + EXT.TEXTO(A1;7;1) * 5 + 
+EXT.TEXTO(A1;9;1) * 4 + EXT.TEXTO(A1;10;1) * 3 + EXT.TEXTO(A1;11;1) * 2) * 10)
+;11) = VALOR(EXT.TEXTO(A1;13;1));
+"Digito 1 OK";
+"Digito 1 Invalido"
+)
+
+
+PASSO 4 - FORMULA: EXT.TEXTO(A1;1;1) * 11 + EXT.TEXTO(A1;2;1) * 10 + EXT.TEXTO(A1;3;1) * 9 + EXT.TEXTO(A1;5;1) * 8 + EXT.TEXTO(A1;6;1) * 7 + EXT.TEXTO(A1;7;1) * 6 + 
+EXT.TEXTO(A1;9;1) * 5 + EXT.TEXTO(A1;10;1) * 4 + EXT.TEXTO(A1;11;1) * 3 + EXT.TEXTO(A1;13;1) * 2
+
+PASSO 5 -
+
+SE(
+MOD(
+((EXT.TEXTO(A1;1;1) * 11 + EXT.TEXTO(A1;2;1) * 10 + EXT.TEXTO(A1;3;1) * 9 + EXT.TEXTO(A1;5;1) * 8 + EXT.TEXTO(A1;6;1) * 7 + EXT.TEXTO(A1;7;1) * 6 + 
+EXT.TEXTO(A1;9;1) * 5 + EXT.TEXTO(A1;10;1) * 4 + EXT.TEXTO(A1;11;1) * 3 + EXT.TEXTO(A1;13;1) * 2) * 10)
+;11) = VALOR(EXT.TEXTO(A1;14;1));
+"Digito 2 OK";
+"Digito 2 Invalido"
+)
+
+PASSO 6 - FORMULA COMPLETA
+
+=SE(E(MOD(
+((EXT.TEXTO(A1;1;1) * 10 + EXT.TEXTO(A1;2;1) * 9 + EXT.TEXTO(A1;3;1) * 8 + EXT.TEXTO(A1;5;1) * 7 + EXT.TEXTO(A1;6;1) * 6 + EXT.TEXTO(A1;7;1) * 5 +
+EXT.TEXTO(A1;9;1) * 4 + EXT.TEXTO(A1;10;1) * 3 + EXT.TEXTO(A1;11;1) * 2) * 10);11) = VALOR(EXT.TEXTO(A1;13;1));MOD(
+((EXT.TEXTO(A1;1;1) * 11 + EXT.TEXTO(A1;2;1) * 10 + EXT.TEXTO(A1;3;1) * 9 + EXT.TEXTO(A1;5;1) * 8 + EXT.TEXTO(A1;6;1) * 7 + EXT.TEXTO(A1;7;1) * 6 +
+EXT.TEXTO(A1;9;1) * 5 + EXT.TEXTO(A1;10;1) * 4 + EXT.TEXTO(A1;11;1) * 3 + EXT.TEXTO(A1;13;1) * 2) * 10);11) = VALOR(EXT.TEXTO(A1;14;1)));
+"CPF VALIDO";
+"CPF INVALIDO"
+)
+
+
+
+

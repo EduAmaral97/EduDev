@@ -1,0 +1,48 @@
+/*
+
+Create View Pesos e Medidas MKT (Frete) e Permissoes de usuarios SQL
+
+Por: Eduardo Jorge
+Em: 16/06/2020
+
+*/
+
+CREATE VIEW PESOS_MEDIDAS AS
+SELECT
+A.B1_COD AS CODPROD,
+A.B1_DESC AS PRODUTO,
+C.A2_COD AS COD_FOR,
+C.A2_NOME AS FORNECEDOR,
+B.B5_ALTURA AS ALTURA ,
+B.B5_LARG AS LARGURA ,
+B.B5_COMPR AS COMPRIMENTO,
+A.B1_PESBRU AS PESO,
+A.B1_ZCUBAGE AS CUBAGE,
+A.B1_ZMIXFL1 AS MIX,
+D.A5_CODPRF AS CODPROD_FOR,
+A.B1_ZAPRES1 AS COD_APRE
+FROM SB1010 A
+LEFT JOIN SB5010 AS B ON B.D_E_L_E_T_ = '' AND B.B5_COD = A.B1_COD
+LEFT JOIN SA2010 AS C ON C.D_E_L_E_T_ = '' AND C.A2_COD = A.B1_PROC
+LEFT JOIN SA5010 AS D ON C.D_E_L_E_T_ = '' AND D.A5_PRODUTO = A.B1_COD AND D.A5_FORNECE = A.B1_PROC
+WHERE 1=1
+AND A.D_E_L_E_T_ = ''
+AND SUBSTRING(A.B1_GRUPO,1,2) IN ('MR')
+
+-- Create Login e User do SQL
+CREATE LOGIN zntuser WITH PASSWORD = 'znt421'
+
+CREATE USER zntuser FOR LOGIN [zntuser]
+
+-- Permissao do select
+GRANT SELECT ON SCHEMA::[dbo] TO zntuser
+
+-- Tabela com Permissoes de usuarios
+sp_helprotect
+
+-- Permissao para execução de procedures
+--GRANT EXECUTE ON SCHEMA::[dbo] TO zntuser
+
+-- Permissao para definiçoes de view
+--GRANT VIEW DEFINITION TO zntuser
+

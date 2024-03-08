@@ -1,0 +1,94 @@
+
+
+CREATE TABLE ARQMKT01
+    (
+     PEM_CODPROD VARCHAR(15),
+     PEM_CODAPRE VARCHAR(40),
+     PEM_ALTURA FLOAT,
+     PEM_LARGURA FLOAT,
+     PEM_PROFUNDIDADE FLOAT,
+     PEM_CUBAGEM FLOAT,
+     PEM_PESO FLOAT,     
+     R_E_C_N_O_ INT IDENTITY(3277,1),
+	)
+	
+	
+/*--------------------------------------------*/
+
+
+SELECT * FROM ARQMKT01
+
+DROP TABLE ARQMKT01
+
+/*--------------------------------------------*/
+
+
+INSERT INTO ARQMKT01(PEM_CODPROD, PEM_CODAPRE)
+SELECT 
+A.B1_COD, 
+A.B1_ZAPRES1
+FROM SB1010 A
+LEFT JOIN SB5010 B
+ON A.B1_COD = B.B5_COD
+WHERE 1=1
+AND B.B5_COD IS  NULL
+AND SUBSTRING(A.B1_GRUPO,1,2) = 'MR'
+
+
+/*------------------------------------------------*/
+
+
+UPDATE ARQMKT01
+SET PEM_ALTURA = 0, PEM_LARGURA = 0, PEM_PROFUNDIDADE = 0, PEM_CUBAGEM = 0, PEM_PESO = 0
+
+
+/*----------------------------------------------*/
+
+INSERT INTO SB5010(B5_FILIAL, B5_COD, B5_ALTURA, B5_LARG, B5_COMPR, R_E_C_N_O_) 
+SELECT DISTINCT
+'0101',
+A.PEM_CODPROD,
+A.PEM_ALTURA,
+A.PEM_LARGURA,
+A.PEM_PROFUNDIDADE,
+A.R_E_C_N_O_
+FROM ARQMKT01 A
+
+/*-----------------------------------------------*/
+
+
+MERGE 
+    SB5010 AS Destino
+USING 
+    (SELECT DISTINCT B1_COD, B1_DESC FROM SB1010 WHERE 1=1 AND D_E_L_E_T_ = '' GROUP BY B1_COD, B1_DESC) AS Origem ON (Origem.B1_COD = Destino.B5_COD)
+-- Registro existe nas 2 tabelas
+WHEN MATCHED THEN
+    UPDATE SET 
+        Destino.B5_CEME 	= Origem.B1_DESC
+OUTPUT 
+    $action;
+    
+    
+/*------------------------------------------*/
+
+
+SELECT B5_COD,B5_CEME, B5_ALTURA ,B5_LARG, B5_COMPR, B5_ESPESS, R_E_C_N_O_ FROM SB5010 WHERE D_E_L_E_T_ = ''
+
+
+SELECT B1_COD, B1_DESC, B1_ZCUBAGE, B1_PESBRU FROM SB1010 WHERE D_E_L_E_T_ = ''
+
+
+SELECT
+A.B5_COD,
+A.B5_CEME,
+A.B5_ALTURA,
+A.B5_COMPR,
+A.B5_LARG,
+B.B1_ZCUBAGE,
+B.B1_PESBRU
+FROM SB5010 A, SB1010 B
+WHERE 1=1
+AND A.D_E_L_E_T_ = ''
+AND B.D_E_L_E_T_ = ''
+AND A.B5_COD = B.B1_COD
+

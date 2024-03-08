@@ -1,0 +1,63 @@
+/*-----------------------PASO 1 CREAT TABLE(TEMPORARIA)---------------------------*/
+
+
+CREATE TABLE #AUX_SB5
+    (
+     AUXB5_FILIAL 	VARCHAR(4),
+     AUXB5_CODPROD 	VARCHAR(15),
+     AUXB5_CEME	 	VARCHAR(200),
+   	 AUXB5_UMIND 	VARCHAR(1),
+	 AUXB5_TPSERV 	VARCHAR(1)	
+	)
+	
+CREATE TABLE #AUX_SB1
+    (
+   	 AUXB1_FILIAL	VARCHAR(4),
+     AUXB1_CODPROD 	VARCHAR(15),
+     AUXB1_DESC	 	VARCHAR(70),
+	)
+
+/*-------------------------PASO 2 -  INSERT TABLE(TEMPORARIA) SB1 - #AUX---------------------------*/
+
+
+
+INSERT INTO #AUX_SB5 (AUXB5_FILIAL, AUXB5_CODPROD, AUXB5_CEME, AUXB5_UMIND, AUXB5_TPSERV) 
+SELECT B5_FILIAL, B5_COD, B5_CEME, B5_UMIND, B5_TPSERV FROM SB5010 A
+
+
+INSERT INTO #AUX_SB1 (AUXB1_FILIAL, AUXB1_CODPROD, AUXB1_DESC) 
+SELECT B1_FILIAL, B1_COD, B1_DESC FROM SB1010 
+
+
+/*----------------------PASO 3 - MERGE #AUX(TEMPORARIA) - SB1----------------------------*/
+
+
+MERGE 
+    #AUX_SB5 AS Destino
+USING 
+    (SELECT AUXB1_FILIAL, AUXB1_CODPROD, AUXB1_DESC FROM #AUX_SB1 WHERE 1=1 GROUP BY AUXB1_CODPROD, AUXB1_FILIAL, AUXB1_DESC ) AS Origem ON (Origem.AUXB1_CODPROD = Destino.AUXB5_CODPROD)
+-- Registro existe nas 2 tabelas
+WHEN MATCHED THEN
+    UPDATE SET 
+        Destino.AUXB5_FILIAL 	= '0101',
+        Destino.AUXB5_CEME      = Origem.AUXB1_DESC,
+        Destino.AUXB5_UMIND   	= '1',
+        Destino.AUXB5_TPSERV	= '1'
+-- Registro não existe no destino. Vamos inserir.
+	WHEN NOT MATCHED BY TARGET THEN
+    	INSERT (AUXB5_FILIAL,AUXB5_CODPROD,AUXB5_CEME,AUXB5_UMIND,AUXB5_TPSERV)   	
+        VALUES('0101',Origem.AUXB1_CODPROD,Origem.AUXB1_DESC,'1','1')
+OUTPUT 
+    $action, 
+    Inserted.*;
+
+///////////////////////////////*SELECT DE TESTE*/ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+SELECT * FROM #AUX_SB5
+
+SELECT * FROM SB5010
+
+SELECT * FROM #AUX_SB1
+
+

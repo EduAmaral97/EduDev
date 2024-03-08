@@ -1,0 +1,75 @@
+
+
+
+
+
+SELECT
+D_E_L_E_T_, 
+* 
+FROM SC0010 
+WHERE 1=1
+AND D_E_L_E_T_ = ''
+--AND C0_PRODUTO = 'LB065FR'
+AND C0_OBS = 'RESERVADO P/ CLIENTE AUTO POSTO BION'
+
+
+
+SELECT B2_RESERVA, * FROM SB2010 WHERE D_E_L_E_T_ = '' AND B2_COD
+IN (
+'IC480P         '
+)
+
+
+/*
+AND C0_PRODUTO IN
+(
+'MVI209S',
+'EQ124',
+'EQ134V',
+'EQ663A',
+'UT187M',
+'UT188M',
+'LB209F',
+'EQ134V',
+'IC160F',
+'IC403P',
+'UT115NU',
+'LB009I',
+'EQ563M',
+'EQ303C',
+'EP157G',
+'EQ338V',
+'EQ449MV',
+'IC503P',
+'EQ262C',
+'IC480P',
+'EP062I',
+'EQ025MV'
+)
+
+AND C0_OBS IN
+(
+'Pedido:003809 Filial:0103',
+'Pedido:004215 Filial:0103',
+'Pedido:004215 Filial:0103',
+'Pedido:004215 Filial:0103',
+'Pedido:004215 Filial:0103',
+'Pedido:004215 Filial:0103',
+'Pedido:004473 Filial:0103',
+'Pedido:004508 Filial:0103',
+'Pedido:004796 Filial:0103',
+'Pedido:004796 Filial:0103',
+'Pedido:005137 Filial:0103',
+'Pedido:005421 Filial:0103',
+'Pedido:005473 Filial:0103',
+'Pedido:010823 Filial:0102',
+'Pedido:011177 Filial:0102',
+'Pedido:011177 Filial:0102',
+'Pedido:011177 Filial:0102',
+'Pedido:011183 Filial:0102',
+'Pedido:011257 Filial:0102',
+'Pedido:011262 Filial:0102',
+'RESERVADO P/ CLIENTE AUTO POSTO BIO',
+'RESERVADO P/ CLIENTE AUTO POSTO BION'
+)
+*/

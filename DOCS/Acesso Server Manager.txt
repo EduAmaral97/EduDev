@@ -1,0 +1,3 @@
+ServerManager
+usuario: administrador
+senha: K+YG*[WT=MED

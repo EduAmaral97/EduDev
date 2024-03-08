@@ -1,0 +1,25 @@
+
+
+CREATE TABLE AUX_PAINEL
+(
+	CODPROD		VARCHAR(15),
+	DESC_REDU	VARCHAR(70),
+	COMPRIMENTO	FLOAT,
+	LARGURA		FLOAT,
+	PESO		FLOAT,
+	IDENT		INT
+)
+
+	
+	BULK 
+INSERT AUX_PAINEL
+        FROM 'C:\TEMP\SALVA.csv'
+            WITH
+    (
+                FIELDTERMINATOR = ';',
+                ROWTERMINATOR = '\n'
+    )
+GO
+
+
+

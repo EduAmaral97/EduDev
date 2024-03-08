@@ -1,0 +1,73 @@
+-------------------------------------- SITE WEBMAIL ------------------------------------
+
+Link: webmail.medicar.com.br
+
+------------------------------- E-MAIL / TEAMS / POWER BI ------------------------------
+
+Email: eduardo.amaral@medicar.com.br
+Senha: Mos76700
+
+---------------------------------------- BENNER ----------------------------------------
+
+CORPORATIVO
+
+ACESSO WEB: http://192.168.0.49/CORP_MEDICAR_PRD
+
+SERVIDOR PRODUÇÃO CORP_MEDICAR_PRD: 192.168.0.162
+
+Login: eduardo.amaral
+Senha: Eduardo@11
+
+ACESSO WEB: http://192.168.0.49/CORP_MEDICAR_HML
+
+SERVIDOR HOMOLOGAÇÃO CORP_MEDICAR_HML: 192.168.0.253
+
+Login: eduardo.amaral
+Senha: Eduardo@11
+
+Usuario: sysdba 
+Senha: U4w*1K!6bEYqG%h
+
+SISCON
+
+Login: Medicar.eduardo
+Senha: Senha:1030awds
+
+
+
+---------------------------------------- PABX UNA ----------------------------------------
+
+Login: eduardo.amaral
+Senha: Eduardo@11
+
+----------------------------------------- IRIS -------------------------------------------
+
+Login: EDUARDO.AMARAL
+Senha: medicar*123
+
+------------------------------------ TELEFONIA DIGITRO -----------------------------------
+
+Ramal: 4403
+Usuário: eduardo.amaral
+
+--------------------------------------- TS SENIOR ----------------------------------------
+
+Usuário: MEDICAR\eduardo.amaral
+Senha: Med#3930
+
+Senior Sistema: Eduardo.amaral
+Senha: Eduardo@11
+
+--------------------------------------- PORTAL TOTVS ----------------------------------------
+
+Url: https://servicos.totvsip.com.br/#/
+Login: eduardo.amaral@medicar.com.br
+Senha: S8v@3!!a
+
+PROTHEUS
+
+Usuario: admin
+Senha: admin@med23
+
+
+
