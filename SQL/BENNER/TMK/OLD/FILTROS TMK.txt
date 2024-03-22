@@ -1,0 +1,5 @@
+Somente campinas e ribeirao (Sem contratos publicos)
+
+* 1 - Titulos aberto jan, fev, mar (Filtras primeiros esses clientes)
+
+* 2 - Carregar historico de titulos em aberto (Depois pegar historico desses clientes)
