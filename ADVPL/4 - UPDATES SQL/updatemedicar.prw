@@ -278,7 +278,201 @@ Static function execupdatesqlmedicar
             //cQryUpd += "    WHERE 1=1"
 
 
+     /* ------------------------------- UPDATE NATUREZA CLIENTES MEDICARTECH ------------------------------- */
 
+            //Monta o Update
+            //cQryUpd := "UPDATE SA1010 "
+            //cQryUpd += "  SET SA1010.A1_NATUREZ = '10109' "
+            //cQryUpd += "FROM SA1010 "
+            //cQryUpd += "    INNER JOIN BQC010 "
+            //cQryUpd += "        ON BQC010.BQC_CODCLI = SA1010.A1_COD "	
+            //cQryUpd += "        AND BQC010.BQC_LOJA = SA1010.A1_LOJA "	
+            //cQryUpd += "        AND BQC010.D_E_L_E_T_ = ' '"
+            //cQryUpd += "    INNER JOIN BA3010 "
+            //cQryUpd += "        ON BA3010.BA3_CODINT = BQC010.BQC_CODINT "
+            //cQryUpd += "        AND BA3010.BA3_CODEMP = BQC010.BQC_CODEMP "
+            //cQryUpd += "        AND BA3010.BA3_CONEMP = BQC010.BQC_NUMCON "
+            //cQryUpd += "        AND BA3010.BA3_VERCON = BQC010.BQC_VERCON "
+            //cQryUpd += "        AND BA3010.BA3_SUBCON = BQC010.BQC_SUBCON "
+            //cQryUpd += "        AND BA3010.BA3_VERSUB = BQC010.BQC_VERSUB "
+            //cQryUpd += "        AND BA3010.D_E_L_E_T_ = ' ' "
+            //cQryUpd += "    WHERE 1=1"
+            //cQryUpd += "    AND BQC010.BQC_COBNIV = '1' "
+            //cQryUpd += "    AND BQC010.BQC_NUMCON = '000000000002' "
+            //cQryUpd += "    AND BA3010.BA3_FILIAL <> '006' "
+
+
+
+            /* ------------------------------- UPDATE CENTRO DE CUASTO E CLASSE VALOR BA3 | BQC ------------------------------- */
+                
+            //Monta o Update BQC
+            //cQryUpd := "UPDATE BQC010 "
+            //cQryUpd += "  SET BQC010.BQC_CC =  "
+            //cQryUpd += " CASE "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000002' THEN '11201' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000004' THEN '10101' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000005' THEN '11201' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000006' THEN '10701' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000007' THEN '11001' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000008' THEN '10201' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000010' THEN '10501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000012' THEN '10501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000013' THEN '10201' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000014' THEN '10501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000017' THEN '11502' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000022' THEN '10401' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000024' THEN '10801' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000025' THEN '11201' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000026' THEN '10701' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000027' THEN '11501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000028' THEN '11501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000030' THEN '10501' "
+            //cQryUpd += "     WHEN BQC_NUMCON = '000000000031' THEN '10501' "
+            //cQryUpd += "     ELSE '' "
+            //cQryUpd += " END,  "
+            //cQryUpd += " BQC010.BQC_CLVL =  "
+            //cQryUpd += " CASE "
+            //cQryUpd += "     WHEN BA3_FILIAL = '001' THEN '012013' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '002' THEN '012014' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '003' THEN '012015' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '006' THEN '012046' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '008' THEN '012030' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '016' THEN '012020' "
+            //cQryUpd += "     WHEN BA3_FILIAL = '021' THEN '012049' "
+            //cQryUpd += "     ELSE '' "
+            //cQryUpd += " END "
+            //cQryUpd += " FROM BQC010 A "
+            //cQryUpd += " LEFT JOIN BA3010 B ON B.D_E_L_E_T_ = '' AND B.BA3_SUBCON = A.BQC_SUBCON "
+            //cQryUpd += " WHERE 1=1 "
+            //cQryUpd += " AND A.D_E_L_E_T_ = '' "
+            //cQryUpd += " AND A.BQC_COBNIV = '1' "
+            //cQryUpd += " AND A.BQC_CODEMP IN ('0004','0005') "
+            
+            //Monta o Update BA3
+            //cQryUpd := "UPDATE BA3010 "
+            //cQryUpd += "  SET BA3010.BA3_CC =  "
+            //cQryUpd += " CASE "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000003' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000004' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000005' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000006' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000007' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000008' THEN '10601' "
+            //cQryUpd += "     WHEN A.BA3_CONEMP = '000000000009' THEN '11502' "
+            //cQryUpd += "     ELSE '' "
+            //cQryUpd += " END, "
+            //cQryUpd += "  BA3010.BA3_CLVL =  "
+            //cQryUpd += " CASE "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '001' THEN '012013' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '002' THEN '012014' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '003' THEN '012015' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '006' THEN '012046' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '008' THEN '012030' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '016' THEN '012020' "
+            //cQryUpd += " 	WHEN BA3_FILIAL = '021' THEN '012049' "
+            //cQryUpd += " 	ELSE '' "
+            //cQryUpd += " END  "
+            //cQryUpd += " FROM BA3010 A "
+            //cQryUpd += " WHERE 1=1 "
+            //cQryUpd += " AND A.D_E_L_E_T_ = '' "
+            //cQryUpd += " AND A.BA3_COBNIV = '1' "
+            //cQryUpd += " AND A.BA3_CODEMP IN ('0003','0006') "
+
+        
+        /* ------------------------------- UPDATE SA1 INCSR MUNICIPAL ------------------------------- */
+
+            //cQryUpd := " UPDATE SA1010  "
+            //cQryUpd += "     SET SA1010.A1_INSCRM = SA1BKP.A1_NOME "
+            //cQryUpd += " FROM SA1010 "
+            //cQryUpd += " INNER JOIN SA1BKP  "
+            //cQryUpd += " ON  SA1BKP.D_E_L_E_T_ = ''  "
+            //cQryUpd += " AND SA1BKP.A1_COD = SA1010.A1_COD  "
+            //cQryUpd += " AND SA1BKP.A1_LOJA   = SA1010.A1_LOJA "
+            //cQryUpd += " WHERE 1=1 "
+            //cQryUpd += " AND SA1010.D_E_L_E_T_ = '' "
+
+        
+        /* ------------------------------- UPDATE EUIPE DE VENDAS BA1 ------------------------------- */
+
+        //cQryUpd :=  " UPDATE BA1010 SET BA1010.BA1_EQUIPE = B.BA3_EQUIPE "
+        //cQryUpd +=  " FROM BA3010 B "
+        //cQryUpd +=  " LEFT JOIN BA1010 C ON  "
+        //cQryUpd +=  "     C.D_E_L_E_T_ = ''  "
+        //cQryUpd +=  "     AND C.BA1_FILIAL = B.BA3_FILIAL  "
+        //cQryUpd +=  "     AND C.BA1_CODINT = B.BA3_CODINT  "
+        //cQryUpd +=  "     AND C.BA1_CODEMP = B.BA3_CODEMP "
+        //cQryUpd +=  "     AND C.BA1_CONEMP = B.BA3_CONEMP "
+        //cQryUpd +=  "     AND C.BA1_SUBCON = B.BA3_SUBCON "
+        //cQryUpd +=  "     AND C.BA1_MATEMP = B.BA3_MATEMP "
+        //cQryUpd +=  " WHERE 1=1 "
+        //cQryUpd +=  "     AND B.D_E_L_E_T_ = ''  "
+        //cQryUpd +=  "     AND B.BA3_COBNIV = '1' "
+        //cQryUpd +=  "     AND B.BA3_SUBCON = '000000001' "
+        //cQryUpd +=  "     AND B.BA3_EQUIPE <> '' "
+
+
+        /* ------------------------------- UPDATE EUIPE DE VENDAS BQC ------------------------------- */
+                
+            //Monta o Update
+            //cQryUpd := "UPDATE BQC010 "
+            //cQryUpd += "        SET BQC010.BQC_EQUIPE = BQCBKP.BQC_CODIGO "
+            //cQryUpd += "    FROM BQC010 "
+            //cQryUpd += "    INNER JOIN BQCBKP "
+            //cQryUpd += "        ON BQCBKP.BQC_SUBCON = BQC010.BQC_SUBCON"	
+            //cQryUpd += "        AND BQCBKP.D_E_L_E_T_ = ' '"
+            //cQryUpd += "    WHERE"
+            //cQryUpd += "    BQC010.D_E_L_E_T_ = ' ' "
+
+        /* ------------------------------- UPDATE ID LEGADO CLIENTE ------------------------------- */
+        
+        //Monta o Update
+        //cQryUpd := "UPDATE SA1010 "
+        //cQryUpd += "        SET SA1010.A1_ZZNRCON = SA1BKP.A1_NOME "
+        //cQryUpd += "    FROM SA1010 "
+        //cQryUpd += "    INNER JOIN SA1BKP "
+        //cQryUpd += "        ON SA1BKP.A1_COD = SA1010.A1_COD "	
+        //cQryUpd += "        AND SA1BKP.A1_LOJA = SA1010.A1_LOJA "	
+        //cQryUpd += "        AND SA1BKP.D_E_L_E_T_ = ' ' "
+        //cQryUpd += "    WHERE"
+        //cQryUpd += "    SA1010.D_E_L_E_T_ = ' ' "
+
+        
+        /* ------------------------------- UPDATE ID LEGADO CLIENTE ------------------------------- */
+        
+        //cQryUpd := "UPDATE BA1010 SET BA1010.BA1_EQUIPE = A.BQC_EQUIPE "
+        //cQryUpd += "FROM BQC010 A "
+        //cQryUpd += "LEFT JOIN BA3010 B ON B.BA3_CODINT = A.BQC_CODINT AND B.BA3_CODEMP = A.BQC_CODEMP AND B.BA3_CONEMP = A.BQC_NUMCON AND B.BA3_SUBCON = A.BQC_SUBCON AND B.D_E_L_E_T_ = ''    "
+        //cQryUpd += "LEFT JOIN BA1010 C ON C.BA1_FILIAL = B.BA3_FILIAL AND C.BA1_CODINT = B.BA3_CODINT AND C.BA1_CODEMP = B.BA3_CODEMP AND C.BA1_CONEMP = B.BA3_CONEMP AND C.BA1_SUBCON = B.BA3_SUBCON AND C.BA1_MATEMP = B.BA3_MATEMP AND C.D_E_L_E_T_ = ''    "
+        //cQryUpd += "LEFT JOIN BXL010 D ON D.D_E_L_E_T_ = '' AND D.BXL_CODEQU = A.BQC_EQUIPE  "
+        //cQryUpd += "WHERE 1=1 "
+        //cQryUpd += "AND A.D_E_L_E_T_ ='' "
+        //cQryUpd += "AND A.BQC_COBNIV = '1' "
+        //cQryUpd += "AND A.BQC_EQUIPE <> '' "
+
+
+    /* ------------------------------- UPDATE CODIGO LEGADO BENEFICIARIO ------------------------------- */
+        //Monta o Update
+        //cQryUpd := "UPDATE BA1010 "
+        //cQryUpd += "        SET BA1010.BA1_EQUIPE = BA1BKP.BA1_NOMSOC""
+        //cQryUpd += "    FROM BA1010 "
+        //cQryUpd += "    INNER JOIN BA1BKP "
+        //cQryUpd += "        ON BA1BKP.BA1_SUBCON = BA1010.BA1_SUBCON "	
+        //cQryUpd += "        AND BA1BKP.BA1_NOMUSR = BA1010.BA1_NOMUSR "
+        //cQryUpd += "        AND BA1BKP.D_E_L_E_T_ = ' '"
+        //cQryUpd += "    WHERE"
+        //cQryUpd += "    BA1010.D_E_L_E_T_ = ' ' "
+
+    
+    /* ------------------------------- UPDATE EQUIPE BA1 ------------------------------- */
+
+
+        cQryUpd := " UPDATE BA1010 SET BA1010.BA1_EQUIPE = BA1BKP.BA1_CODINT "
+        cQryUpd += " FROM BA1010  "
+        cQryUpd += " INNER JOIN BA1BKP ON BA1BKP.D_E_L_E_T_ = '' AND BA1BKP.BA1_NOMSOC = BA1010.BA1_IDBENN "
+        cQryUpd += " WHERE 1=1 "
+        cQryUpd += " AND BA1010.D_E_L_E_T_ = '' "
+
+            
         //Tenta executar o update
         nErro := TcSqlExec(cQryUpd)
         
@@ -291,3 +485,6 @@ Static function execupdatesqlmedicar
     End Transaction
 
 return
+
+
+

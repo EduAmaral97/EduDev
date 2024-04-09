@@ -13,11 +13,10 @@
 
 /*
 
-TESTAR - 001024547 COM | 
+TESTAR - 001024547 COM | TESTAR - 000012221
 
 BA3_UNDORG - EMPRESA DA FAMILIA
 TABELA - BBZ
-
 
 */
 
@@ -59,15 +58,15 @@ User Function ZRELASSOCIACAO(cListaContratoAssociacao)
 
 	DbGoTop()
 	If (_cAlias)->(Eof())
-		MsgAlert("Relatório vazio! Verifique os parâmetros.","Atenção")  //"Relatório vazio! Verifique os parâmetros."##"Atenção"
+		MsgAlert("Relatório vazio! Verifique os parâmetros.","Atenção")  
 		(_cAlias)->(DbCloseArea())
 		(cAliasCapaCtr)->(DbCloseArea())
 	Else
 
 		If MV_PAR02 = 1
-			Processa({|| Imprime() },"Listagem de Contrato","Gerando PDF...") //"Pedido de Compras "##"Imprimindo..."
+			Processa({|| Imprime() },"Listagem de Contrato","Gerando PDF...") 
 		Else
-			Processa({|| MsgAlert("Relatorio emite somente em PDF.")) //"Pedido de Compras "##"Imprimindo..."
+			Processa({|| fGeraExcel() },"Listagem de Contrato","Gerando Excel...") 
 		Endif
 
 	EndIf
@@ -82,12 +81,13 @@ Return
 Static Function Imprime()
 
 
-	Local _nCont 		:= 1
+	Local _nCont 		:= 0
 	//Local aAreaSM0	:= {}	 
 	Private cBitmap	:= ""
 	Private cStartPath:= GetSrvProfString("Startpath","")
 	Private cPosi
 	Private nLin
+	Private nUltLin
 	Private _nPag		:= 1   // Numero da pagina
 	//Private cNomeAgrup := ''
 
@@ -165,8 +165,9 @@ Static Function Imprime()
 
 	// IMPRIME DADOS DA CONSULTA
 	While (_cAlias)->(!Eof())
+	
 		
-		If _nCont >= 28
+		If _nCont >= 22
 		
 			_nCont		:= 0
 			_nPag 		+= 1
@@ -175,7 +176,7 @@ Static Function Imprime()
 			Cabec(.t.)
 			nLin := 620
 
-		EndIf 
+		EndIf
 
 		If cCodUndOrg <> (_cAlias)->CODORG
 			
@@ -187,6 +188,9 @@ Static Function Imprime()
 				oPrn:say(nLin,0550,'Beneficiarios sem Empresa Vinculada.',oFont10N)	
 				
 				nLin += 60
+
+				//Verifica a quebra de pagina
+				_nCont += 1
 			
 			EndIF
 
@@ -199,28 +203,27 @@ Static Function Imprime()
 
 			nLin += 60
 
+			//Verifica a quebra de pagina
+			_nCont += 1
+
 		Endif
+			
+			oPrn:say(nLin,0115,(_cAlias)->CODIGO,oFont10)
+			oPrn:say(nLin,0420,(_cAlias)->TIPO,oFont10)
+			oPrn:say(nLin,0550,(_cAlias)->NOME,oFont10)
+			oPrn:say(nLin,1550, SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),oFont10)
+			oPrn:say(nLin,1850,(_cAlias)->STATUSBEN,oFont10)
+			oPrn:say(nLin,2150, SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),oFont10)
+			oPrn:say(nLin,2450,(_cAlias)->ATEND,oFont10)
+			oPrn:say(nLin,2750,	"R$" + Str((_cAlias)->VALOR,10,2),oFont10)
+			
 		
-		oPrn:say(nLin,0115,(_cAlias)->CODIGO,oFont10)
-		oPrn:say(nLin,0420,(_cAlias)->TIPO,oFont10)
-		oPrn:say(nLin,0550,(_cAlias)->NOME,oFont10)
-		oPrn:say(nLin,1550, SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),oFont10)
-		oPrn:say(nLin,1850,(_cAlias)->STATUSBEN,oFont10)
-		oPrn:say(nLin,2150, SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),oFont10)
-		oPrn:say(nLin,2450,(_cAlias)->ATEND,oFont10)
-		oPrn:say(nLin,2750,	"R$" + Str((_cAlias)->VALOR,10,2),oFont10)
-		
-		
-		nLin += 60   //pula linha
-		
-		/*VALORES TOTALIZADOS*/
-		//cTotalValor := cTotalValor + (_cAlias)->VALOR
-		//cTotalBaixado := cTotalBaixado + (_cAlias)->VALORES_BAIXADOS
+			nLin += 60   //pula linha
 
-		_nCont += 1
-		//Verifica a quebra de pagina
+			//Verifica a quebra de pagina
+			_nCont += 1
 
-
+	
 		If (_cAlias)->STATUSBEN = 'ATIVO'
 			nQtdAtivos := nQtdAtivos + 1
 		Else
@@ -253,24 +256,26 @@ Static Function Imprime()
 
 		(_cAlias)->(dBskip())
 
+		nUltLin := nLin
+
 
 	EndDo
 
 	//cSaldoFinal := MV_PAR06 + cTotalEntrada - cTotalSaida
 
-	If _nCont <= 28
+	If _nCont <= 22
+		
 		(_cAlias)->(DbGoTop())
-		//		Infoger()
-		Rodap()
-		//		WordImp()
-	//Else
-		//(_cAlias)->(DbGoTop())
-		//Rodap()
-		//oPrn :EndPage()
-		//Cabec(.f.)
-		//   		Infoger()
-		//Rodap()
-		//   		WordImp()
+
+			Rodap()
+
+		ELSE
+
+			oPrn :EndPage() 
+			Cabec(.t.)
+			nLin := 620
+			Rodap()
+
 	EndIF
 
 
@@ -409,8 +414,6 @@ return
 //********************************************************************************************
 Static Function Rodap()
 
-
-
 	//nLin := 3200
 									
 		oPrn:line(2300,0100,2300,3300)    //Linha Horizontal Rodape Superor
@@ -473,7 +476,8 @@ Static Function MontaQuery
 	local cQueryCapaCtr
 
 	cQuery := "SELECT "
-	cQuery += "BA1.BA1_XCARTE AS CODIGO, "
+	cQuery += "BA1.BA1_XCARTE   AS CODIGO, "
+	cQuery += "BA1.BA1_MATEMP   AS MATEMP, "
 	cQuery += "BA1.BA1_TIPUSU	AS TIPO, "
 	cQuery += "BA1.BA1_NOMUSR	AS NOME, "
 	cQuery += "BA1.BA1_DATNAS	AS DTNASCIMENTO, "
@@ -502,6 +506,7 @@ Static Function MontaQuery
 		cQuery += "AND BA1.BA1_MOTBLO = '' "
 		cQuery += "AND BA1.BA1_DATBLO = '' "
 	Endif
+	cQuery += " ORDER BY BBZ.BBZ_DESCRI,BA1.BA1_MATEMP,BA1.BA1_TIPUSU DESC"
 
 
 	cQueryCapaCtr := " SELECT  "
@@ -636,19 +641,21 @@ Static Function fMontaExcel(cPasta)
 	//oExcel:AddTable ("TELEMEDINC","TELEMED")
 	oExcel:AddTable ("LISTACTR","BENEFCTR",.F.)
 
+	oExcel:AddColumn("LISTACTR","BENEFCTR","CNPJEMPRESA"	,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","EMPRESA"		,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","CODIGO"			,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","TIPO"			,1,1,.F., "")
-	oExcel:AddColumn("LISTACTR","BENEFCTR","NOME"			,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","BENEFICIARIO"	,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","DTNASCIMENTO"	,1,1,.F., "")
-	oExcel:AddColumn("LISTACTR","BENEFCTR","STATUSBEN"		,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","STATUS"			,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","DTVIGOR"		,1,1,.F., "")
-	oExcel:AddColumn("LISTACTR","BENEFCTR","ATEND"			,1,1,.F., "")
-	oExcel:AddColumn("LISTACTR","BENEFCTR","VALOR"			,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","ATENDIMENTO"	,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","VALOR"			,1,3,.F., "")
 
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("LISTACTR","BENEFCTR",{(_cAlias)->CODIGO,(_cAlias)->TIPO,(_cAlias)->NOME,SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),(_cAlias)->STATUSBEN,SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),(_cAlias)->ATEND,Str((_cAlias)->VALOR,10,2)})
+		oExcel:AddRow("LISTACTR","BENEFCTR",{SubStr( (_cAlias)->CGCORG,1,2 ) + '.' + SubStr( (_cAlias)->CGCORG,3,3 ) + '.' + SubStr( (_cAlias)->CGCORG,6,3 ) + '/' + SubStr( (_cAlias)->CGCORG,9,4 ) + '-' + SubStr( (_cAlias)->CGCORG,12,2),(_cAlias)->UNDORG,(_cAlias)->CODIGO,(_cAlias)->TIPO,(_cAlias)->NOME,SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),(_cAlias)->STATUSBEN,	SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),(_cAlias)->ATEND,(_cAlias)->VALOR})
 
 		(_cAlias)->(dBskip())
 

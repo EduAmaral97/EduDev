@@ -446,6 +446,7 @@ Static Function MontaQuery
 
 	cQuery := "SELECT "
 	cQuery += "BA1.BA1_XCARTE AS CODIGO, "
+	cQuery += "BA1.BA1_MATEMP   AS MATEMP, "
 	cQuery += "BA1.BA1_TIPUSU	AS TIPO, "
 	cQuery += "BA1.BA1_NOMUSR	AS NOME, "
 	cQuery += "BA1.BA1_DATNAS	AS DTNASCIMENTO, "
@@ -459,9 +460,9 @@ Static Function MontaQuery
 	cQuery += "	ELSE 'NAO' "
 	cQuery += "END 			AS ATEND, "
 	cQuery += " DATEDIFF(year, BA1.BA1_DATNAS, GETDATE()) AS DIFANOS, "
-	cQuery += "BDK.BDK_VALOR	AS VALOR "
-	//cQuery += "''				AS VALORTOT, "
-	//cQuery += "''				AS NRDEP "
+	cQuery += "BDK.BDK_VALOR	AS VALOR, "
+	cQuery += " ISNULL((SELECT A.BA1_NOMUSR FROM BA1010 A WHERE 1=1	AND A.D_E_L_E_T_ = '' 	AND A.BA1_MATRIC = BA1.BA1_MATRIC 	AND A.BA1_CODINT = BA1.BA1_CODINT 	AND A.BA1_CODEMP = BA1.BA1_CODEMP 	AND A.BA1_CONEMP = BA1.BA1_CONEMP 	AND A.BA1_VERCON = BA1.BA1_VERCON 	AND A.BA1_SUBCON = BA1.BA1_SUBCON 	AND A.BA1_VERSUB = BA1.BA1_VERSUB 	AND A.BA1_TIPREG = '00'	),'') AS TITULAR, "
+	cQuery += " CASE WHEN BA1.BA1_TIPUSU = 'T' THEN 'A' ELSE 'B' END "
 	cQuery += "FROM BA1010 BA1  "
 	cQuery += "LEFT JOIN BDK010 BDK ON BDK.BDK_FILIAL = BA1.BA1_FILIAL AND BDK.BDK_CODINT = BA1.BA1_CODINT AND BDK.BDK_CODEMP = BA1.BA1_CODEMP AND BDK.BDK_MATRIC = BA1.BA1_MATRIC AND BDK.BDK_TIPREG = BA1.BA1_TIPREG AND BDK.D_E_L_E_T_ = ''  "
 	cQuery += "WHERE 1=1  "
@@ -471,6 +472,7 @@ Static Function MontaQuery
 		cQuery += "AND BA1.BA1_MOTBLO = '' "
 		cQuery += "AND BA1.BA1_DATBLO = '' "
 	Endif
+	cQuery += " ORDER BY 11,12,4 "
 
 
 	cQueryCapaCtr := " SELECT  "
@@ -612,12 +614,12 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("LISTACTR","BENEFCTR","STATUSBEN"		,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","DTVIGOR"		,1,1,.F., "")
 	oExcel:AddColumn("LISTACTR","BENEFCTR","ATEND"			,1,1,.F., "")
-	oExcel:AddColumn("LISTACTR","BENEFCTR","VALOR"			,1,1,.F., "")
+	oExcel:AddColumn("LISTACTR","BENEFCTR","VALOR"			,1,3,.F., "")
 
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("LISTACTR","BENEFCTR",{(_cAlias)->CODIGO,(_cAlias)->TIPO,(_cAlias)->NOME,SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),(_cAlias)->STATUSBEN,SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),(_cAlias)->ATEND,Str((_cAlias)->VALOR,10,2)})
+		oExcel:AddRow("LISTACTR","BENEFCTR",{(_cAlias)->CODIGO,(_cAlias)->TIPO,(_cAlias)->NOME,SubStr((_cAlias)->DTNASCIMENTO,7,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,5,2) + "/" + SubStr((_cAlias)->DTNASCIMENTO,1,4),(_cAlias)->STATUSBEN,SubStr((_cAlias)->DTVIGOR,7,2) + "/" + SubStr((_cAlias)->DTVIGOR,5,2) + "/" + SubStr((_cAlias)->DTVIGOR,1,4),(_cAlias)->ATEND,(_cAlias)->VALOR})
 
 		(_cAlias)->(dBskip())
 

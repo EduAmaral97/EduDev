@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.5" isskin="false">
+  <config>
+    <namespaces>
+      <namespace name="CFGX012" href="../../CONFIGURADOR/CFGX012/CFGX012.hmxp"/>
+      <namespace name="CFGX013" href="../../CONFIGURADOR/CFGX013/CFGX013.hmxp"/>
+      <namespace name="CFGX014" href="../../CONFIGURADOR/CFGX014/CFGX014.hmxp"/>
+      <namespace name="CFGX043" href="../../CONFIGURADOR/CFGX043/CFGX043.hmxp"/>
+      <namespace name="CFGX049" href="../../CONFIGURADOR/CFGX049/CFGX049.hmxp"/>
+      <namespace name="CFGX044" href="../../CONFIGURADOR/CFGX044/CFGX044.hmxp"/>
+      <namespace name="CFGX016" href="../../CONFIGURADOR/CFGX016/CFGX016.hmxp"/>
+      <namespace name="CFGX017" href="../../CONFIGURADOR/CFGX017/CFGX017.hmxp"/>
+      <namespace name="CFGX019" href="../../CONFIGURADOR/CFGX019/CFGX019.hmxp"/>
+      <namespace name="CFGX018" href="../../CONFIGURADOR/CFGX018/CFGX018.hmxp"/>
+      <namespace name="CFGX011" href="../../CONFIGURADOR/CFGX011/CFGX011.hmxp"/>
+      <namespace name="CFGX045" href="../../CONFIGURADOR/CFGX045/CFGX045.hmxp"/>
+      <namespace name="CFGX057" href="../../CONFIGURADOR/CFGX057/CFGX057.hmxp"/>
+      <namespace name="CFGX023" href="../../CONFIGURADOR/CFGX023/CFGX023.hmxp"/>
+      <namespace name="CFGX055" href="../../CONFIGURADOR/CFGX055/CFGX055.hmxp"/>
+      <namespace name="CFGX024" href="../../CONFIGURADOR/CFGX024/CFGX024.hmxp"/>
+      <namespace name="CFGX046" href="../../CONFIGURADOR/CFGX046/CFGX046.hmxp"/>
+      <namespace name="CFGX048" href="../../CONFIGURADOR/CFGX048/CFGX048.hmxp"/>
+      <namespace name="TMKXMID" href="../../1-ATUALIZACOES/TMKXMID/TMKXMID.hmxp"/>
+      <namespace name="MASHUP" href="../../FRAMEWORK/MASHUP/MASHUP.hmxp"/>
+      <namespace name="CFGX503B" href="../../CONFIGURADOR/CFGX503B/CFGX503B.hmxp"/>
+      <namespace name="CFGA030" href="../../CONFIGURADOR/CFGA030/CFGA030.hmxp"/>
+      <namespace name="FASTSTARTUP" href="../../FRAMEWORK/FASTSTARTUP/FASTSTARTUP.hmxp"/>
+      <namespace name="WFC003" href="../../1-ATUALIZACOES/WFC003/WFC003.hmxp"/>
+      <namespace name="WFA000" href="../../1-ATUALIZACOES/WFA000/WFA000.hmxp"/>
+      <namespace name="CFGA010" href="../../CONFIGURADOR/CFGA010/CFGA010.hmxp"/>
+      <namespace name="CFGA020" href="../../CONFIGURADOR/CFGA020/CFGA020.hmxp"/>
+      <namespace name="CFGSETMAIL" href="../../CONFIGURADOR/CFGSETMAIL/CFGSETMAIL.hmxp"/>
+      <namespace name="DWWIZARD" href="../../CONFIGURADOR/DWWIZARD/DWWIZARD.hmxp"/>
+      <namespace name="CFGXGED" href="../../CONFIGURADOR/CFGXGED/CFGXGED.hmxp"/>
+      <namespace name="CFGA510" href="../../CONFIGURADOR/CFGA510/CFGA510.hmxp"/>
+      <namespace name="CFGA530" href="../../CONFIGURADOR/CFGA530/CFGA530.hmxp"/>
+      <namespace name="CFGA520" href="../../CONFIGURADOR/CFGA520/CFGA520.hmxp"/>
+      <namespace name="CFGA540" href="../../CONFIGURADOR/CFGA540/CFGA540.hmxp"/>
+      <namespace name="CFGA550" href="../../CONFIGURADOR/CFGA550/CFGA550.hmxp"/>
+      <namespace name="CFGA560" href="../../CONFIGURADOR/CFGA560/CFGA560.hmxp"/>
+      <namespace name="CFGX052" href="../../CONFIGURADOR/CFGX052/CFGX052.hmxp"/>
+      <namespace name="CFGX053" href="../../CONFIGURADOR/CFGX053/CFGX053.hmxp"/>
+      <namespace name="CFGX034" href="../../CONFIGURADOR/CFGX034/CFGX034.hmxp"/>
+      <namespace name="CFGX031" href="../../CONFIGURADOR/CFGX031/CFGX031.hmxp"/>
+      <namespace name="CFGX037" href="../../CONFIGURADOR/CFGX037/CFGX037.hmxp"/>
+      <namespace name="CFGX051" href="../../CONFIGURADOR/CFGX051/CFGX051.hmxp"/>
+      <namespace name="HLPMANANGE" href="../../CONFIGURADOR/HLPMANANGE/HLPMANANGE.hmxp"/>
+      <namespace name="X2REINDEX" href="../../CONFIGURADOR/X2REINDEX/X2REINDEX.hmxp"/>
+      <namespace name="AUDIT_TRAIL" href="../../FRAMEWORK/AUDIT_TRAIL/AUDIT_TRAIL.hmxp"/>
+      <namespace name="APCFG60A" href="../../CONFIGURADOR/APCFG60A/APCFG60A.hmxp"/>
+      <namespace name="APCFG60" href="../../CONFIGURADOR/APCFG60/APCFG60.hmxp"/>
+      <namespace name="APCFG60D" href="../../CONFIGURADOR/APCFG60D/APCFG60D.hmxp"/>
+      <namespace name="CFGX047" href="../../CONFIGURADOR/CFGX047/CFGX047.hmxp"/>
+      <namespace name="APCFGR20" href="../../CONFIGURADOR/APCFGR20/APCFGR20.hmxp"/>
+      <namespace name="FWGAENVIRO" href="../../CONFIGURADOR/FWGAENVIRO/FWGAENVIRO.hmxp"/>
+      <namespace name="APCFGR10" href="../../CONFIGURADOR/APCFGR10/APCFGR10.hmxp"/>
+      <namespace name="APCFGR40" href="../../CONFIGURADOR/APCFGR40/APCFGR40.hmxp"/>
+      <namespace name="FWGAPACKIN" href="../../CONFIGURADOR/FWGAPACKIN/FWGAPACKIN.hmxp"/>
+      <namespace name="APCFGR30" href="../../CONFIGURADOR/APCFGR30/APCFGR30.hmxp"/>
+      <namespace name="CFGA110" href="../../CONFIGURADOR/CFGA110/CFGA110.hmxp"/>
+      <namespace name="CFGBIXC8" href="../../CONFIGURADOR/CFGBIXC8/CFGBIXC8.hmxp"/>
+      <namespace name="PROTHEUSSEARCH" href="../../FRAMEWORK/PROTHEUSSEARCH/PROTHEUSSEARCH.hmxp"/>
+      <namespace name="X2REINDEX2" href="../../CONFIGURADOR/X2REINDEX/X2REINDEX.hmxp"/>
+      <namespace name="MSSTARTWIZ" href="../../FRAMEWORK/MSSTARTWIZ/MSSTARTWIZ.hmxp"/>
+      <namespace name="CFGSCRIPT" href="../../CONFIGURADOR/CFGSCRIPT/CFGSCRIPT.hmxp"/>
+      <namespace name="cfga610" href="../../CONFIGURADOR/CFGA610/cfga610.hmxp"/>
+      <namespace name="WFC008" href="../../1-ATUALIZACOES/WFC008/WFC008.hmxp"/>
+      <namespace name="CFGA040" href="../../CONFIGURADOR/CFGA040/CFGA040.hmxp"/>
+      <namespace name="EAI" href="../../FRAMEWORK/EAI/EAI.hmxp"/>
+      <namespace name="CFGX032" href="../../CONFIGURADOR/CFGX032/CFGX032.hmxp"/>
+      <namespace name="IREPORTS" href="../../FRAMEWORK/IREPORTS/IREPORTS.hmxp"/>
+      <namespace name="CFGSETCTAG" href="../../CONFIGURADOR/CFGSETCTAG/CFGSETCTAG.hmxp"/>
+      <namespace name="CFGX025" href="../../CONFIGURADOR/CFGX025/CFGX025.hmxp"/>
+      <namespace name="FWGAMANPA" href="../../CONFIGURADOR/FWGAMANPA/FWGAMANPA.hmxp"/>
+      <namespace name="cfga700" href="../../CONFIGURADOR/CFGA700/cfga700.hmxp"/>
+      <namespace name="cfgr700" href="../../CONFIGURADOR/CFGR700/cfgr700.hmxp"/>
+      <namespace name="MSAMBIENTE" href="../../FRAMEWORK/MSAMBIENTE/MSAMBIENTE.hmxp"/>
+      <namespace name="cfga600" href="../../CONFIGURADOR/CFGA600/cfga600.hmxp"/>
+      <namespace name="cfga650" href="../../CONFIGURADOR/CFGA650/cfga650.hmxp"/>
+      <namespace name="CFGA500" href="../../CONFIGURADOR/CFGA500/CFGA500.hmxp"/>
+      <namespace name="CFGA115" href="../../CONFIGURADOR/CFGA115/CFGA115.hmxp"/>
+      <namespace name="cfgfioc" href="../../CONFIGURADOR/CFGFIOC/cfgfioc.hmxp"/>
+      <namespace name="cfgx060" href="../../CONFIGURADOR/CFGX060/cfgx060.hmxp"/>
+      <namespace name="cfgx049a" href="../../CONFIGURADOR/CFGX049A/cfgx049a.hmxp"/>
+      <namespace name="apcfg020a" href="../../CONFIGURADOR/APCFG020A/apcfg020a.hmxp"/>
+      <namespace name="BIXAgentCFG" href="../../CONFIGURADOR/BIXAgentCFG/BIXAgentCFG.hmxp"/>
+      <namespace name="BIXQueryCFG" href="../../CONFIGURADOR/BIXQueryCFG/BIXQueryCFG.hmxp"/>
+      <namespace name="BIXAgentCFG2" href="../../CONFIGURADOR/BIXAgentCFG/BIXAgentCFG.hmxp"/>
+      <namespace name="BIXQueryCFG2" href="../../CONFIGURADOR/BIXQueryCFG/BIXQueryCFG.hmxp"/>
+      <namespace name="BIXUnifier" href="../../CONFIGURADOR/BIXUnifier/BIXUnifier.hmxp"/>
+    </namespaces>
+    <helpwindows>
+      <helpwindow name="Main" left="-1" top="-1" width="-1" height="-1">
+        <caption translate="true">&lt;%TITLE%&gt;</caption>
+        <window-options-hlp autosize="true" maximize="false" posabsolute="false" keepontop="false" buttons="0" headercolor="#FFFFFF" textcolor="#FFFFFF"/>
+        <window-options-chm navigation="true" navigationwidth="200" search="true" favorite="true" saveregistry="true" buttons="12366">
+          <user-button name="home">
+            <caption translate="true">Home</caption>
+          </user-button>
+          <user-button name="Jump1">
+            <caption translate="true">Jump1</caption>
+          </user-button>
+          <user-button name="Jump2">
+            <caption translate="true">Jump2</caption>
+          </user-button>
+        </window-options-chm>
+      </helpwindow>
+    </helpwindows>
+    <styleclasses>
+      <styleclass name="Code Example" shortcut="0">
+        <style-set media="screen" type="text">font-family:Verdana; font-size:8pt; vertical-align:sub; color:#4b4e79;</style-set>
+        <style-set media="screen" type="para">white-space:nowrap; page-break-inside:avoid;</style-set>
+      </styleclass>
+      <styleclass name="Normal" shortcut="115">
+        <style-set media="screen" type="text">font-family:Tahoma; font-size:10pt; color:#000000;</style-set>
+        <style-set media="screen" type="para">text-align:left; text-indent:0px; margin-right:0px; margin-left:0px;</style-set>
+      </styleclass>
+      <styleclass name="Comment" parentclass="Normal" shortcut="0"/>
+      <styleclass name="Corpo do Texto" parentclass="Normal" shortcut="16497">
+        <style-set media="screen" type="text">font-family:Verdana; font-size:8pt; color:#515151;</style-set>
+        <style-set media="screen" type="para">text-align:justify; margin-bottom:11px; margin-left:38px;</style-set>
+      </styleclass>
+      <styleclass name="Corpo Texto Destaque" parentclass="Corpo do Texto" shortcut="0">
+        <style-set media="screen" type="text">color:#4b4e79;</style-set>
+        <style-set media="screen" type="para">border:none;</style-set>
+      </styleclass>
+      <styleclass name="Exemplo" parentclass="Corpo do Texto" shortcut="0">
+        <style-set media="screen" type="text">font-weight:bold; font-style:italic; color:#4b4e79;</style-set>
+      </styleclass>
+      <styleclass name="Exemplo Texto" parentclass="Corpo do Texto" shortcut="0">
+        <style-set media="screen" type="para">margin-top:8px; margin-bottom:4px; margin-left:57px; border:none; tabstops:56px left ;</style-set>
+      </styleclass>
+      <styleclass name="Fonte da Tabela" parentclass="Corpo do Texto" shortcut="32881">
+        <style-set media="screen" type="text">color:#4b4e79;</style-set>
+        <style-set media="screen" type="para">margin-top:4px; margin-right:8px; margin-bottom:4px; margin-left:8px;</style-set>
+      </styleclass>
+      <styleclass name="Importante" parentclass="Fonte da Tabela" shortcut="0">
+        <style-set media="screen" type="text">color:#515151;</style-set>
+        <style-set media="screen" type="para">margin-left:35px; border:none;</style-set>
+      </styleclass>
+      <styleclass name="Texto Popup" parentclass="Corpo do Texto" shortcut="0">
+        <style-set media="screen" type="text">font-size:8pt; color:#000000;</style-set>
+        <style-set media="screen" type="para">margin-right:189px; border:none;</style-set>
+      </styleclass>
+      <styleclass name="Topicos" parentclass="Corpo do Texto" shortcut="16500">
+        <style-set media="screen" type="para">text-indent:-19px; margin-top:8px; margin-bottom:4px; margin-left:57px; tabstops:56px left ;</style-set>
+      </styleclass>
+      <styleclass name="Cont topicos" parentclass="Topicos" shortcut="16501">
+        <style-set media="screen" type="para">text-indent:0px;</style-set>
+      </styleclass>
+      <styleclass name="Exemplo Topico" parentclass="Topicos" shortcut="32838">
+        <style-set media="screen" type="text">font-weight:bold; font-style:italic; color:#4b4e79;</style-set>
+        <style-set media="screen" type="para">text-indent:0px; margin-top:15px;</style-set>
+      </styleclass>
+      <styleclass name="Topicos 2" parentclass="Topicos" shortcut="32882">
+        <style-set media="screen" type="para">margin-left:76px;</style-set>
+      </styleclass>
+      <styleclass name="Cont topicos 2" parentclass="Topicos 2" shortcut="32883">
+        <style-set media="screen" type="para">text-indent:0px;</style-set>
+      </styleclass>
+      <styleclass name="Heading1" parentclass="Normal" shortcut="114">
+        <style-set media="screen" type="text">font-size:14pt; font-weight:bold; color:#4b4e79;</style-set>
+        <style-set media="screen" type="para">margin-top:19px; margin-bottom:38px; margin-left:19px; page-break-inside:avoid; page-break-after:avoid; border-color:#808080; border-style:single; border-width:1px; border-top:none; border-right:none; border-bottom:none; border-left:none;</style-set>
+        <style-set media="print" type="text">font-family:Arial; font-size:14pt; font-weight:bold; color:#4b4e79;</style-set>
+        <style-set media="print" type="para">margin-top:19px; margin-bottom:38px; margin-left:19px; page-break-inside:avoid; page-break-after:avoid; border-color:#808080; border-style:single; border-width:1px; border-top:none; border-right:none; border-bottom:none; border-left:none;</style-set>
+      </styleclass>
+      <styleclass name="Heading 2" parentclass="Heading1" shortcut="117">
+        <style-set media="screen" type="text">font-size:12pt;</style-set>
+        <style-set media="screen" type="para">margin-bottom:19px;</style-set>
+      </styleclass>
+      <styleclass name="Heading1 Abertura" parentclass="Heading1" shortcut="0">
+        <style-set media="screen" type="text">font-size:11pt;</style-set>
+      </styleclass>
+      <styleclass name="Subtitulo" parentclass="Heading1" shortcut="16498">
+        <style-set media="screen" type="text">font-size:9pt; font-weight:bold; letter-scaling:100%;</style-set>
+        <style-set media="screen" type="para">margin-top:38px; margin-bottom:19px; margin-left:19px; background-color:transparent; padding:5px; border-color:#c0c0c0; border-style:single; border-width:1px; border-right:none; border-bottom:none; border-left:none;</style-set>
+      </styleclass>
+      <styleclass name="Subtitulo 2" parentclass="Subtitulo" shortcut="16499">
+        <style-set media="screen" type="para">margin-top:19px; margin-left:38px; border:none;</style-set>
+      </styleclass>
+      <styleclass name="Image Caption" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">font-size:8pt; font-weight:bold;</style-set>
+      </styleclass>
+      <styleclass name="Notes" parentclass="Normal" shortcut="0"/>
+      <tablestyleclass name="Default">
+        <style-set media="screen">width:auto; cell-padding:0px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:none; head-row-background-color:none; alt-row-background-color:none;</style-set>
+      </tablestyleclass>
+    </styleclasses>
+    <config-group name="project">
+      <config-value name="author" translate="true">TOTVS S/A</config-value>
+      <config-value name="copyright" translate="true">Todos os direitos reservados.</config-value>
+      <config-value name="versionmajor">1</config-value>
+      <config-value name="versionminor">0</config-value>
+      <config-value name="versionbuild">0</config-value>
+      <config-value name="guid">{C577FE34-8AF1-4DF2-94F7-40507172EE4A}</config-value>
+      <config-value name="lcid" translate="true">pt-br</config-value>
+      <config-value name="bidimode">0</config-value>
+      <config-value name="charset" translate="true">ANSI_CHARSET</config-value>
+      <config-value name="deffont">font-family:Verdana; font-size:8pt; color:#000000;</config-value>
+      <config-value name="autohelpstart">0</config-value>
+      <config-value name="autohelpincrement">1</config-value>
+      <config-value name="autohelpanchor">0</config-value>
+      <config-value name="searchpath">..\..\Icones\;..\..\Imagens\;..\..\Imagens_comuns\;..\..\Images\</config-value>
+      <config-value name="imageshortcuts"></config-value>
+      <config-group name="custombuilds">
+        <config-value name="ANG">ANG</config-value>
+        <config-value name="ARG">ARG</config-value>
+        <config-value name="AUS">AUS</config-value>
+        <config-value name="BOL">BOL</config-value>
+        <config-value name="BRA">BRA</config-value>
+        <config-value name="CHI">CHI</config-value>
+        <config-value name="COL">COL</config-value>
+        <config-value name="COS">COS</config-value>
+        <config-value name="DOM">DOM</config-value>
+        <config-value name="EQU">EQU</config-value>
+        <config-value name="ETNA">ETNA</config-value>
+        <config-value name="EUA">EUA</config-value>
+        <config-value name="GUA">GUA</config-value>
+        <config-value name="HAI">HAI</config-value>
+        <config-value name="IND">IND</config-value>
+        <config-value name="MEX">MEX</config-value>
+        <config-value name="PAN">PAN</config-value>
+        <config-value name="PAR">PAR</config-value>
+        <config-value name="PER">PER</config-value>
+        <config-value name="POR">POR</config-value>
+        <config-value name="PTG">PTG</config-value>
+        <config-value name="SAL">SAL</config-value>
+        <config-value name="URU">URU</config-value>
+        <config-value name="V11">V11</config-value>
+        <config-value name="V115">V115</config-value>
+        <config-value name="V116">V116</config-value>
+        <config-value name="V117">V117</config-value>
+        <config-value name="V119">V119</config-value>
+        <config-value name="V12">V12</config-value>
+        <config-value name="VEN">VEN</config-value>
+      </config-group>
+      <config-value name="imageshortcuts_includebaggage">1</config-value>
+      <config-value name="openchildreadonly">1</config-value>
+      <config-value name="vcsmanuallycheckout">0</config-value>
+      <config-group name="TOPICSTATUS">
+        <config-value name="Needs Review">#B6FEAB</config-value>
+        <config-value name="Out Of Date">#FEC79E</config-value>
+        <config-value name="Under Construction">#FEFC9E</config-value>
+      </config-group>
+      <config-value name="make3include">HTML,ANG,ARG,BOL,BRA,CHI,COL,COS,DOM,EQU,EUA,GUA,HAI,MEX,PAN,PAR,PER,POR,PTG,SAL,TRI,URU,V12,VEN</config-value>
+      <config-value name="make3status">*</config-value>
+      <config-value name="synchronizedwithfile">C:\TFS\Engenharia\Help On Line\Help_Ingles\PROJETOES\SIGACFG\SIGACFG.hmxp</config-value>
+      <config-value name="synchronizeoption">keep</config-value>
+      <config-value name="synchronizehighlight">1</config-value>
+      <config-value name="title" translate="true">sigacfg</config-value>
+      <config-value name="contents">sigacfg_introducao</config-value>
+      <config-value name="topicprefix">sigacfg_</config-value>
+    </config-group>
+    <config-group name="hlp">
+      <config-value name="citation" translate="true"></config-value>
+      <config-value name="afootnotes">A</config-value>
+      <config-value name="fts">1</config-value>
+      <config-value name="anchorseparator">:</config-value>
+      <config-value name="cntoffset">0</config-value>
+      <config-value name="hpj" translate="true"></config-value>
+      <config-value name="outputfile">mata020.hlp</config-value>
+      <config-value name="deletetemp">1</config-value>
+    </config-group>
+    <config-group name="chm">
+      <config-value name="htmlpopup">1</config-value>
+      <config-value name="htmlpopuptextfile">CSHelp.txt</config-value>
+      <config-value name="hhcwindowstyles">8388645</config-value>
+      <config-value name="usesecondarywindows">1</config-value>
+      <config-value name="outputfile">mata020.chm</config-value>
+      <config-value name="deletetemp">1</config-value>
+    </config-group>
+    <config-group name="hxs">
+      <config-value name="namespace"></config-value>
+      <config-value name="uniqueid"></config-value>
+      <config-value name="filetype">0</config-value>
+      <config-value name="fts">1</config-value>
+      <config-value name="akeywords">1</config-value>
+      <config-value name="htmlpopup">0</config-value>
+      <config-value name="outputfile"></config-value>
+      <config-value name="buildhwproj">0</config-value>
+      <config-value name="deletetemp">0</config-value>
+    </config-group>
+    <config-group name="html">
+      <config-value name="topiceditor">1</config-value>
+      <config-value name="topicsimpletext1" translate="true"></config-value>
+      <config-value name="topicsimpletext2" translate="true"></config-value>
+      <config-value name="topicsimplebuttons">0</config-value>
+      <config-group name="topicsimplebutton1">
+        <config-value name="caption" translate="true"></config-value>
+        <config-value name="image" translate="true"></config-value>
+      </config-group>
+      <config-group name="topicsimplebutton2">
+        <config-value name="caption" translate="true"></config-value>
+        <config-value name="image" translate="true"></config-value>
+      </config-group>
+      <config-group name="topicsimplebutton3">
+        <config-value name="caption" translate="true"></config-value>
+        <config-value name="image" translate="true"></config-value>
+      </config-group>
+      <config-group name="topictemplates">
+        <config-value name="default" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+<head>
+   <title><%TOPIC_TITLE%></title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="<%TOPIC_KEYWORDS%>" />
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+  <body style="margin:0px 0px 0px 0px; background:#FFFFFF;">
+
+<IF_TOPIC_HEADER>
+<table border="0" cellspacing="0" cellpadding="5" style="width:100%; background:#FFFFFF;">
+  <tr style="vertical-align:middle">
+    <td style="text-align:left">
+      <%TOPIC_HEADER%>
+    </td>
+    <td style="text-align:right">
+     <span style="font-size:9pt">
+     <a href="<%HREF_DEFAULT_PAGE%>">Top</a>&nbsp;
+     <IF_PREVIOUS_PAGE><a href="<%HREF_PREVIOUS_PAGE%>">Previous</a>&nbsp;</IF_PREVIOUS_PAGE>
+     <IF_NEXT_PAGE><a href="<%HREF_NEXT_PAGE%>">Next</a></IF_NEXT_PAGE>
+     </span>
+    </td>
+  </tr>
+</table>
+</IF_TOPIC_HEADER>
+
+<!-- Placeholder for topic body. -->
+<table border="0" cellspacing="0" cellpadding="0" style="width:100%"><tr style="vertical-align:top"><td style="text-align:left">
+<%TOPIC_TEXT%>
+</td></tr></table>
+
+</body>
+</html>
+]]></config-value>
+        <config-value name="popup" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+<head>
+   <title><%TOPIC_TITLE%></title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="<%TOPIC_KEYWORDS%>" />
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+</head>
+<body style="margin:0px 0px 0px 0px; background:#FFFFFF;">
+
+<IF_TOPIC_HEADER>
+<table border="0" cellspacing="0" cellpadding="5" style="width:100%; background:#FFFFFF;">
+  <tr style="vertical-align:middle">
+    <td style="text-align:left">
+      <%TOPIC_HEADER%>
+    </td>
+    <td style="text-align:right">
+     <span style="font-size:9pt">
+     <a href="<%HREF_DEFAULT_PAGE%>">Top</a>&nbsp;
+     <IF_PREVIOUS_PAGE><a href="<%HREF_PREVIOUS_PAGE%>">Previous</a>&nbsp;</IF_PREVIOUS_PAGE>
+     <IF_NEXT_PAGE><a href="<%HREF_NEXT_PAGE%>">Next</a></IF_NEXT_PAGE>
+     </span>
+    </td>
+  </tr>
+</table>
+</IF_TOPIC_HEADER>
+
+<!-- Placeholder for topic body. -->
+<table border="0" cellspacing="0" cellpadding="5" style="width:100%"><tr style="vertical-align:top"><td style="text-align:left">
+<%TOPIC_TEXT%>
+</td></tr></table>
+
+</body>
+</html>
+]]></config-value>
+      </config-group>
+      <config-value name="topicsimpleheadercolor">#FFFFFF</config-value>
+      <config-value name="topicsimpletextcolor">#FFFFFF</config-value>
+      <config-value name="navigationstyle">3</config-value>
+      <config-value name="frameeditor">0</config-value>
+      <config-value name="contentborder">0</config-value>
+      <config-value name="contentwidth">300</config-value>
+      <config-value name="headframeheight">80</config-value>
+      <config-value name="headframescroll">0</config-value>
+      <config-value name="frametemplate" translate="true"><![CDATA[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+  "http://www.w3.org/TR/html4/frameset.dtd">
+<html>
+<head>
+<title><%TITLE%></title>
+<meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>">
+<script type="text/javascript" src="<%NAVIGATION_SCRIPT%>"></script>
+<script type="text/javascript">
+<!--
+var defaulttopic="<%HREF_DEFAULT_PAGE%>";
+if (top.location.href.lastIndexOf("?") > 0) defaulttopic=top.location.href.substring(top.location.href.lastIndexOf("?")+1,top.location.href.length);
+document.write('<frameset rows="80,*" frameborder="0" framespacing="1">');
+document.write('<frame name="hmheader" marginwidth="0" marginheight="0" scrolling="No" noresize src="<%HREF_HEADFRAME_PAGE%>" title="Header">');
+document.write('<frameset cols="300,*" frameborder="0" framespacing="1">');
+if (document.getElementById) {
+  document.write('<frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_DYN%>" title="Navigation frame">'); }
+else {
+  document.write('<frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_STATIC%>" title="Navigation frame">'); }
+document.write('<frame name="hmcontent" src="' + defaulttopic + '" title="Content frame">');
+document.write('</frameset>');
+document.write('</frameset>');
+//-->
+</script>
+</head>
+<noscript>
+  <frameset rows="80,*" frameborder="0" framespacing="1">
+  <frame name="hmheader" marginwidth="0" marginheight="0" scrolling="No" noresize src="<%HREF_HEADFRAME_PAGE%>" title="Header">
+  <frameset cols="300,*" frameborder="0" framespacing="1">
+    <frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_STATIC%>" title="Navigation frame">
+    <frame name="hmcontent" src="<%HREF_DEFAULT_PAGE%>" title="Content frame">
+    <noframes>
+      This page requires frames<br><a href="<%HREF_CONTENT_PAGE_STATIC%>">Click here to view the table of contents without frames</a>
+    </noframes>
+  </frameset>
+  </frameset>
+</noscript>
+</html>]]></config-value>
+      <config-value name="headframehtml" translate="true"><![CDATA[<%DOCTYPE%>
+<html>
+  <head>
+    <title><%TITLE%></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>">
+ <script type="text/JavaScript">
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+</script>
+</head>
+
+
+  <body>
+   	<table width="100%" height="100%" background="images/topo_fundo.gif" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+        <td height="40" > <a href="http://www.totvs.com" target=_blank><img src="images/topo_logo.gif" align="left" border="0"></a></td>
+       	<td height="25" style="PADDING-LEFT: 6px "> 
+  			</td>
+        </tr>
+	<tr>
+        <td height="32" colspan="3" background="images/topo1_fundo.gif" align="right" border="0" cellpadding="0" cellspacing="0" ><a href="<%LOCAL_SEARCH_PAGE%>" target="hmnavigation" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Pesquisar','','images/bt_peq_pesquisar_2.gif',0)"><img src="images/bt_peq_pesquisar_1.gif" name="Pesquisar" width="71" height="28" border="0" hspace="0" id="Pesquisar"/></a><IF_INDEX_PAGE><a href="<%HREF_INDEX_PAGE%>" target="hmnavigation" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('&Iacute;ndice','','images/bt_peq_indice_2.gif',1)"><img src="images/bt_peq_indice_1.gif" name="&Iacute;ndice" width="71" height="28" border="0" id="&Iacute;ndice"/></a></IF_INDEX_PAGE><a href="<%HREF_CONTENT_PAGE%>" target="hmnavigation" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Conte&uacute;do','','images/bt_peq_conteudo_2.gif',1)"><img src="images/bt_peq_conteudo_1.gif" name="Conte&uacute;do" width="71" height="28" border="0" id="Conte&uacute;do"/></a><a href="help110.htm" target="_top" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('menu','','images/bt_peq_menu_2.gif',1)"><img src="images/bt_peq_menu_1.gif" name="menu" width="71" height="28" border="0" id="menu"/></a></table>          
+        </td>
+	</tr>	
+       
+	</table>
+  </body>
+  </html>]]></config-value>
+      <config-value name="hasindex">0</config-value>
+      <config-value name="hassearch">0</config-value>
+      <config-value name="contentnumbers">0</config-value>
+      <config-value name="contentlazysync">1</config-value>
+      <config-value name="contentindent">20</config-value>
+      <config-value name="contentsingleclick">1</config-value>
+      <config-value name="contentautocollapse">0</config-value>
+      <config-value name="contentexpand">0</config-value>
+      <config-value name="defaulticons">0</config-value>
+      <config-value name="iconopenbook">..\portuguese\images\exp_1.gif</config-value>
+      <config-value name="iconclosedbook">..\portuguese\images\col_1.gif</config-value>
+      <config-value name="icontopic">..\portuguese\images\page.gif</config-value>
+      <config-value name="toceditor">1</config-value>
+      <config-value name="tocsimpletext1" translate="true"><![CDATA[<p class="navtitle"><%TITLE%></p>
+<p class="navbar">
+<b>Contents</b>
+<IF_INDEX_PAGE> | <a href="<%HREF_INDEX_PAGE%>">Index</a></IF_INDEX_PAGE>
+<IF_SEARCH_PAGE> | <a href="<%HREF_SEARCH_PAGE%>">Search</a></IF_SEARCH_PAGE>
+</p><hr size="1" />]]></config-value>
+      <config-value name="tocsimpletext2" translate="true"><![CDATA[<hr size="1" /><p style="font-size: 8pt"><%COPYRIGHT%></p>]]></config-value>
+      <config-value name="tocsimplefont1">font-family:'Trebuchet MS'; font-size:8pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="tocsimplefont2">font-family:'Trebuchet MS'; font-size:8pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="tocsimplefont3">font-family:'Trebuchet MS'; font-size:8pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="tocsimplefont4">font-family:Arial,Helvetica; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="tocsimplefont5">font-family:Arial,Helvetica; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="tocsimplefont6">font-family:Arial,Helvetica; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="contenttemplate" translate="true"><![CDATA[<%DOCTYPE%>
+<html><head>
+   <title><%TITLE%></title>
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+
+   <!-- This line includes the general project style sheet (not required) -->
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+
+   <!-- This block defines the styles of the TOC headings, change them as needed -->
+   <style type="text/css">
+       .navtitle { font-size: 14pt; font-weight: bold; margin-bottom: 0px; }
+       .navbar   { font-size: 10pt; }
+
+       .heading1 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+       .heading2 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+       .heading3 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+       .heading4 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+       .heading5 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+       .heading6 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; text-decoration: none; }
+
+       .hilight1 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       .hilight2 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       .hilight3 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       .hilight4 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       .hilight5 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       .hilight6 { font-family: Tahoma; font-weight: none; font-size: 11px; color: #5A595A; background: #e6e6e6; text-decoration: none; }
+       
+       TD.toc { padding-bottom=0px; padding-left=0px; padding-right=0px; height=20px; margin-top=4px; vertical-align=bottom;} 
+
+
+        .submit { font-size: 10px; }
+        .highlight { background: #FFFF40; }
+        .searchheading { font-size: 10px; font-weight: bold; }
+        .summary { font-size: 10px; font-style: italic; }
+        .results { font-size: 10px; }
+        .description { font-size: 10px; font-style: italic; }
+        .context { font-size: 10px; }
+        .result_title { font-size: 11px; }
+        
+    </style>
+
+ 	
+ 	
+</head>
+
+		<body style= bgcolor="#ffffff" width="100%" leftmargin="0" topmargin="0" rightmargin="0" marginwidth="0" marginheight="0" overflow="auto";>
+
+<!-- ################################## DIV TABELA ESQUERDA ################################## -->
+		
+					<div id="arvore" style="width:100%; height:100%; background-color:#ffffff; overflow:auto;">
+				
+				<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+					
+					<tr>
+						<td colspan="3" valign="top" bcolor="#FDFAFA">
+					 		<%TABLE_OF_CONTENTS%>
+						</td>
+					        <td width="1" height="100%" bgcolor="#d3cec8"></td>
+                                                <td valign="top" width="2" background="images\bg_drop_shadow_dir.gif"></td>
+				   	</tr>
+					  <tr height="2"  background-color=#FFFFFF></tr>
+                                          <tr >
+					  
+   		                  	
+				</tr>
+                               </table> 
+
+				</div> 
+    
+        </body>
+</html>]]></config-value>
+      <config-value name="indexeditor">1</config-value>
+      <config-value name="indexsimpletext1" translate="true"><![CDATA[<p class="navtitle"><%TITLE%></p>
+<p class="navbar">
+<a href="<%HREF_CONTENT_PAGE%>">Contents</a>
+<IF_INDEX_PAGE> | <b>Index</b></IF_INDEX_PAGE>
+<IF_SEARCH_PAGE> | <a href="<%HREF_SEARCH_PAGE%>">Search</a></IF_SEARCH_PAGE>
+</p><hr size="1" />]]></config-value>
+      <config-value name="indexsections">A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z</config-value>
+      <config-value name="indexsimplefont1">font-family:Arial,Helvetica; font-size:14pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="indexsimplefont2">font-family:Arial,Helvetica; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="indexsimplefont3">font-family:Arial,Helvetica; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="indexsimplefont4">font-family:Arial,Helvetica; font-size:9pt; font-weight:normal; font-style:normal; text-decoration:none;</config-value>
+      <config-value name="indextemplate" translate="true"><![CDATA[<%DOCTYPE%>
+<html><head>
+   <title><%TITLE%></title>
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+
+   <!-- This line includes the general project style sheet (not required) -->
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+
+   <!-- This block defines the styles of the TOC headings, change them as needed -->
+   <style type="text/css">
+       .navtitle    { font-size: 14pt; font-weight: bold; margin-bottom: 0px; }
+       .navbar      { font-size: 10pt; }
+       .idxsection  { font-family: Tahoma; font-weight: bold; font-size: 11px; color: #4e5a78; text-decoration: none;
+                      margin-top: 15px; margin-bottom: 15px; margin-left:10px}
+       .idxkeyword  { font-family: Tahoma; font-weight: normal; font-size: 11px; color: #4e5a78; text-decoration: none; margin-left:20px}
+       .idxkeyword2 { font-family: Tahoma; font-weight: normal; font-size: 11px; color: #4e5a78; text-decoration: none; margin-left:20px}
+       .idxlink     { font-family: Tahoma; font-weight: normal; font-size: 11px; color: #4e5a78; text-decoration: none; margin-left:20px}
+
+       TABLE.idxtable { background: #ffffff; border-width: 1px; border-color: #000000; border-collapse: collapse;
+                        filter: progid:DXImageTransform.Microsoft.Shadow(color=B0B0B0, Direction=135, Strength=4);}
+       TD.idxtable    { background: #ffffff; }
+   </style>
+</head>
+
+		<body style= bgcolor="#ffffff" width="100%" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<!-- ################################## DIV TABELA ESQUERDA ################################## -->
+		
+			<div id="arvore" style="width:100%; height:100%; background-color:#ffffff; overflow:auto;">
+				
+				<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+						<tr>
+						<td colspan="3" valign="top" bcolor="#F7F7F7">
+						
+					
+					  <!-- Place holder for the keyword index - this variable is REQUIRED! -->
+<%KEYWORD_INDEX%>
+
+
+						</td>
+				<td width="1" height="100%" bgcolor="#d3cec8"></td>
+                                                <td valign="top" width="2" background="images\bg_drop_shadow_dir.gif"></td>
+				   	</tr>
+					  <tr>
+   		                  	
+				</tr>
+                </table>
+
+				</div> 
+				
+				
+			
+			
+				
+        </body>
+</html>]]></config-value>
+      <config-value name="searcheditor">1</config-value>
+      <config-value name="searchsimpletext1" translate="true"><![CDATA[<p class="navtitle"><%TITLE%></p>
+<p class="navbar">
+<a href="<%HREF_CONTENT_PAGE%>">Contents</a>
+<IF_INDEX_PAGE> | <a href="<%HREF_INDEX_PAGE%>">Index</a></IF_INDEX_PAGE>
+<IF_SEARCH_PAGE> | <b>Search</b></IF_SEARCH_PAGE>
+</p><hr size="1" />
+<p class="submit">Enter one or more keywords to search ('*' and '?' wildcards are supported):</p>]]></config-value>
+      <config-value name="searchtemplate" translate="true"><![CDATA[<%DOCTYPE%>
+<html><head>
+   <title><%TITLE%></title>
+   <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>" />
+
+   <!-- This line includes the general project style sheet (not required) -->
+   <meta http-equiv="Content-Style-Type" content="text/css" />
+   <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
+
+   <!-- This block defines the styles of the TOC headings, change them as needed -->
+   <style type="text/css">
+        .navtitle { font-size: 14pt; font-weight: bold; margin-bottom: 0px; }
+        .navbar { font-size: 10pt; }
+        .submit { font-size: 10px; }
+        .highlight { background: #FFFF40; }
+        .searchheading { font-size: 10px; font-weight: bold; }
+        .summary { font-size: 10px; font-style: italic; }
+        .results { font-size: 10px; }
+        .description { font-size: 10px; font-style: italic; }
+        .context { font-size: 10px; }
+        .result_title { font-size: 11px; }
+ 	</style>
+</head>
+
+		<body style= bgcolor="#ffffff" leftmargin="10px" topmargin="0" marginwidth="0" marginheight="0">
+
+<!-- ################################## DIV TABELA ESQUERDA ################################## -->
+		
+				<div id="arvore" style="width:100%; height:100%; background-color:#ffffff; overflow: auto;">
+				
+				<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+						<tr>
+						<td colspan="3" valign="top" bcolor="#F7F7F7" style="font-family: Tahoma; font-weight: normal; font-size: 10px; color: #4e5a78; text-decoration: none; margin-left:20px;">
+					
+					
+					<div align="left"> <br> <!--<p class="submit">Enter one or more keywords to search ('*' and '?' wildcards are supported):</p>-->
+<!-- This is where the search form and results will appear -->
+<%SEARCH_SCRIPT%>
+</div>
+						</td>
+				<td width="1" height="100%" bgcolor="#d3cec8"></td>
+                                                <td valign="top" width="2" background="images\bg_drop_shadow_dir.gif"></td>
+				   	</tr>
+					  <tr>
+   		                  	
+				</tr>
+                   
+                  </table>
+
+				</div> 
+							
+        </body>
+</html>]]></config-value>
+      <config-group name="searchconstants">
+        <config-value name="STR_FORM_SEARCHFOR" translate="true">Busca por:</config-value>
+        <config-value name="STR_FORM_SUBMIT_BUTTON" translate="true">Buscar</config-value>
+        <config-value name="STR_FORM_RESULTS_PER_PAGE" translate="true">Resultador por página:</config-value>
+        <config-value name="STR_FORM_MATCH" translate="true">Pesquisar:</config-value>
+        <config-value name="STR_FORM_ANY_SEARCH_WORDS" translate="true">qualquer palavra</config-value>
+        <config-value name="STR_FORM_ALL_SEARCH_WORDS" translate="true">todas as palavras</config-value>
+        <config-value name="STR_NO_QUERY" translate="true">Nenhum dado a ser pesquisado</config-value>
+        <config-value name="STR_RESULTS_FOR" translate="true">Resultado da busca:</config-value>
+        <config-value name="STR_NO_RESULTS" translate="true">Nenhuma ocorrência</config-value>
+        <config-value name="STR_RESULT" translate="true">resultado</config-value>
+        <config-value name="STR_RESULTS" translate="true">resultados</config-value>
+        <config-value name="STR_PHRASE_CONTAINS_COMMON_WORDS" translate="true">The following phrase contains very common words on this site, resulting in a limited search. Please define a more specific phrase for better results.</config-value>
+        <config-value name="STR_SKIPPED_FOLLOWING_WORDS" translate="true">The following word(s) are in the skip word list and have been omitted from your search:</config-value>
+        <config-value name="STR_SKIPPED_PHRASE" translate="true">Note that you can not search for exact phrases beginning with a skipped word</config-value>
+        <config-value name="STR_SUMMARY_NO_RESULTS_FOUND" translate="true">Nenhum resultado encontrado</config-value>
+        <config-value name="STR_SUMMARY_FOUND_CONTAINING_ALL_TERMS" translate="true">encontrado(s) contém todos os termos pesqiuisados.</config-value>
+        <config-value name="STR_SUMMARY_FOUND_CONTAINING_SOME_TERMS" translate="true">encontrado(s) contém alguns dos termos pesquisados.</config-value>
+        <config-value name="STR_SUMMARY_FOUND" translate="true">encontrado(s).</config-value>
+        <config-value name="STR_PAGES_OF_RESULTS" translate="true">páginas de resultados.</config-value>
+        <config-value name="STR_POSSIBLY_GET_MORE_RESULTS" translate="true">You can possibly get more results searching for</config-value>
+        <config-value name="STR_ANY_OF_TERMS" translate="true">any of the terms</config-value>
+        <config-value name="STR_DIDYOUMEAN" translate="true">Did you mean:</config-value>
+        <config-value name="STR_SORTEDBY_RELEVANCE" translate="true">Sorted by relevance</config-value>
+        <config-value name="STR_SORTBY_RELEVANCE" translate="true">Sort by relevance</config-value>
+        <config-value name="STR_SORTBY_DATE" translate="true">Sort by date</config-value>
+        <config-value name="STR_SORTEDBY_DATE" translate="true">Sorted by date</config-value>
+        <config-value name="STR_RESULT_TERMS_MATCHED" translate="true">Termos encontrados:</config-value>
+        <config-value name="STR_RESULT_SCORE" translate="true">Score:</config-value>
+        <config-value name="STR_RESULT_URL" translate="true">URL:</config-value>
+        <config-value name="STR_RESULT_PAGES" translate="true">Páginas de Resultados:</config-value>
+        <config-value name="STR_RESULT_PAGES_PREVIOUS" translate="true">Anterior</config-value>
+        <config-value name="STR_RESULT_PAGES_NEXT" translate="true">Próxima</config-value>
+      </config-group>
+      <config-value name="searchstoplist" translate="true">and or the it is an on we us to of has be all for in as so are that can you at its by have with into</config-value>
+      <config-value name="searchskipwordsmin">3</config-value>
+      <config-value name="searchjoinwordchars">.-_'</config-value>
+      <config-value name="searchhighlight">1</config-value>
+      <config-value name="searchallowdate">1</config-value>
+      <config-value name="searchaccentinsensitive">0</config-value>
+      <config-value name="searchsinglecase">0</config-value>
+      <config-value name="htmlpopup">3</config-value>
+      <config-group name="htmlpopupjavaoptions">
+        <config-value name="borderwidth">1</config-value>
+        <config-value name="padding">3</config-value>
+        <config-value name="bgcolor">#F3F3F3</config-value>
+        <config-value name="bordercolor">#4B4E79</config-value>
+      </config-group>
+      <config-value name="defaultext">.htm</config-value>
+      <config-value name="cssfile">default.css</config-value>
+      <config-value name="fontsizeencoding">0</config-value>
+      <config-value name="fontsizebase">100</config-value>
+      <config-value name="exportmarkersastext">1</config-value>
+      <config-value name="exportstylenames">1</config-value>
+      <config-value name="exportxhtml">0</config-value>
+      <config-value name="imageconversion">2</config-value>
+      <config-value name="jpgquality">100</config-value>
+      <config-value name="imagehint">1</config-value>
+      <config-value name="outputfile">..\..\..\..\..\..\Protheus\V12\sigacfg.htm</config-value>
+      <config-value name="layoutthreeframe">1</config-value>
+      <config-value name="searchplatform">JSFILE</config-value>
+      <config-value name="searchexactphrase">0</config-value>
+      <config-value name="exportutf8bom">1</config-value>
+      <config-value name="synctimestamp">1</config-value>
+      <config-value name="syncarchivebit">0</config-value>
+    </config-group>
+    <config-group name="pdf">
+      <config-value name="template">..\Template PDF\modulos.mnl</config-value>
+      <config-value name="style">0</config-value>
+      <config-value name="createoutline">1</config-value>
+      <config-value name="createhotspots">0</config-value>
+      <config-value name="createthumbnails">1</config-value>
+      <config-value name="insertseealso">0</config-value>
+      <config-value name="linkcolor"></config-value>
+      <config-value name="ignoreblank">1</config-value>
+      <config-value name="embedfilesext"></config-value>
+      <config-value name="compression">1</config-value>
+      <config-value name="jpegquality">0</config-value>
+      <config-value name="openmode">1</config-value>
+      <config-value name="zoommode">0</config-value>
+      <config-value name="ownerpassword"></config-value>
+      <config-value name="userpassword"></config-value>
+      <config-value name="userprint">1</config-value>
+      <config-value name="usercopy">1</config-value>
+      <config-value name="userchange">1</config-value>
+      <config-value name="encrypt128bit">0</config-value>
+      <config-value name="title" translate="true">&lt;%TITLE%&gt;</config-value>
+      <config-value name="subject" translate="true"></config-value>
+      <config-value name="author" translate="true"></config-value>
+      <config-value name="keywords" translate="true"></config-value>
+      <config-value name="embedfonts">1</config-value>
+      <config-value name="embedfontsexclude">Arial;Courier;Courier New;Times New Roman;</config-value>
+      <config-value name="cidfontmode">0</config-value>
+      <config-value name="newfontsubsetting">1</config-value>
+      <config-value name="textasglyphs">0</config-value>
+      <config-value name="outputfile">sxs.pdf</config-value>
+    </config-group>
+    <config-group name="rtf">
+      <config-value name="papersize"></config-value>
+      <config-value name="pageorientation">Portrait</config-value>
+      <config-value name="topmargin">720</config-value>
+      <config-value name="bottommargin">720</config-value>
+      <config-value name="leftmargin">720</config-value>
+      <config-value name="rightmargin">720</config-value>
+      <config-value name="flipmargin">0</config-value>
+      <config-value name="headerfont">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="headertext" translate="true"></config-value>
+      <config-value name="footerfont">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="footertext" translate="true"></config-value>
+      <config-value name="pagenumfont">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="pagenumtext" translate="true"></config-value>
+      <config-value name="chapterfont1">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering1">None</config-value>
+      <config-value name="chapterbreak1">false</config-value>
+      <config-value name="chapterfont2">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering2">None</config-value>
+      <config-value name="chapterbreak2">false</config-value>
+      <config-value name="chapterfont3">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering3">None</config-value>
+      <config-value name="chapterbreak3">false</config-value>
+      <config-value name="chapterfont4">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering4">None</config-value>
+      <config-value name="chapterbreak4">false</config-value>
+      <config-value name="chapterfont5">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering5">None</config-value>
+      <config-value name="chapterbreak5">false</config-value>
+      <config-value name="chapterfont6">font-family:Arial; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;</config-value>
+      <config-value name="chapternumbering6">None</config-value>
+      <config-value name="chapterbreak6">false</config-value>
+      <config-value name="imagemarker">0</config-value>
+      <config-value name="activehyperlinks">1</config-value>
+      <config-value name="outputfile">D:\geração word\sigacfg_manual.rtf</config-value>
+    </config-group>
+    <config-group name="ebook">
+      <config-value name="template"></config-value>
+      <config-value name="icon"></config-value>
+      <config-value name="splashbmp"></config-value>
+      <config-value name="left">-1</config-value>
+      <config-value name="top">-1</config-value>
+      <config-value name="width">-1</config-value>
+      <config-value name="height">-1</config-value>
+      <config-value name="maximized">0</config-value>
+      <config-value name="language" translate="true">Portuguese_br.lng</config-value>
+      <config-value name="showindex">1</config-value>
+      <config-value name="showsearch">1</config-value>
+      <config-value name="compressviewer">0</config-value>
+      <config-value name="saveregistry">0</config-value>
+      <config-value name="about" translate="true"></config-value>
+      <config-value name="splashwav"></config-value>
+      <config-value name="pagewav"></config-value>
+      <config-value name="password"></config-value>
+      <config-value name="serialnumber"></config-value>
+      <config-value name="enableselect">1</config-value>
+      <config-value name="outputfile"></config-value>
+    </config-group>
+    <config-group name="user">
+      <config-group name="tatiana">
+        <config-group name="neri">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="nuria">
+        <config-group name="project">
+          <config-value name="lastexport">3</config-value>
+        </config-group>
+      </config-group>
+      <config-group name="monica">
+        <config-group name="giandoni">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="ana">
+        <config-group name="lira">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="parpi">
+        <config-group name="project">
+          <config-value name="lastexport">3</config-value>
+        </config-group>
+      </config-group>
+      <config-value name="project.lastexport">3</config-value>
+      <config-group name="viviane">
+        <config-group name="thomaz">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="sueli">
+        <config-group name="gomides">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="loliana">
+        <config-group name="silva">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="soeli">
+        <config-group name="konell">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+      <config-group name="alana">
+        <config-group name="pahl">
+          <config-group name="project">
+            <config-value name="lastexport">3</config-value>
+          </config-group>
+        </config-group>
+      </config-group>
+    </config-group>
+    <variables>
+      <variable id="LOCAL_SEARCH_PAGE" type="text" translate="true">ftsearch.html</variable>
+    </variables>
+    <helpcontext-numbers/>
+  </config>
+  <xi:include parse="xml" href="Maps/table_of_contents.xml"/>
+  <project-files>
+    <file href="Topics/*.xml" build="ALL" filetype="topic">
+      <file-mod href="sigacfg_aplicacao_pacote_atual.xml" build="V115"/>
+      <file-mod href="sigacfg_embedded_audit_trail.xml"/>
+    </file>
+    <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
+  </project-files>
+</helpproject>

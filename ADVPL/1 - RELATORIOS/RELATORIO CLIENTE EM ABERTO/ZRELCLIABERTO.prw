@@ -50,6 +50,10 @@ Static Function fMontaRel(cPasta)
 	//oExcel:AddTable ("TELEMEDINC","TELEMED")
 	oExcel:AddTable ("ZRELCLIABERTO","CLIABERT",.F.)
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","FILIAL"		,1,1,.F., "")
+	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","PREFIXO"		,1,1,.F., "")
+	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","TITULO"		,1,1,.F., "")
+	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","PARCELA"		,1,1,.F., "")
+	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","TIPO"			,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","CLIENTE"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","DTVENCIMENTO"	,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","SALDO"			,1,1,.F., "")
@@ -58,8 +62,12 @@ Static Function fMontaRel(cPasta)
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","STATUS"		,1,1,.F., "")
 
 
-	cQuery := " SELECT   "
+	cQuery := " SELECT  "
 	cQuery += " B.E1_FILIAL		AS FILIAL,  "
+	cQuery += " B.E1_PREFIXO	AS PREFIXO,  "
+	cQuery += " B.E1_NUM		AS TITULO,  "
+	cQuery += " B.E1_PARCELA	AS PARCELA,  "
+	cQuery += " B.E1_TIPO		AS TIPO,  "
     cQuery += " A.A1_COD  		AS CODCLI, "
 	cQuery += " A.A1_NOME	 	AS CLIENTE,  "
 	cQuery += " CONCAT(SUBSTRING(CAST(B.E1_VENCREA AS VARCHAR),7,2), '/', SUBSTRING(CAST(B.E1_VENCREA AS VARCHAR),5,2), '/', SUBSTRING(CAST(B.E1_VENCREA AS VARCHAR),1,4)) AS VENCIMENTO,  "
@@ -95,8 +103,8 @@ Static Function fMontaRel(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("ZRELCLIABERTO","CLIABERT",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,(_cAlias)->VENCIMENTO,(_cAlias)->SALDO,(_cAlias)->DIASVENC,(_cAlias)->VENDEDOR,(_cAlias)->STATUSCTR})
-
+		oExcel:AddRow("ZRELCLIABERTO","CLIABERT",{(_cAlias)->FILIAL,(_cAlias)->PREFIXO,(_cAlias)->TITULO,(_cAlias)->PARCELA,(_cAlias)->TIPO,(_cAlias)->CLIENTE,(_cAlias)->VENCIMENTO,(_cAlias)->SALDO,(_cAlias)->DIASVENC,(_cAlias)->VENDEDOR,(_cAlias)->STATUSCTR})
+		
 		(_cAlias)->(dBskip())
 
 	EndDo
@@ -116,4 +124,3 @@ Static Function fMontaRel(cPasta)
 	oExcel:DeActivate()
 
 Return
-

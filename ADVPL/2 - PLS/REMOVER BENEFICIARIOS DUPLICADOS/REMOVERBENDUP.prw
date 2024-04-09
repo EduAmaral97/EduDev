@@ -50,6 +50,7 @@
     HAVING COUNT (*) > 1 
 	) BENE
 
+	
 
 SELECT 
 A.BA3_MATEMP,
@@ -59,6 +60,8 @@ LEFT JOIN BA1010 B ON B.D_E_L_E_T_ = '' AND B.BA1_MATEMP = A.BA3_MATEMP
 WHERE A.D_E_L_E_T_ = ''
 AND BA3_MATEMP <> ''
 AND BA1_MATEMP IS NULL
+
+
 
 */
 
@@ -78,6 +81,7 @@ local _cAliasBen := GetNextAlias()
 	cQuery += " AND A.BA1_SUBCON <> '000000001' "
 	cQuery += " GROUP BY A.BA1_FILIAL,	A.BA1_CODINT,	A.BA1_CODEMP,	A.BA1_CONEMP,	A.BA1_SUBCON,	A.BA1_MATVID,	A.BA1_NOMUSR "
     cQuery += " HAVING COUNT (*) > 1 "
+
 
 TCQUERY cQuery NEW ALIAS (_cAlias)
 DbSelectArea(_cAlias)
@@ -128,4 +132,5 @@ While (_cAlias)->(!Eof())
 EndDo
 
 (_cAlias)->(DbCloseArea())
+
 return
