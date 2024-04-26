@@ -1,33 +1,18 @@
-#INCLUDE "PROTHEUS.CH"
-#INCLUDE "TOTVS.ch"
+#INCLUDE 'protheus.ch'
 #INCLUDE "TOPCONN.CH"
 
-/* ---------------------------------------------------------- */
-//
-//      TELA DE CONSULTA DE BENEFICIARIOS POR CONTRATO
-//
-// EMPRESA: MEDICAR
-// POR: EDUARDO AMARAL
-// DATA: 16/02/2024
-// CONTRATOS PJ BQC - TIPBLO = 0  E DATBLO <> ''(É BLOEUQADO/INATIVO)
-// CONTRATOS PF BA3 - MOTBLO <> '' E DATBLO <> '' (É BLOQUEADO/INATIVO)
-//
-// lib: https://tdn.totvs.com/display/public/framework/FWTemporaryTable
-/* --------------------------------------------------------- */
 
-/* -------------------------------------------------- BENEFICIARIOS -------------------------------------------------- */
+User Function ZBENEFCTR(cSA1cliente, cSA1lojacli, cFilialCtr, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
 
-User Function ZBENEFCTR(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
-   
     Local aArea := GetArea()
     
-    fMontaBeneficiario(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
+    fMontaBeneficiario(cSA1cliente, cSA1lojacli, cFilialCtr, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
     
     RestArea(aArea)
 
 Return
  
-Static Function fMontaBeneficiario(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
+Static Function fMontaBeneficiario(cSA1cliente, cSA1lojacli, cFilialCtr, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
 
     Local nLargBtn      := 45
     Local lDimPixels    := .T. 
@@ -81,7 +66,7 @@ Static Function fMontaBeneficiario(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent
     aColunasBen := fCriaColsBen()
  
     //Popula a tabela temporária
-    Processa({|| fPopulaBen(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)}, "Processando...")
+    Processa({|| fPopulaBen(cSA1cliente, cSA1lojacli, cFilialCtr, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)}, "Processando...")
 
     //Cria a janela
     DEFINE MSDIALOG oDlgCtrBen TITLE "Lista de Beneficiarios"  FROM 0, 0 TO nJanAltu, nJanLarg PIXEL
@@ -111,8 +96,7 @@ Static Function fMontaBeneficiario(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent
         oCombo:bSetGet:= {|u|if(PCount()==0,cCombo,cCombo:=u)}
 
         oSayPesq := TSay():New(017,003,{|| "Pesquisa: "},, "", oFontSay,  , , , .T., RGB(149, 179, 215), , 060, 020, , , , , , .F., , )
-        oGetPesq := TGet():New(015, 030, {|u| Iif(PCount() > 0 , cPesq := u, cPesq)}, oGetPesq, 150, 010, /*cPict*/, /*bValid*/, /*nClrFore*/, /*nClrBack*/, oFontPadrao, , , lDimPixels)
-
+        oGetPesq := TGet():New(015, 030, {|u| Iif(PCount() > 0 , cPesq := u, cPesq)}, oGetPesq, 150, 010, /*cPict*/, /*bValid*/, /*nClrFore*/, /*nClrBack*/, oFontBtn, , , lDimPixels)
         oBtnPesq  := TButton():New(015, 185, "Pesquisar",                        , {|| fPesquisa(cCombo,cPesq)}, nLargBtn, 012, , oFontBtn, , .T., , , , , , )
 
         //Criando os botões
@@ -176,7 +160,7 @@ Static Function fCriaColsBen()
     Next
 Return aColunasBen
  
-Static Function fPopulaBen(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
+Static Function fPopulaBen(cSA1cliente, cSA1lojacli, cFilialCtr, cIdcontrato, cIdent, cCodint, cCodemp, cConemp, cVercon, cVersub)
 
     Local nAtual := 0
     Local nTotal := 0
@@ -213,6 +197,9 @@ Static Function fPopulaBen(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodin
             cQueryCtrBen += " AND A.BQC_NUMCON = '"+Alltrim(cConemp)+"' "
             cQueryCtrBen += " AND A.BQC_VERCON = '"+Alltrim(cVercon)+"' "
             cQueryCtrBen += " AND A.BQC_VERSUB = '"+Alltrim(cVersub)+"' "
+            cQueryCtrBen += " AND C.BA1_FILIAL = '"+Alltrim(cFilialCtr)+"' "
+            cQueryCtrBen += " AND A.BQC_CODCLI = '"+Alltrim(cSA1cliente)+"' "
+            cQueryCtrBen += " AND A.BQC_LOJA = '"+Alltrim(cSA1lojacli)+"' "
         Else
             If cIdent = '1'
                 cQueryCtrBen += " AND B.BA3_IDBENN = '"+cIdcontrato+"' "
@@ -221,6 +208,20 @@ Static Function fPopulaBen(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodin
                 cQueryCtrBen += " AND B.BA3_CONEMP = '"+Alltrim(cConemp)+"' "
                 cQueryCtrBen += " AND B.BA3_VERCON = '"+Alltrim(cVercon)+"' "
                 cQueryCtrBen += " AND B.BA3_VERSUB = '"+Alltrim(cVersub)+"' "
+                cQueryCtrBen += " AND B.BA3_FILIAL = '"+Alltrim(cFilialCtr)+"' "
+                cQueryCtrBen += " AND B.BA3_CODCLI = '"+Alltrim(cSA1cliente)+"' "
+                cQueryCtrBen += " AND B.BA3_LOJA = '"+Alltrim(cSA1lojacli)+"' "
+
+            elseif cIdent = '2'
+                cQueryCtrBen += " AND B.BA3_ZIRIS = '"+cIdcontrato+"' "
+                cQueryCtrBen += " AND B.BA3_CODINT = '"+Alltrim(cCodint)+"' "
+                cQueryCtrBen += " AND B.BA3_CODEMP = '"+Alltrim(cCodemp)+"' "
+                cQueryCtrBen += " AND B.BA3_CONEMP = '"+Alltrim(cConemp)+"' "
+                cQueryCtrBen += " AND B.BA3_VERCON = '"+Alltrim(cVercon)+"' "
+                cQueryCtrBen += " AND B.BA3_VERSUB = '"+Alltrim(cVersub)+"' "
+                cQueryCtrBen += " AND B.BA3_FILIAL = '"+Alltrim(cFilialCtr)+"' "
+                cQueryCtrBen += " AND B.BA3_CODCLI = '"+Alltrim(cSA1cliente)+"' "
+                cQueryCtrBen += " AND B.BA3_LOJA = '"+Alltrim(cSA1lojacli)+"' "
             Else
                 cQueryCtrBen += " AND B.BA3_MATEMP = '"+cIdcontrato+"' "
                 cQueryCtrBen += " AND B.BA3_CODINT = '"+Alltrim(cCodint)+"' "
@@ -228,6 +229,9 @@ Static Function fPopulaBen(cSA1cliente, cSA1lojacli, cIdcontrato, cIdent, cCodin
                 cQueryCtrBen += " AND B.BA3_CONEMP = '"+Alltrim(cConemp)+"' "
                 cQueryCtrBen += " AND B.BA3_VERCON = '"+Alltrim(cVercon)+"' "
                 cQueryCtrBen += " AND B.BA3_VERSUB = '"+Alltrim(cVersub)+"' "
+                cQueryCtrBen += " AND B.BA3_FILIAL = '"+Alltrim(cFilialCtr)+"' "
+                cQueryCtrBen += " AND B.BA3_CODCLI = '"+Alltrim(cSA1cliente)+"' "
+                cQueryCtrBen += " AND B.BA3_LOJA = '"+Alltrim(cSA1lojacli)+"' "
             EndIf
         EndIf
         cQueryCtrBen += " GROUP BY C.BA1_XCARTE,C.BA1_NOMUSR,C.BA1_CPFUSR,C.BA1_ZATEND,BA1_DATBLO,BA1_MOTBLO,C.BA1_TIPUSU "

@@ -53,7 +53,7 @@ User Function ZRELATAGRUP(cAgrupamento)
 		(cAliasAgrup)->(DbCloseArea())
 	Else
 
-		IF MV_PAR05 = 1
+		IF MV_PAR06 = 1
 			Processa({|| Imprime() },"Relatorio de Agrupamento","Imprimindo...") 
 		ELSE
 			Processa({|| fGeraExcel() },"Relatorio de Agrupamento","Imprimindo...")
@@ -343,18 +343,6 @@ Static Function MontaQuery
 	Local cQuery  
 	local cQueryAgrup
 
-		//cQuery := "SELECT 	SA1.A1_NREDUZ,	SE1.E1_VENCREA,	SE1.E1_SALDO, SE1.E1_VALOR,"
-		//cQuery += "ISNULL((SELECT SUM(SE5.E5_VALOR) FROM SE5010 SE5 WHERE SE5.D_E_L_E_T_ = '' AND SE5.E5_TIPODOC NOT IN ('JR','RA') AND SE5.E5_FILIAL = SE1.E1_FILIAL AND SE5.E5_PREFIXO = SE1.E1_PREFIXO AND SE5.E5_NUMERO = SE1.E1_NUM AND SE5.E5_PARCELA = SE1.E1_PARCELA AND SE5.E5_CLIFOR = SE1.E1_CLIENTE AND SE5.E5_LOJA = SE1.E1_LOJA),0) AS VALORES_BAIXADOS,"
-		//cQuery += "CASE WHEN SE1.E1_SALDO = 0 AND ISNULL((SELECT SUM(SE5.E5_VALOR) FROM SE5010 SE5 WHERE SE5.D_E_L_E_T_ = '' AND SE5.E5_TIPODOC NOT IN ('JR','RA') AND SE5.E5_FILIAL = SE1.E1_FILIAL AND SE5.E5_PREFIXO = SE1.E1_PREFIXO AND SE5.E5_NUMERO = SE1.E1_NUM AND SE5.E5_PARCELA = SE1.E1_PARCELA AND SE5.E5_CLIFOR = SE1.E1_CLIENTE AND SE5.E5_LOJA = SE1.E1_LOJA),0) >= SE1.E1_VALOR THEN 'LIQUIDADO' ELSE 'EM ABERTO' END AS SITUACAO "
-		//cQuery += "FROM SE1010 SE1 "
-		//cQuery += "LEFT JOIN SA1010 SA1 ON SA1.D_E_L_E_T_ = '' AND SA1.A1_COD = SE1.E1_CLIENTE AND SA1.A1_LOJA = SE1.E1_LOJA "
-		//cQuery += "WHERE 1=1 AND SE1.D_E_L_E_T_ = '' "
-		//cQuery += "AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-') "
-		//cQuery += "AND SE1.E1_FILIAL = '" +(MV_PAR01)+ "' "
-		//cQuery += "AND SE1.E1_VENCREA BETWEEN '"+Dtos(MV_PAR02)+"' AND '"+Dtos(MV_PAR03)+"' "
-		//cQuery += "AND SA1.A1_CODSEG = '"+(MV_PAR04)+"' "
-		//cQuery += "ORDER BY 1,2 "
-
 		cQuery := " SELECT  "
 		cQuery += " SE1.E1_FILIAL   AS FILIAL, "
 		cQuery += " SE1.E1_NUM	    AS NUMERO, "
@@ -376,13 +364,20 @@ Static Function MontaQuery
 		cQuery += " WHERE 1=1   "
 		cQuery += " AND SE1.D_E_L_E_T_ = '' "
 		cQuery += " AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-') "
-		cQuery += " AND SE1.E1_FILIAL = '" +(MV_PAR01)+ "' "
-		cQuery += " AND SE1.E1_VENCREA BETWEEN '"+Dtos(MV_PAR02)+"' AND '"+Dtos(MV_PAR03)+"' "
-		cQuery += " AND SA1.A1_CODSEG = '"+(MV_PAR04)+"' "
+		cQuery += " AND SE1.E1_FILIAL >= '" +MV_PAR01+ "' "
+		cQuery += " AND SE1.E1_FILIAL <= '" +MV_PAR02+ "' "
+		cQuery += " AND SA1.A1_CODSEG = '"+MV_PAR05+"' "
+		IF MV_PAR07 = 1
+			cQuery += " AND SE1.E1_EMISSAO BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+		ElseIf MV_PAR07 = 2
+			cQuery += " AND SE1.E1_VENCREA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+		ELSE
+			cQuery += " AND SE1.E1_BAIXA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+		EndIF
 		cQuery += " GROUP BY SE1.E1_FILIAL ,SE1.E1_NUM,SE1.E1_PREFIXO,SE1.E1_PARCELA,SA1.A1_NREDUZ ,SE1.E1_VENCREA,SE5.E5_TIPODOC,SE5.E5_MOTBX  "
 		cQuery += "ORDER BY 5,6 "
 
-		cQueryAgrup := "SELECT AOV.AOV_DESSEG FROM AOV010 AOV WHERE 1=1 AND AOV.D_E_L_E_T_ = '' AND AOV.AOV_CODSEG = '"+(MV_PAR04)+"' "
+		cQueryAgrup := "SELECT AOV.AOV_DESSEG FROM AOV010 AOV WHERE 1=1 AND AOV.D_E_L_E_T_ = '' AND AOV.AOV_CODSEG = '"+(MV_PAR05)+"' "
 
 	//Criar alias temporário
 	TCQUERY cQuery NEW ALIAS (_cAlias)
@@ -491,6 +486,7 @@ Static Function fMontaExcel(cPasta)
 	//oExcel:AddTable ("TELEMEDINC","TELEMED")
 	oExcel:AddTable ("AGRUPAMENTO","RELAGRUP",.F.)
 
+	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","FILIAL"			,1,1,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","EMPRESA"			,1,1,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VENCIMENTO"		,1,1,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VALORLIQ"		,1,3,.F., "")
@@ -501,9 +497,9 @@ Static Function fMontaExcel(cPasta)
 	While (_cAlias)->(!Eof())
 
 		If (_cAlias)->SALDO = 0 .AND. (_cAlias)->VALORES_BAIXADOS >= (_cAlias)->VALOR
-			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'LIQUIDADO'})
+			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'LIQUIDADO'})
 		ELSE
-			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'EM ABERTO'})
+			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'EM ABERTO'})
 		EndIF
 
 		(_cAlias)->(dBskip())

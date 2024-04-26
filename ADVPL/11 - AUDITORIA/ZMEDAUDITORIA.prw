@@ -71,8 +71,8 @@ Static Function fPegaUser(aArea)
 
         //Posicionando no cadastro de produtos
         DbSelectArea('SE2')
-        SE2->(DbSetOrder(1))
-        SE2->(DbSeek(FWxFilial('SE2') + SE2->E2_PREFIXO + SE2->E2_NUM + SE2->E2_PARCELA + SE2->E2_TIPO + SE2->E2_FORNECE + SE2->E2_LOJA))
+        //SE2->(DbSetOrder(1))
+        //SE2->(DbSeek(FWxFilial('SE2') + SE2->E2_PREFIXO + SE2->E2_NUM + SE2->E2_PARCELA + SE2->E2_TIPO + SE2->E2_FORNECE + SE2->E2_LOJA))
         
         //LOG INCLUSAO
         cUsrCodInc := FWLeUserLg("E2_USERLGI", 1)
@@ -113,8 +113,8 @@ Static Function fPegaUser(aArea)
 
         //Posicionando no cadastro de produtos
         DbSelectArea('BQC')
-        BQC->(DbSetOrder(1))
-        BQC->(DbSeek(FWxFilial('BQC') + BQC->BQC_CODIGO + BQC->BQC_NUMCON + BQC->BQC_VERCON + BQC->BQC_SUBCON + BQC->BQC_VERSUB))
+        //BQC->(DbSetOrder(1))
+        //BQC->(DbSeek(FWxFilial('BQC') + BQC->BQC_CODIGO + BQC->BQC_NUMCON + BQC->BQC_VERCON + BQC->BQC_SUBCON + BQC->BQC_VERSUB))
         
         
         //LOG INCLUSAO
@@ -137,7 +137,7 @@ Static Function fPegaUser(aArea)
         DbSelectArea('BA3')
         BA3->(DbSetOrder(1))
         BA3->(DbSeek(FWxFilial('BA1') + BA1->BA1_CODINT + BA1->BA1_CODEMP + BA1->BA1_MATRIC + BA1->BA1_CONEMP + BA1->BA1_VERCON + BA1->BA1_SUBCON + BA1->BA1_VERSUB))
-        
+
         //LOG INCLUSAO
         cUsrCodInc := FWLeUserLg("BA3_USERGI", 1)
         cUsrNomInc := UsrRetName(cUsrCodInc)
@@ -184,7 +184,7 @@ Return
 
 Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
 
-    DEFINE MSDIALOG oDlg FROM 05,10 TO 170,470 TITLE "Auditoria Cad. Clientes: " PIXEL
+    DEFINE MSDIALOG oDlg FROM 05,10 TO 170,470 TITLE "Medicar Auditoria: " PIXEL
 
         @ 010,020 TO 060,110 LABEL " Inclusao " OF oDlg PIXEL
 

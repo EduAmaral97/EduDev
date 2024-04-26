@@ -1,25 +1,6 @@
-#INCLUDE "PROTHEUS.CH"
-#Include "TOTVS.ch"
+#INCLUDE 'protheus.ch'
 #INCLUDE "TOPCONN.CH"
- 
-/* ---------------------------------------------------------- */
 
-//        TELA DE CONSULTA DE CADASTRO POR CLIENTES
-//
-// EMPRESA: MEDICAR
-// POR: EDUARDO AMARAL
-// DATA: 16/02/2024
-//
-// CONTRATOS PJ BQC - TIPBLO = 0  E DATBLO <> ''(É BLOEUQADO/INATIVO)
-// CONTRATOS PF BA3 - MOTBLO <> '' E DATBLO <> '' (É BLOQUEADO/INATIVO)
-//
-// lib: https://tdn.totvs.com/display/public/framework/FWTemporaryTable
-
-//  044909
-
-/* --------------------------------------------------------- */
-
-/* -------------------------------------------------- CONTRATOS (CAPA) -------------------------------------------------- */
 
 User Function ZCONTRATCLI(cSA1cliente, cSA1lojacli)
 
@@ -35,6 +16,7 @@ Return
  
 Static Function fMontaTela(cSA1cliente, cSA1lojacli)
     Local nLargBtn      := 45
+    //local aCoors as array
     //Objetos e componentes
     Private oDlgCtr
     Private oFwLayer
@@ -61,18 +43,19 @@ Static Function fMontaTela(cSA1cliente, cSA1lojacli)
     Private aColunas := {}
  
     //Campos da Temporária
-    aAdd(aCampos, { "FILIAL"      , "C", 25, 0 })
-    aAdd(aCampos, { "IDCONTRATO" , "C", TamSX3("BQC_SUBCON")[1],  0 })
-    aAdd(aCampos, { "NUMERO"      , "C", TamSX3("BQC_ANTCON")[1],  0 })
-    aAdd(aCampos, { "PERFIL"      , "C", 40,  0 })
+    aAdd(aCampos, { "FILIAL"       , "C", 25, 0 })
+    aAdd(aCampos, { "IDCONTRATO"   , "C", TamSX3("BQC_SUBCON")[1],  0 })
+    aAdd(aCampos, { "NUMERO"       , "C", TamSX3("BQC_ANTCON")[1],  0 })
+    aAdd(aCampos, { "PERFIL"       , "C", 40,  0 })
     aAdd(aCampos, { "FORMPAG"      , "C", TamSX3("BQL_DESCRI")[1],  0 })
     aAdd(aCampos, { "CONDPAG"      , "C", 40,  0 })
-    aAdd(aCampos, { "STATUSC"       , "C", 10,  0 })
-    aAdd(aCampos, { "QTDVIDAS"   , "N", 9,  0 })
-    aAdd(aCampos, { "VALOR"       , "C", 12,  0 })
-    aAdd(aCampos, { "IDENT"       , "C", 12,  0 })
+    aAdd(aCampos, { "STATUSC"      , "C", 10,  0 })
+    aAdd(aCampos, { "QTDVIDAS"     , "N", 9,  0 })
+    aAdd(aCampos, { "VALOR"        , "C", 12,  0 })
+    aAdd(aCampos, { "IDENT"        , "C", 12,  0 })
     aAdd(aCampos, { "DTBASE"       , "C", 10,  0 })
-    aAdd(aCampos, { "VENDEDOR"       , "C", 30,  0 })
+    aAdd(aCampos, { "VENDEDOR"     , "C", 30,  0 })
+    aAdd(aCampos, { "FILIALBA1"    , "C", 4,  0 })
     aAdd(aCampos, { "CODINT"       , "C", 4,  0 })
     aAdd(aCampos, { "CODEMP"       , "C", 4,  0 })
     aAdd(aCampos, { "CONEMP"       , "C", 20,  0 })
@@ -227,6 +210,7 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             cQueryCtr += "     WHEN C.BA1_FILIAL = '008' THEN 'Medicar Litoral' "
             cQueryCtr += "     WHEN C.BA1_FILIAL = '016' THEN 'N1 Card' "
             cQueryCtr += "     WHEN C.BA1_FILIAL = '021' THEN 'Medicar Rio de Janeiro' "
+            cQueryCtr += "     WHEN C.BA1_FILIAL = '014' THEN 'Locamedi Matriz'  "
             cQueryCtr += "     ELSE '' "
             cQueryCtr += " END              AS FILIAL, "
             cQueryCtr += " A.BQC_SUBCON     AS IDCONTRATO, "
@@ -234,15 +218,22 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             cQueryCtr += " E.BT5_NOME       AS PERFIL, "
             cQueryCtr += " F.BQL_DESCRI     AS FORMPAG, "
             cQueryCtr += " G.ZI0_DESCRI     AS CONDPAG, "
-            cQueryCtr += " COUNT(CONCAT(C.BA1_FILIAL,C.BA1_CODINT,C.BA1_CODEMP,C.BA1_MATRIC,C.BA1_TIPUSU,C.BA1_TIPREG,C.BA1_DIGITO,C.BA1_NOMUSR)) AS QTDVIDAS, "
-            cQueryCtr += " SUM(D.BDK_VALOR) AS VALOR, "
-            cQueryCtr += " ''               AS IDENT, "
+            cQueryCtr += " CASE
+            cQueryCtr += "      WHEN C.BA1_DATBLO = '' THEN COUNT(CONCAT(C.BA1_FILIAL,C.BA1_CODINT,C.BA1_CODEMP,C.BA1_MATRIC,C.BA1_TIPUSU,C.BA1_TIPREG,C.BA1_DIGITO,C.BA1_NOMUSR)) "
+            cQueryCtr += "      ELSE 0 "
+            cQueryCtr += " END             AS QTDVIDAS, "
+            cQueryCtr += " CASE
+            cQueryCtr += "      WHEN C.BA1_DATBLO = '' THEN SUM(D.BDK_VALOR) "
+            cQueryCtr += "      ELSE 0 "
+            cQueryCtr += " END             AS VALOR, "
+            cQueryCtr += " ''              AS IDENT, "
             cQueryCtr += " CASE "
             cQueryCtr += "     WHEN A.BQC_TIPBLO = '0' AND A.BQC_DATBLO <> '' THEN 'BLOQUEADO' "
             cQueryCtr += "     ELSE 'ATIVO' "
             cQueryCtr += " END             AS STATUSC, "
             cQueryCtr += " CONCAT(SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),7,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),5,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),1,4)) AS DTBASE, "
             cQueryCtr += " H.A3_NOME       AS VENDEDOR, "
+            cQueryCtr += " C.BA1_FILIAL    AS FILIALBA1, "
             cQueryCtr += " A.BQC_CODINT    AS CODINT, "
             cQueryCtr += " A.BQC_CODEMP    AS CODEMP, "
             cQueryCtr += " A.BQC_NUMCON    AS CONEMP, "
@@ -257,12 +248,11 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             cQueryCtr += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = A.BQC_CODVEN "
             cQueryCtr += " WHERE 1=1  "
             cQueryCtr += " AND A.D_E_L_E_T_ = '' "
+            cQueryCtr += " AND A.BQC_CODEMP IN ('0004','0005')  "
             cQueryCtr += " AND A.BQC_COBNIV = '1' "
-            cQueryCtr += " AND C.BA1_MOTBLO = '' "
-            cQueryCtr += " AND C.BA1_DATBLO = '' "
             cQueryCtr += " AND A.BQC_CODCLI = '"+cSA1cliente+"'"
             cQueryCtr += " AND A.BQC_LOJA = '"+cSA1lojacli+"' "
-            cQueryCtr += " GROUP BY C.BA1_FILIAL,A.BQC_SUBCON,E.BT5_NOME,A.BQC_DESCRI,A.BQC_ZNFANT,A.BQC_ANTCON,F.BQL_DESCRI,G.ZI0_DESCRI, A.BQC_TIPBLO, A.BQC_DATBLO, A.BQC_DATCON, H.A3_NOME,A.BQC_CODINT,A.BQC_CODEMP,A.BQC_NUMCON,A.BQC_VERCON,A.BQC_VERSUB "
+            cQueryCtr += " GROUP BY C.BA1_FILIAL,A.BQC_SUBCON,E.BT5_NOME,A.BQC_DESCRI,A.BQC_ZNFANT,A.BQC_ANTCON,F.BQL_DESCRI,G.ZI0_DESCRI, A.BQC_TIPBLO, A.BQC_DATBLO, A.BQC_DATCON, H.A3_NOME,A.BQC_CODINT,A.BQC_CODEMP,A.BQC_NUMCON,A.BQC_VERCON,A.BQC_VERSUB,C.BA1_DATBLO "
         
         Else
 
@@ -275,29 +265,38 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             cQueryCtr += "     WHEN C.BA1_FILIAL = '008' THEN 'Medicar Litoral'  "
             cQueryCtr += "     WHEN C.BA1_FILIAL = '016' THEN 'N1 Card'  "
             cQueryCtr += "     WHEN C.BA1_FILIAL = '021' THEN 'Medicar Rio de Janeiro'  "
+            cQueryCtr += "     WHEN C.BA1_FILIAL = '014' THEN 'Locamedi Matriz'  "
             cQueryCtr += "     ELSE ''  "
             cQueryCtr += " END             AS FILIAL,  "
             cQueryCtr += " CASE  "
             cQueryCtr += "     WHEN B.BA3_IDBENN <> '' THEN B.BA3_IDBENN  "
+            cQueryCtr += "     WHEN B.BA3_IDBENN = '' AND B.BA3_ZIRIS < 2000000000 THEN B.BA3_ZIRIS  "
             cQueryCtr += "     ELSE B.BA3_MATEMP  "
             cQueryCtr += " END             AS IDCONTRATO,  "
             cQueryCtr += " B.BA3_XCARTE    AS NUMERO,  "
             cQueryCtr += " E.BT5_NOME      AS PERFIL,  "
             cQueryCtr += " F.BQL_DESCRI    AS FORMPAG,  "
             cQueryCtr += " G.ZI0_DESCRI    AS CONDPAG,  "
-            cQueryCtr += " COUNT(CONCAT(C.BA1_FILIAL,C.BA1_CODINT,C.BA1_CODEMP,C.BA1_MATRIC,C.BA1_TIPUSU,C.BA1_TIPREG,C.BA1_DIGITO,C.BA1_NOMUSR)) AS QTDVIDAS, "
-            cQueryCtr += " SUM(D.BDK_VALOR) AS VALOR,  "
+            cQueryCtr += "CASE "
+            cQueryCtr += "    WHEN C.BA1_DATBLO = '' THEN COUNT(CONCAT(C.BA1_FILIAL,C.BA1_CODINT,C.BA1_CODEMP,C.BA1_MATRIC,C.BA1_TIPUSU,C.BA1_TIPREG,C.BA1_DIGITO,C.BA1_NOMUSR)) "
+            cQueryCtr += "    ELSE 0 "
+            cQueryCtr += "END AS QTDVIDAS, "
+            cQueryCtr += "CASE "
+            cQueryCtr += "    WHEN C.BA1_DATBLO = '' THEN SUM(D.BDK_VALOR) "
+            cQueryCtr += "    ELSE 0 "
+            cQueryCtr += "END AS VALOR, "
             cQueryCtr += " CASE  "
             cQueryCtr += "     WHEN B.BA3_IDBENN <> '' THEN '1'  "
+            cQueryCtr += "     WHEN B.BA3_IDBENN = '' AND B.BA3_ZIRIS < 2000000000 THEN '2'  "
             cQueryCtr += "     ELSE '0'  "
             cQueryCtr += " END             AS IDENT,  "
             cQueryCtr += " CASE  "
-            cQueryCtr += "     WHEN B.BA3_MOTBLO <> ''  "
-            cQueryCtr += "     AND B.BA3_DATBLO <> '' THEN 'BLOQUEADO'  "
+            cQueryCtr += "     WHEN B.BA3_MOTBLO <> '' THEN 'BLOQUEADO'  "
             cQueryCtr += "     ELSE 'ATIVO'  "
             cQueryCtr += " END AS STATUSC,  "
             cQueryCtr += " CONCAT(SUBSTRING(CAST(B.BA3_DATBAS AS VARCHAR),7,2),'/',SUBSTRING(CAST(B.BA3_DATBAS AS VARCHAR),5,2),'/',SUBSTRING(CAST(B.BA3_DATBAS AS VARCHAR),1,4)) AS DTBASE,  "
             cQueryCtr += " H.A3_NOME AS VENDEDOR,  "
+            cQueryCtr += " C.BA1_FILIAL    AS FILIALBA1, "
             cQueryCtr += " B.BA3_CODINT    AS CODINT, "
             cQueryCtr += " B.BA3_CODEMP    AS CODEMP, "
             cQueryCtr += " B.BA3_CONEMP    AS CONEMP, "
@@ -313,12 +312,11 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             cQueryCtr += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = B.BA3_CODVEN  "
             cQueryCtr += " WHERE 1=1  "
             cQueryCtr += " AND A.D_E_L_E_T_ = ''  "
+            cQueryCtr += " AND A.BQC_CODEMP IN ('0003','0006')  "
             cQueryCtr += " AND B.BA3_COBNIV = '1'  "
-            cQueryCtr += " AND C.BA1_MOTBLO = '' "
-            cQueryCtr += " AND C.BA1_DATBLO = '' "
             cQueryCtr += " AND B.BA3_CODCLI = '"+cSA1cliente+"' "
             cQueryCtr += " AND B.BA3_LOJA = '"+cSA1lojacli+"' "
-            cQueryCtr += " GROUP BY C.BA1_FILIAL,B.BA3_IDBENN,B.BA3_MATEMP,B.BA3_XCARTE,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI, B.BA3_MOTBLO, B.BA3_DATBLO, B.BA3_DATBAS, H.A3_NOME,B.BA3_CODINT,B.BA3_CODEMP,B.BA3_CONEMP,B.BA3_VERCON,B.BA3_VERSUB  "
+            cQueryCtr += " GROUP BY C.BA1_FILIAL,B.BA3_IDBENN,B.BA3_MATEMP,B.BA3_ZIRIS,B.BA3_XCARTE,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI, B.BA3_MOTBLO, B.BA3_DATBLO, B.BA3_DATBAS, H.A3_NOME,B.BA3_CODINT,B.BA3_CODEMP,B.BA3_CONEMP,B.BA3_VERCON,B.BA3_VERSUB,C.BA1_DATBLO  "
 
         EndIF
 
@@ -353,6 +351,7 @@ Static Function fPopula(cSA1cliente, cSA1lojacli)
             (cAliasTmp)->STATUSC := (cAliasCtr)->STATUSC
             (cAliasTmp)->DTBASE := (cAliasCtr)->DTBASE
             (cAliasTmp)->VENDEDOR := (cAliasCtr)->VENDEDOR
+            (cAliasTmp)->FILIALBA1 := (cAliasCtr)->FILIALBA1
             (cAliasTmp)->CODINT := (cAliasCtr)->CODINT
             (cAliasTmp)->CODEMP := (cAliasCtr)->CODEMP
             (cAliasTmp)->CONEMP := (cAliasCtr)->CONEMP
@@ -372,7 +371,7 @@ Static Function listabeneficiarios(cSA1cliente, cSA1lojacli)
     If (cAliasTmp)->(Eof()) 
         MsgAlert("Nehum Contrato Selecionado!","Atenção") 
     Else 
-        U_ZBENEFCTR(cSA1cliente, cSA1lojacli, (cAliasTmp)->IDCONTRATO, (cAliasTmp)->IDENT,(cAliasTmp)->CODINT,(cAliasTmp)->CODEMP,(cAliasTmp)->CONEMP,(cAliasTmp)->VERCON,(cAliasTmp)->VERSUB) 
+        U_ZBENEFCTR(cSA1cliente, cSA1lojacli, (cAliasTmp)->FILIALBA1, (cAliasTmp)->IDCONTRATO, (cAliasTmp)->IDENT,(cAliasTmp)->CODINT,(cAliasTmp)->CODEMP,(cAliasTmp)->CONEMP,(cAliasTmp)->VERCON,(cAliasTmp)->VERSUB) 
     EndIf 
 
 Return 
@@ -382,3 +381,4 @@ Static Function fFechatela()
     oDlgCtr:End()
 
 Return
+

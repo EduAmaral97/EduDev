@@ -201,7 +201,7 @@ Return
 //********************************************************************************************//
 Static Function  Cabec(_lCabec)
 
-	
+
 
 	//********************************************************************************************//
 	//										cabecalho											  //
@@ -216,26 +216,27 @@ Static Function  Cabec(_lCabec)
 	oPrn:say(0070,0550, "MEDICAR EMERGENCIAS MEDICAS LTDA",oFont17N)
 	oPrn:say(0150,0550, "Comissao de Vendedores",oFont13N)
 
-	oPrn:say(0230,0115, "Periodo de: ",oFont13N)
-	oPrn:say(0230,0715, "Ate: ",oFont13N)
+	oPrn:say(0230,0115, "Ano/Mes: ",oFont13N)
+	//oPrn:say(0230,0715, "Ate: ",oFont13N)
 	oPrn:say(0230,1350, "Filial: ",oFont13N)
 	
 	
 	//oPrn:line(210,1200,430,1200) 	//1 Linha Vertical Cabecalho
 
-	//oPrn:line(0205,0100,0205,3300)    //Linha Horizontal Cabecalho Superor
-	//oPrn:line(0505,0100,0505,3300)    //Linha Horizontal Cabecalho Inferior
+	//oPrn:line(0205,0100,0205,3300)      //Linha Horizontal Cabecalho Superor
+	//oPrn:line(0505,0100,0505,3300)      //Linha Horizontal Cabecalho Inferior
 	//oPrn:line(0205,0100,0505,0100) 	  //Linha Vertical Cabecalho Esquerda
 	//oPrn:line(0205,3300,0505,3300) 	  //Linha Vertical Cabecalho Direita
 
-	//oPrn:line(0305,0100,0305,3300)    //Linha Horizontal Cabecalho MEIO
-	//oPrn:line(0405,0100,0405,3300)    //Linha Horizontal Cabecalho MEIO
+	//oPrn:line(0305,0100,0305,3300)      //Linha Horizontal Cabecalho MEIO
+	//oPrn:line(0405,0100,0405,3300)      //Linha Horizontal Cabecalho MEIO
 
 
 	/* ------------------------- DADOS CABECARIO ------------------------- */
 
-	oPrn:say(0230,0370, SubStr(Dtos(MV_PAR03),7,2) + "/" + SubStr(Dtos(MV_PAR03),5,2) + "/" + SubStr(Dtos(MV_PAR03),1,4),oFont13N)
-	oPrn:say(0230,0820, SubStr(Dtos(MV_PAR04),7,2) + "/" + SubStr(Dtos(MV_PAR04),5,2) + "/" + SubStr(Dtos(MV_PAR04),1,4),oFont13N)
+	//oPrn:say(0230,0370, SubStr(Dtos(MV_PAR03),7,2) + "/" + SubStr(Dtos(MV_PAR03),5,2) + "/" + SubStr(Dtos(MV_PAR03),1,4),oFont13N)
+	//oPrn:say(0230,0820, SubStr(Dtos(MV_PAR04),7,2) + "/" + SubStr(Dtos(MV_PAR04),5,2) + "/" + SubStr(Dtos(MV_PAR04),1,4),oFont13N)
+	oPrn:say(0230,0370, MV_PAR04 + "/" + MV_PAR03  ,oFont13N)	
 	oPrn:say(0330,0115, (_cAliasVend)->CODVEND + " - " + (_cAliasVend)->NOMEVEND,oFont13N)
 	
 	if MV_PAR01 = '001001'
@@ -317,14 +318,15 @@ Static Function Rodap()
 	oPrn:say(0070,0550, "MEDICAR EMERGENCIAS MEDICAS LTDA",oFont17N)
 	oPrn:say(0150,0550, "Comissao de Vendedores",oFont13N)
 
-	oPrn:say(0230,0115, "Periodo de: ",oFont13N)
-	oPrn:say(0230,0715, "Ate: ",oFont13N)
+	oPrn:say(0230,0115, "Ano/Mes: ",oFont13N)
+	//oPrn:say(0230,0715, "Ate: ",oFont13N)
 	oPrn:say(0230,1350, "Filial: ",oFont13N)
 	
 	/* ------------------------- DADOS CABECARIO ------------------------- */
 
-	oPrn:say(0230,0370, SubStr(Dtos(MV_PAR03),7,2) + "/" + SubStr(Dtos(MV_PAR03),5,2) + "/" + SubStr(Dtos(MV_PAR03),1,4),oFont13N)
-	oPrn:say(0230,0820, SubStr(Dtos(MV_PAR04),7,2) + "/" + SubStr(Dtos(MV_PAR04),5,2) + "/" + SubStr(Dtos(MV_PAR04),1,4),oFont13N)
+	//oPrn:say(0230,0370, SubStr(Dtos(MV_PAR03),7,2) + "/" + SubStr(Dtos(MV_PAR03),5,2) + "/" + SubStr(Dtos(MV_PAR03),1,4),oFont13N)
+	//oPrn:say(0230,0820, SubStr(Dtos(MV_PAR04),7,2) + "/" + SubStr(Dtos(MV_PAR04),5,2) + "/" + SubStr(Dtos(MV_PAR04),1,4),oFont13N)
+	oPrn:say(0230,0370, MV_PAR04 + "/" + MV_PAR03  ,oFont13N)	
 	oPrn:say(0330,0115, (_cAliasVend)->CODVEND + " - " + (_cAliasVend)->NOMEVEND,oFont13N)
 	
 	if MV_PAR01 = '001001'
@@ -384,8 +386,8 @@ Static Function Rodap()
 	While (_cPerfil)->(!Eof())
 
 		oPrn:say (nLin,0150,(_cPerfil)->PERFIL,oFont10)
-		oPrn:say (nLin,0650,Str((_cPerfil)->QTDLIN,10,2),oFont10)
-		oPrn:say (nLin,0850, Str((_cPerfil)->VALOR,10,2),oFont10)
+		oPrn:say (nLin,0650,Str((_cPerfil)->QTDLIN,10),oFont10)
+		oPrn:say (nLin,0850, Str((_cPerfil)->VLRCOMISSAO,10,2),oFont10)
 		//oPrn:say (nLin,0650,(_cPerfil)->VLRCOMISSAO,oFont10)
 		
 		nLin += 60   //pula linha
@@ -398,8 +400,8 @@ Static Function Rodap()
 	While (_cEquipe)->(!Eof())
 
 		oPrn:say (nLin,1150, (_cEquipe)->EQUIPE,oFont10)
-		oPrn:say (nLin,1750, Str((_cEquipe)->QTDLIN,10,2),oFont10)
-		oPrn:say (nLin,1950, Str((_cEquipe)->VALOR,10,2),oFont10)
+		oPrn:say (nLin,1750, Str((_cEquipe)->QTDLIN,10),oFont10)
+		oPrn:say (nLin,1950, Str((_cEquipe)->VLRCOMISSAO,10,2),oFont10)
 		//oPrn:say (nLin,0650,(_cEquipe)->VLRCOMISSAO,oFont10)
 		
 		nLin += 60   //pula linha
@@ -412,8 +414,8 @@ Static Function Rodap()
 	While (_cParcela)->(!Eof())
 
 		oPrn:say (nLin,2250,(_cParcela)->PARCELA,oFont10)
-		oPrn:say (nLin,2850,Str((_cParcela)->QTDLIN,10,2),oFont10)
-		oPrn:say (nLin,3050, Str((_cParcela)->VALOR,10,2),oFont10)
+		oPrn:say (nLin,2850,Str((_cParcela)->QTDLIN,10),oFont10)
+		oPrn:say (nLin,3050, Str((_cParcela)->VLRCOMISSAO,10,2),oFont10)
 		//oPrn:say (nLin,0650,(_cParcela)->VLRCOMISSAO,oFont10)
 		
 		nLin += 60   //pula linha
@@ -458,9 +460,11 @@ Static Function MontaQuery
 	cQuery += " WHERE 1=1 "
 	cQuery += " AND A.D_E_L_E_T_ = '' "
 	cQuery += " AND A.BXQ_E2PREF = '' "
+	cQuery += " AND A.BXQ_REFERE = '2' "
 	cQuery += " AND A.BXQ_FILIAL >= '"+ SubStr(MV_PAR01,1,3) +"' "
 	cQuery += " AND A.BXQ_FILIAL <= '"+ SubStr(MV_PAR02,1,3) +"' "
-	cQuery += " AND A.BXQ_DATA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+	cQuery += " AND A.BXQ_ANO = '"+MV_PAR03+"' "
+	cQuery += " AND A.BXQ_MES = '"+MV_PAR04+"' "
 	cQuery += " AND A.BXQ_CODVEN = '"+MV_PAR05+"' "
 	
 	cQueryVend := " SELECT  "
@@ -485,13 +489,14 @@ Static Function MontaQuery
 	cQueryPerfil += " WHERE 1=1  "
 	cQueryPerfil += " AND A.D_E_L_E_T_ = '' "
 	cQueryPerfil += " AND A.BXQ_E2PREF = '' "
+	cQueryPerfil += " AND A.BXQ_REFERE = '2' "
 	cQueryPerfil += " AND A.BXQ_FILIAL >= '"+ SubStr(MV_PAR01,1,3) +"' "
 	cQueryPerfil += " AND A.BXQ_FILIAL <= '"+ SubStr(MV_PAR02,1,3) +"' "
-	cQueryPerfil += " AND A.BXQ_DATA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+	cQueryPerfil += " AND A.BXQ_ANO = '"+MV_PAR03+"' "
+	cQueryPerfil += " AND A.BXQ_MES = '"+MV_PAR04+"' "
 	cQueryPerfil += " AND A.BXQ_CODVEN = '"+MV_PAR05+"' "
 	cQueryPerfil += " GROUP BY 	 "
 	cQueryPerfil += " E.BT5_NOME "
-
 
 	cQueryEquip := " SELECT   "
 	cQueryEquip += " F.BXL_DESEQU		AS EQUIPE, "
@@ -507,9 +512,11 @@ Static Function MontaQuery
 	cQueryEquip += " WHERE 1=1  "
 	cQueryEquip += " AND A.D_E_L_E_T_ = '' "
 	cQueryEquip += " AND A.BXQ_E2PREF = '' "
+	cQueryEquip += " AND A.BXQ_REFERE = '2' "
 	cQueryEquip += " AND A.BXQ_FILIAL >= '"+ SubStr(MV_PAR01,1,3) +"' "
 	cQueryEquip += " AND A.BXQ_FILIAL <= '"+ SubStr(MV_PAR02,1,3) +"' "
-	cQueryEquip += " AND A.BXQ_DATA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+	cQueryEquip += " AND A.BXQ_ANO = '"+MV_PAR03+"' "
+	cQueryEquip += " AND A.BXQ_MES = '"+MV_PAR04+"' "
 	cQueryEquip += " AND A.BXQ_CODVEN = '"+MV_PAR05+"' "
 	cQueryEquip += " GROUP BY 	 "
 	cQueryEquip += " F.BXL_DESEQU "
@@ -529,9 +536,11 @@ Static Function MontaQuery
 	cQueryParcela += " WHERE 1=1  "
 	cQueryParcela += " AND A.D_E_L_E_T_ = '' "
 	cQueryParcela += " AND A.BXQ_E2PREF = '' "
+	cQueryParcela += " AND A.BXQ_REFERE = '2' "
 	cQueryParcela += " AND A.BXQ_FILIAL >= '"+ SubStr(MV_PAR01,1,3) +"' "
 	cQueryParcela += " AND A.BXQ_FILIAL <= '"+ SubStr(MV_PAR02,1,3) +"' "
-	cQueryParcela += " AND A.BXQ_DATA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
+	cQueryParcela += " AND A.BXQ_ANO = '"+MV_PAR03+"' "
+	cQueryParcela += " AND A.BXQ_MES = '"+MV_PAR04+"' "
 	cQueryParcela += " AND A.BXQ_CODVEN = '"+MV_PAR05+"' "
 	cQueryParcela += " GROUP BY 	 "
 	cQueryParcela += " A.BXQ_NUMPAR "
