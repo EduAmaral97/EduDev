@@ -46,6 +46,7 @@ Return
   
   
 Static Function fImporta()
+
     Local aArea      := GetArea()
     Local cArqLog    := "zImpCSV_" + dToS(Date()) + "_" + StrTran(Time(), ':', '-') + ".log"
     Local nTotLinhas := 0
@@ -70,8 +71,6 @@ Static Function fImporta()
     Local cCentroCusto := ""
     Local cClaseVlr := ""
     
-
-
     Private cDirLog    := GetTempPath() + "x_importacao\"
     Private cLog       := ""
       
@@ -109,7 +108,7 @@ Static Function fImporta()
                 //Pegando a linha atual e transformando em array
                 cLinAtu := oArquivo:GetLine()
                 aLinha  := StrTokArr(cLinAtu, ";")
-                  
+
                 if nLinhaAtu >= 2
 
                     if cLinAtu = ""
@@ -134,7 +133,7 @@ Static Function fImporta()
                         cParcela     := aLinha[nPosParcela]
                         cCentroCusto := aLinha[nPosCentroCusto]
                         cClaseVlr    := aLinha[nPosClasseVlr]
-            
+
                         RecLock("TS1", .T.)
                             TS1->TS1_FILIAL     := StrZero(val(cFilialArq) ,6)
                             TS1->TS1_CODBEM     := cCodbem
@@ -155,7 +154,7 @@ Static Function fImporta()
                             TS1->TS1_VALPAG     := 0
                         TS1->(MsUnlock())
                         //ConfirmSX8()
-                
+
                         DbSelectArea('SA2')
                         SA2->(DbSetOrder(1))
                         SA2->(DbSeek(FWxFilial('SA2') + StrZero(val(cFornecedor),6) + '01'))
@@ -184,6 +183,7 @@ Static Function fImporta()
                             SE2->E2_ITEMD     := ""
                             SE2->E2_CCUSTO    := cCentroCusto
                             SE2->E2_CLVL      := cClaseVlr
+                            SE2->E2_FILORIG   := StrZero(val(cFilialArq) ,6)
                         SE2->(MsUnlock())
 
                         SA2->(DbCloseArea())
@@ -205,7 +205,7 @@ Static Function fImporta()
         Else
             MsgStop("Arquivo não tem conteúdo!", "Atenção")
         EndIf
-  
+
         //Fecha o arquivo
         oArquivo:Close()
     Else

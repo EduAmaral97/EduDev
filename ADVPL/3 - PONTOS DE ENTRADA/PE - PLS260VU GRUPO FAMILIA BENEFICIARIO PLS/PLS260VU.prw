@@ -20,10 +20,14 @@ PE: VERIFICAÇÃO ATES DE SALVAR UM GRUPO FAMILIA/BENEFICIARIO                 #
 
 User Function PLS260VU()
 
-Local i
-Local lRet    := .T.
-Local aArea   := GetArea()
-Local aMsgErro:= {}
+	Local i
+	Local lRet    := .T.
+	Local aArea   := GetArea()
+	Local aMsgErro:= {}
+
+	RegToMemory("BA1")
+	RegToMemory("BDK")
+	RegToMemory("BDQ")
 
 
 	IF M->BA3_COBNIV = "1"
@@ -78,8 +82,10 @@ Local aMsgErro:= {}
 
 	ENDIF  
 
-	RestArea( aArea )
+	//MsgAlert("Deseja aplicar desconto permanete nos beneficiarios abaixo?")
 
+
+	RestArea( aArea )
 
 
 Return(lRet)

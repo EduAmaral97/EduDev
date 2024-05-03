@@ -1,11 +1,9 @@
 PLSA260 – ExecBlock(“PL260MNU”,.F.,.F.)
 PLSA260 – ExecBlock( “PLS260BUT”, .F., .F. )
 PLSA260 – ExecBlock( “A260USBT”, .F., .F. )
-PLSA260 – Execblock(“PLS260MN”,.F.,.F.,{nOpc})
+PLSA260 – ExecBlock(“PLS260MN”,.F.,.F.,{nOpc})
 PLSA260 – ExecBlock(‘PLVlOpUs’,.f.,.f.)
 PLSA260 – ExecBlock(‘PLVlOpUr’,.f.,.f.)
-
-
 
 PLSA260 – ExecBlock(‘PL260COR’,.f.,.f.)
 PLSA260 – ExecBlock(“PLS260EXCL”,.F.,.F.)
@@ -19,8 +17,6 @@ PLSA260 – ExecBlock(“PL260BUB”, .F., .F.,{“F”} )
 PLSA260 – Execblock(“PLS260BCA”,.F.,.F.,{“B”})
 PLSA260 – Execblock(“PLS260BCA”,.F.,.F.,{“D”})
 PLSA260 – ExecBlock(‘PL260BFA’,.f.,.f.,{cMatric})
-
-
 
 PLSA260 – ExecBlock(“PL260BUB”, .F., .F.,{“U”} )
 PLSA260 – ExecBlock(‘PL260BUS’,.f.,.f.)

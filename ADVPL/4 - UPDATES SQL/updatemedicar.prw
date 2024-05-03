@@ -303,7 +303,7 @@ Static function execupdatesqlmedicar
 
 
 
-            /* ------------------------------- UPDATE CENTRO DE CUASTO E CLASSE VALOR BA3 | BQC ------------------------------- */
+            /* ------------------------------- UPDATE CENTRO DE CUSTO E CLASSE VALOR BA3 | BQC ------------------------------- */
                 
             //Monta o Update BQC
             //cQryUpd := "UPDATE BQC010 "

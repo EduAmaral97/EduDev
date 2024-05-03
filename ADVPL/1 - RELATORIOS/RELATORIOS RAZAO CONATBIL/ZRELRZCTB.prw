@@ -69,18 +69,18 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("CONTABIL","LISTCTB", "CCC", 			1,1,.F.,"")
 	
 	oExcel:AddworkSheet("RECEBER")
-	oExcel:AddTable ("RECEBER","LISTSE1",.F.)
-	oExcel:AddColumn("RECEBER","LISTSE1", "CHAVERECEBER", 	1,1,.F.,"")
-	oExcel:AddColumn("RECEBER","LISTSE1", "CC", 			1,1,.F.,"")
-	oExcel:AddColumn("RECEBER","LISTSE1", "CLVL", 			1,1,.F.,"")
-	oExcel:AddColumn("RECEBER","LISTSE1", "VALOR", 			1,3,.F.,"")
+	oExcel:AddTable ("RECEBER","LISTREC",.F.)
+	oExcel:AddColumn("RECEBER","LISTREC", "CHAVERECEBER", 	1,1,.F.,"")
+	oExcel:AddColumn("RECEBER","LISTREC", "CC", 			1,1,.F.,"")
+	oExcel:AddColumn("RECEBER","LISTREC", "CLVL", 			1,1,.F.,"")
+	oExcel:AddColumn("RECEBER","LISTREC", "VALOR", 			1,3,.F.,"")
 
 	oExcel:AddworkSheet("PAGAR")
-	oExcel:AddTable ("PAGAR","LISTSE1",.F.)
-	oExcel:AddColumn("PAGAR","LISTSE1", "CHAVEPAGAR", 	1,1,.F.,"")
-	oExcel:AddColumn("PAGAR","LISTSE1", "CC", 			1,1,.F.,"")
-	oExcel:AddColumn("PAGAR","LISTSE1", "CLVL", 		1,1,.F.,"")
-	oExcel:AddColumn("PAGAR","LISTSE1", "VALOR", 		1,3,.F.,"")
+	oExcel:AddTable ("PAGAR","LISTREC",.F.)
+	oExcel:AddColumn("PAGAR","LISTREC", "CHAVEPAGAR", 	1,1,.F.,"")
+	oExcel:AddColumn("PAGAR","LISTREC", "CC", 			1,1,.F.,"")
+	oExcel:AddColumn("PAGAR","LISTREC", "CLVL", 		1,1,.F.,"")
+	oExcel:AddColumn("PAGAR","LISTREC", "VALOR", 		1,3,.F.,"")
 
 	
 		cQuery := " SELECT "
@@ -200,7 +200,7 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAliasE1)->(!Eof())
 
-		oExcel:AddRow("RECEBER","LISTSE1",{(_cAliasE1)->CHAVERECEBER,(_cAliasE1)->CC,(_cAliasE1)->CLVL,(_cAliasE1)->VALOR})
+		oExcel:AddRow("RECEBER","LISTREC",{(_cAliasE1)->CHAVERECEBER,(_cAliasE1)->CC,(_cAliasE1)->CLVL,(_cAliasE1)->VALOR})
 
 		(_cAliasE1)->(dBskip())
 
@@ -209,7 +209,7 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAliasE2)->(!Eof())
 
-		oExcel:AddRow("PAGAR","LISTSE2",{(_cAliasE2)->CHAVEPAGAR,(_cAliasE2)->CC,(_cAliasE2)->CLVL,(_cAliasE2)->VALOR})
+		oExcel:AddRow("PAGAR","LISTPAG",{(_cAliasE2)->CHAVEPAGAR,(_cAliasE2)->CC,(_cAliasE2)->CLVL,(_cAliasE2)->VALOR})
 
 		(_cAliasE2)->(dBskip())
 
@@ -226,7 +226,7 @@ Static Function fMontaExcel(cPasta)
 	oExcel:SetUnderline(.F.)
 
 	oExcel:Activate()
-	cArqBem := cPasta + '\' + 'RAZAPCTB' + SubStr( DTOC(Date()),1,2 ) + SubStr( DTOC(Date()),4,2 ) + SubStr( DTOC(Date()),7,4 ) + '.xlsx'
+	cArqBem := cPasta + '\' + 'RAZAOCTB' + SubStr( DTOC(Date()),1,2 ) + SubStr( DTOC(Date()),4,2 ) + SubStr( DTOC(Date()),7,4 ) + '.xlsx'
 	oExcel:GetXMLFile(cArqBem)
 	
 	oExcel:DeActivate()

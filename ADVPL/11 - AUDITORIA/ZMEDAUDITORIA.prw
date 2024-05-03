@@ -17,7 +17,6 @@ Descricao: AUDITORIA CADASTRO DE LCIENTES                                    #
 
 User function ZMEDAUDITORIA()
 
-    //Local aAreaBQC	:= ("BQC") -> ( GetArea() )
     Local aArea   	:= GetArea()
 
     //cChama a funcao que monta os dados
@@ -71,9 +70,7 @@ Static Function fPegaUser(aArea)
 
         //Posicionando no cadastro de produtos
         DbSelectArea('SE2')
-        //SE2->(DbSetOrder(1))
-        //SE2->(DbSeek(FWxFilial('SE2') + SE2->E2_PREFIXO + SE2->E2_NUM + SE2->E2_PARCELA + SE2->E2_TIPO + SE2->E2_FORNECE + SE2->E2_LOJA))
-        
+      
         //LOG INCLUSAO
         cUsrCodInc := FWLeUserLg("E2_USERLGI", 1)
         cUsrNomInc := UsrRetName(cUsrCodInc)
@@ -92,9 +89,7 @@ Static Function fPegaUser(aArea)
 
         //Posicionando no cadastro de produtos
         DbSelectArea('SC7')
-        //SC7->(DbSetOrder(1))
-        //SC7->(DbSeek(FWxFilial('SC7') + SC7->C7_PRODUTO + SC7->C7_FORNECE + SC7->C7_LOJA + SC7->C7_NUM))
-        
+             
         //LOG INCLUSAO
         cUsrCodInc := FWLeUserLg("C7_USERLGI", 1)
         cUsrNomInc := UsrRetName(cUsrCodInc)
@@ -112,10 +107,7 @@ Static Function fPegaUser(aArea)
     Elseif aArea[1] = "BQC"
 
         //Posicionando no cadastro de produtos
-        DbSelectArea('BQC')
-        //BQC->(DbSetOrder(1))
-        //BQC->(DbSeek(FWxFilial('BQC') + BQC->BQC_CODIGO + BQC->BQC_NUMCON + BQC->BQC_VERCON + BQC->BQC_SUBCON + BQC->BQC_VERSUB))
-        
+        DbSelectArea('BQC')     
         
         //LOG INCLUSAO
         cUsrCodInc := FWLeUserLg("BQC_USERGI", 1)
@@ -171,7 +163,7 @@ Static Function fPegaUser(aArea)
 
     Else
    
-        MsgAlert("Auditoria nao cadastrado.")
+        MsgAlert("Auditoria nao cadastrado consulte o administrador.")
 
     Endif
 
@@ -186,7 +178,7 @@ Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
 
     DEFINE MSDIALOG oDlg FROM 05,10 TO 170,470 TITLE "Medicar Auditoria: " PIXEL
 
-        @ 010,020 TO 060,110 LABEL " Inclusao " OF oDlg PIXEL
+        @ 010,020 TO 060,110 LABEL " Inclusão " OF oDlg PIXEL
 
         @ 025, 025 SAY oTitQtdVidas PROMPT "Usuario: "                  SIZE 070, 020 OF oDlg PIXEL
         @ 020, 050 MSGET oGrupo VAR cUsrCodInc                          SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
@@ -196,7 +188,7 @@ Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
         @ 010,120 TO 060,210 LABEL " Alteração " OF oDlg PIXEL
                 
         @ 025, 125 SAY oTitQtdVidas PROMPT "Usuario: "                  SIZE 070, 020 OF oDlg PIXEL
-        @ 020, 150 MSGET oGrupo VAR cUsrCodInc                          SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
+        @ 020, 150 MSGET oGrupo VAR cUsrCodAlt                          SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
         @ 043, 125 SAY oTitQtdVidas PROMPT "Data: "                     SIZE 070, 020 OF oDlg PIXEL
         @ 040, 150 MSGET oGrupo VAR cDatAlt                             SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
     

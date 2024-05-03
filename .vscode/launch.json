@@ -21,6 +21,9 @@
 		},
 		{
 			"label": "SIGACFG"
+		},
+		{
+			"label": "GRRWIZARD"
 		}
 	],
 	"lastProgramExecuted": "SIGAADV",

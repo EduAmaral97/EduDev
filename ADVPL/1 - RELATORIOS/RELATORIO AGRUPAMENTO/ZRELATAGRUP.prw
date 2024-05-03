@@ -363,7 +363,7 @@ Static Function MontaQuery
 		cQuery += " LEFT JOIN SA1010 SA1 ON SA1.D_E_L_E_T_ = '' AND SA1.A1_COD = SE1.E1_CLIENTE AND SA1.A1_LOJA = SE1.E1_LOJA   "
 		cQuery += " WHERE 1=1   "
 		cQuery += " AND SE1.D_E_L_E_T_ = '' "
-		cQuery += " AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-') "
+		cQuery += " AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-', 'PR') "
 		cQuery += " AND SE1.E1_FILIAL >= '" +MV_PAR01+ "' "
 		cQuery += " AND SE1.E1_FILIAL <= '" +MV_PAR02+ "' "
 		cQuery += " AND SA1.A1_CODSEG = '"+MV_PAR05+"' "

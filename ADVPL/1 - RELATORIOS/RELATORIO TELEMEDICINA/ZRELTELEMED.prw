@@ -422,7 +422,7 @@ Static Function fEnviaEmail()
     Local lEnvioOK := .F.
      
     Default cPara      := "suporte@medicar.com.br"
-    Default cAssunto   := "RELATORIO TELEMEDICINA MEDICAR"
+    Default cAssunto   := "RELATORIO TELEMEDICINA MEDICAR " + SubStr( DTOC(Date()),1,2 ) + "/" + SubStr( DTOC(Date()),4,2 ) + "/" + SubStr( DTOC(Date()),7,4 )
     Default cCorpo     := "Segue em anexo relatorio de Telemedicina"
     Default aAnexos    := {}
 

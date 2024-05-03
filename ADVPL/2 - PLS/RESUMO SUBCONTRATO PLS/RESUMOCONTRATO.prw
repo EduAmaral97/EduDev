@@ -136,8 +136,6 @@ Static Function MontaQuery(cSubcon,cCodint,cCodemp,cConemp,cVercon,cVersub)
     cQuery += " AND C.BA1_MOTBLO = '' "
     cQuery += " AND C.BA1_DATBLO = '' "
 
-
-
     cQueryBloq := " SELECT  "
     cQueryBloq += " COUNT(*) AS QTDBLO  "
     cQueryBloq += " FROM BQC010 A  "

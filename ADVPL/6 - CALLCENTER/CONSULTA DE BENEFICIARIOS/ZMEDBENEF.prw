@@ -41,7 +41,6 @@ User function ZMEDBENEF()
     aIndex := {}
     aSeek := {}
 
-
     aAdd(aTamX3Flds, TamSX3("BA1_XCARTE"))
     aAdd(aTamX3Flds, TamSX3("BA1_NOMUSR"))
     aAdd(aTamX3Flds, TamSX3("BDK_VALOR"))
@@ -57,7 +56,6 @@ User function ZMEDBENEF()
     aAdd(aTamX3Flds, TamSX3("BA1_DATNAS"))
     aAdd(aTamX3Flds, TamSX3("BA1_DATINC"))
        
-
     aAdd(aFields, {"CARTEIRA",   aTamX3Flds[1][3], aTamX3Flds[1][1],  aTamX3Flds[1][2]})
     aAdd(aFields, {"BENEFI",     aTamX3Flds[2][3], aTamX3Flds[2][1],  aTamX3Flds[2][2]})
     aAdd(aFields, {"CPF",        "C",              18,                0}) // TIPO | TAMANHO | DECIMAL

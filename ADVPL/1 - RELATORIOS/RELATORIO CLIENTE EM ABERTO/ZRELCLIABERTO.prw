@@ -91,7 +91,7 @@ Static Function fMontaRel(cPasta)
 	cQuery += " AND A.D_E_L_E_T_ = ''  "
     cQuery += " AND B.E1_SALDO > 0 "
 	cQuery += " AND B.E1_VENCREA <= GETDATE()  "
-	cQuery += " AND B.E1_TIPO NOT IN ('CF-','PI-','CS-') "
+	cQuery += " AND B.E1_TIPO NOT IN ('RA','CF-','PI-','CS-', 'PR')  "
 	cQuery += " AND ISNULL(( SELECT COUNT(*) FROM SE1010 E1	WHERE 1=1 AND E1.D_E_L_E_T_ = '' AND E1.E1_SALDO > 0 AND E1.E1_VENCREA <= GETDATE()	AND B.E1_TIPO NOT IN ('CF-','PI-','CS-') AND E1.E1_CLIENTE = A.A1_COD AND E1.E1_LOJA = A.A1_LOJA ),0) > 1 "
 	cQuery += " ORDER BY 3 "
 
