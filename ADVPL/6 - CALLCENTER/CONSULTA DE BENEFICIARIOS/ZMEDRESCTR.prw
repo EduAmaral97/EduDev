@@ -218,7 +218,7 @@ Static Function MontaQuery(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cV
 Return 
 
 
-Static Function MontaTela(cQtdTit,  cQtdDep,  cQtdBloq, cQtdTotal,cValorTit,  cValorDep,  cValorBloq, cValorTotal)
+Static Function MontaTela(cQtdTit,cQtdDep,cQtdBloq,cQtdTotal,cValorTit,cValorDep,cValorBloq,cValorTotal)
 
 
   DEFINE MSDIALOG oDlg FROM 05,10 TO 400,1050 TITLE " RESUMO DO CONTRATO " PIXEL

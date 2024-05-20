@@ -100,7 +100,7 @@ While (_cAlias)->(!Eof())
 		//RECLOCK ATUALIZA A MATVID NO BENEFICIARIO
 		RecLock('BA1', .F.)
 			BA1->BA1_MATVID := cProxMatvid
-		BA1->(MsUnlock())	
+		BA1->(MsUnlock())
 
 	EndIf
 

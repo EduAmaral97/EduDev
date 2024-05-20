@@ -97,7 +97,7 @@ Static Function fMontaExcel(cPasta)
 		cQueryFAT += " C.A1_NREDUZ		AS CLIENTE, "
 		cQueryFAT += " CASE "
 		cQueryFAT += " 	WHEN C.A1_PESSOA = 'F' THEN CONCAT(SUBSTRING(C.A1_CGC,1,3), '.', SUBSTRING(C.A1_CGC,4,3), '.', SUBSTRING(C.A1_CGC,7,3), '-', SUBSTRING(C.A1_CGC,10,2)) "
-		cQueryFAT += " 	ELSE CONCAT(SUBSTRING(C.A1_CGC,1,2), '.', SUBSTRING(C.A1_CGC,3,3), '.', SUBSTRING(C.A1_CGC,6,3), '/', SUBSTRING(C.A1_CGC,9,4), '-', SUBSTRING(C.A1_CGC,12,2)) "
+		cQueryFAT += " 	ELSE CONCAT(SUBSTRING(C.A1_CGC,1,2), '.', SUBSTRING(C.A1_CGC,3,3), '.', SUBSTRING(C.A1_CGC,6,3), '/', SUBSTRING(C.A1_CGC,9,4), '-', SUBSTRING(C.A1_CGC,13,2)) "
 		cQueryFAT += " END 				AS CGC, "
 		cQueryFAT += " A.D2_TOTAL		AS VALORFAT, "
 		cQueryFAT += " A.D2_CCUSTO		AS CC, "
@@ -111,6 +111,7 @@ Static Function fMontaExcel(cPasta)
 		cQueryFAT += " LEFT JOIN CTH010 E ON E.D_E_L_E_T_ = '' AND E.CTH_CLVL = A.D2_CLVL "
 		cQueryFAT += " WHERE 1=1 "
 		cQueryFAT += " AND A.D_E_L_E_T_ = '' "
+		cQueryFAT += " AND B.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR')  "
 		cQueryFAT += " AND A.D2_EMISSAO BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
 
 
@@ -124,17 +125,17 @@ Static Function fMontaExcel(cPasta)
 		cQueryCLI += " CASE  "
 		cQueryCLI += " 	WHEN SUBSTRING(A.A1_USERLGI, 03, 1) != ' ' AND A.A1_USERLGI != '' THEN CONVERT(VARCHAR,DATEADD(DAY,CONVERT(INT,CONCAT(ASCII(SUBSTRING(A.A1_USERLGI,12,1)) - 50, ASCII(SUBSTRING(A.A1_USERLGI,16,1)) - 50) + IIF(SUBSTRING(A.A1_USERLGI,08,1) = '<',10000,0)),'1996-01-01'), 103) "
     	cQueryCLI += " 	ELSE '' "
-    	cQueryCLI += " END 			AS DATAINC, "
+    	cQueryCLI += " END 			AS DATAINC "
 		cQueryCLI += " FROM SA1010 A "
 		cQueryCLI += " WHERE 1=1 "
 		cQueryCLI += " AND A.D_E_L_E_T_ = '' "
 		cQueryCLI += " AND CONVERT(datetime, CONVERT(VARCHAR,DATEADD(DAY,CONVERT(INT,CONCAT(ASCII(SUBSTRING(A.A1_USERLGI,12,1)) - 50, ASCII(SUBSTRING(A.A1_USERLGI,16,1)) - 50) + IIF(SUBSTRING(A.A1_USERLGI,08,1) = '<',10000,0)),'1996-01-01'), 103), 103) BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
-		
-		
+
+
 	//Criar alias temporário
 	TCQUERY cQueryFAT NEW ALIAS (_cAliasFAT)
 	TCQUERY cQueryCLI NEW ALIAS (_cAliasCLI)
-	
+
 
 	DbSelectArea(_cAliasFAT)
 	DbSelectArea(_cAliasCLI)
@@ -151,13 +152,12 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAliasCLI)->(!Eof())
 
-		oExcel:AddRow("CADCLI","LISTCLI",{(_cAliasCLI)->CODCLI,(_cAliasCLI)->CLIENTE,(_cAliasCLI)->CGC,(_cAliasCLI)->DATAINC,(_cAliasCLI)->USERCRI})
+		oExcel:AddRow("CADCLI","LISTCLI",{(_cAliasCLI)->CODCLI,(_cAliasCLI)->CLIENTE,(_cAliasCLI)->CGC,(_cAliasCLI)->DATAINC})
 
 		(_cAliasCLI)->(dBskip())
 
 	EndDo
-
-
+	
 
 	(_cAliasFAT)->(DbCloseArea())
 	(_cAliasCLI)->(DbCloseArea())

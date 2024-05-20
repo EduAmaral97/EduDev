@@ -111,7 +111,12 @@ Static Function GravaRotina()
 
 Return 
 
-
+//-------------------------------------------------------------------
+/*/{Protheus.doc} ZMEDDESCBENEF
+Disponibiliza a possibilidade do desconto automatico (Se o Usuario aceitar).
+@version P12
+/*/
+//-------------------------------------------------------------------
 Static Function ZMEDDESCBENEF()
 
 	Local aArea   := GetArea()
@@ -175,41 +180,76 @@ Static Function ZMEDDESCBENEF()
 
     End
 
+	IF cMsgFinal <> ""
 
-	If MsgYesNo("Deseja aplicar o desconto automatico nos beneficiarios abaixo?" + CHR(13)+CHR(10) + cMsgFinal, "Desconto Automatico Medicar")
+		If MsgYesNo("Deseja aplicar o desconto automatico nos beneficiarios abaixo?" + CHR(13)+CHR(10) + cMsgFinal, "Desconto Automatico Medicar")
 		
-		BA1->(dbGoTOP())
 
-		While BA1->(!EOF())
+			BA1->(dbGoTOP())
+	
+			While BA1->(!EOF())
 
-			RecLock("BDQ", .T.)
-					BDQ->BDQ_FILIAL := BA1->BA1_FILIAL
-					BDQ->BDQ_CODINT := BA1->BA1_CODINT
-					BDQ->BDQ_CODEMP := BA1->BA1_CODEMP
-					BDQ->BDQ_MATRIC := BA1->BA1_MATRIC
-					BDQ->BDQ_TIPREG := BA1->BA1_TIPREG
-					BDQ->BDQ_CODFAI := "001"
-					BDQ->BDQ_PERCEN := 0
-					BDQ->BDQ_VALOR  := 0.01
-					BDQ->BDQ_QTDMIN := 0
-					BDQ->BDQ_QTDMAX := 999
-					BDQ->BDQ_TIPO   := "1"
-					BDQ->BDQ_DATDE  := CToD("01/01/2000")
-					BDQ->BDQ_DATATE := CToD("31/12/2900")
-			BDQ->(MsUnlock())
-			//ConfirmSX8()
+				DbSelectArea("BDK")
+				cFiltroBDK := "BDK->BDK_FILIAL == '"+BA1->BA1_FILIAL+"' .AND. "
+				cFiltroBDK += "BDK->BDK_CODINT == '"+BA1->BA1_CODINT+"' .AND. "
+				cFiltroBDK += "BDK->BDK_CODEMP == '"+BA1->BA1_CODEMP+"' .AND. "
+				cFiltroBDK += "BDK->BDK_MATRIC == '"+BA1->BA1_MATRIC+"' .AND. "
+				cFiltroBDK += "BDK->BDK_TIPREG == '"+BA1->BA1_TIPREG+"' "
+				BDK->( dbSetFilter( { || &cFiltroBDK }, cFiltroBDK ) )
+				BDK->(dbGoTOP())
 
-			BA1->(dbSkip())
+				DbSelectArea("BDQ")
+				cFiltroBDQ := "BDQ->BDQ_FILIAL == '"+BA1->BA1_FILIAL+"' .AND. "
+				cFiltroBDQ += "BDQ->BDQ_CODINT == '"+BA1->BA1_CODINT+"' .AND. "
+				cFiltroBDQ += "BDQ->BDQ_CODEMP == '"+BA1->BA1_CODEMP+"' .AND. "
+				cFiltroBDQ += "BDQ->BDQ_MATRIC == '"+BA1->BA1_MATRIC+"' .AND. "
+				cFiltroBDQ += "BDQ->BDQ_TIPREG == '"+BA1->BA1_TIPREG+"' "		
+				BDQ->( dbSetFilter( { || &cFiltroBDQ }, cFiltroBDQ ) )
+				BDQ->(dbGoTOP())
 
-		End		
+				If BDQ->(EOF())
 
-		MsgInfo("Desconto aplicado.","Desconto automatico Medicar")
+					IF BDK->BDK_VALOR <= 0.01
 
-	Else
-		
-		MsgInfo("Desconto nao aplicado." + CHR(13)+CHR(10) + CHR(13)+CHR(10) + "Operacao cancelada.","Desconto automatico Medicar")
+						RecLock("BDQ", .T.)
+								BDQ->BDQ_FILIAL := BA1->BA1_FILIAL
+								BDQ->BDQ_CODINT := BA1->BA1_CODINT
+								BDQ->BDQ_CODEMP := BA1->BA1_CODEMP
+								BDQ->BDQ_MATRIC := BA1->BA1_MATRIC
+								BDQ->BDQ_TIPREG := BA1->BA1_TIPREG
+								BDQ->BDQ_CODFAI := "001"
+								BDQ->BDQ_PERCEN := 0
+								BDQ->BDQ_VALOR  := 0.01
+								BDQ->BDQ_QTDMIN := 0
+								BDQ->BDQ_QTDMAX := 999
+								BDQ->BDQ_TIPO   := "1"
+								BDQ->BDQ_DATDE  := CToD("01/01/2000")
+								BDQ->BDQ_DATATE := CToD("31/12/2900")
+						BDQ->(MsUnlock())
+						//ConfirmSX8()
+						
+					EndIF
 
-	EndIf
+				Endif
+				
+				BDK->(DbCloseArea())
+				BQD->(DbCloseArea())
+				BA1->(dbSkip())
+				
+			End		
+	
+
+			MsgInfo("Desconto aplicado.","Desconto automatico Medicar")
+
+		Else
+			
+			MsgInfo("Desconto nao aplicado." + CHR(13)+CHR(10) + CHR(13)+CHR(10) + "Operacao cancelada.","Desconto automatico Medicar")
+
+		EndIf
+
+
+	EndIF
+
 
 
 	RestArea( aArea )

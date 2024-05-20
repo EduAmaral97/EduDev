@@ -4,12 +4,12 @@
 /*
 
 -----------------------------------------------------------------------------# 
-                            U_RESUMOCONTATO							         #
+                            U_ZMEDAUDITORIA 						         #
 -----------------------------------------------------------------------------# 
 Funcao: U_RESUMOCONTATO														 #
 Autor: Eduardo Jorge 													     #
 Data: 15/01/2023														     #
-Descricao: AUDITORIA CADASTRO DE LCIENTES                                    #
+Descricao: AUDITORIA CADASTROS                                               #
 *****************************************************************************#
 
 */
@@ -186,12 +186,12 @@ Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
         @ 040, 050 MSGET oGrupo VAR cDatInc                             SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
 
         @ 010,120 TO 060,210 LABEL " Alteração " OF oDlg PIXEL
-                
+
         @ 025, 125 SAY oTitQtdVidas PROMPT "Usuario: "                  SIZE 070, 020 OF oDlg PIXEL
         @ 020, 150 MSGET oGrupo VAR cUsrCodAlt                          SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
         @ 043, 125 SAY oTitQtdVidas PROMPT "Data: "                     SIZE 070, 020 OF oDlg PIXEL
         @ 040, 150 MSGET oGrupo VAR cDatAlt                             SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
-    
+
 
     DEFINE SBUTTON FROM 065,185 TYPE 1 ACTION ( oDlg:End()) ENABLE OF oDlg
 

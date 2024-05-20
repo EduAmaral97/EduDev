@@ -17,6 +17,7 @@ User Function MT120BRW()
 
 
     AAdd( aRotina, { 'Auditoria', 'U_ZMEDAUDITORIA()', 0, 4 } )
+    AAdd( aRotina, { 'Nota Fiscal', 'U_ZMEDNFPC()', 0, 4 } )
 
 
 Return 

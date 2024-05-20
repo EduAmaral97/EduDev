@@ -1,203 +1,128 @@
+#include "protheus.ch"
 #Include "Totvs.ch"
-#INCLUDE "TOPCONN.CH"
+#Include "TOPCONN.CH"
 
-    
-User Function ZMEDTELA()
-    Local aArea := GetArea()
-    //Fontes
-    Local cFontUti    := "Tahoma"
-    Local oFontAno    := TFont():New(cFontUti,,-38)
-    Local oFontSub    := TFont():New(cFontUti,,-20)
-    Local oFontSubN   := TFont():New(cFontUti,,-20,,.T.)
-    Local oFontBtn    := TFont():New(cFontUti,,-14)
-    //Janela e componentes
-    Private oDlgGrp
-    Private oPanGrid
-    Private oGetGrid
-    Private aColunas := {}
-    Private cAliasTab := "TMPSE1CLI"
-    //Tamanho da janela
-    //Private    aTamanho := MsAdvSize()
-    //Private    nJanLarg := aTamanho[5]
-    //Private    nJanAltu := aTamanho[6]
 
-    Private    nJanLarg := 1200
-    Private    nJanAltu := 600
-    
-    
-    //Cria a temporária
-    oTempTable := FWTemporaryTable():New(cAliasTab)
-        
-    //Adiciona no array das colunas as que serão incluidas (Nome do Campo, Tipo do Campo, Tamanho, Decimais)
-    aFields := {}
-    aAdd(aFields, { "FILIAL",     "C",  6, 0 })
-    aAdd(aFields, { "PREFIXO",    "C",  3, 0 })
-    aAdd(aFields, { "TITULO",     "C",  9, 0 })
-    aAdd(aFields, { "PARCELA",    "C",  2, 0 })
-    aAdd(aFields, { "TIPO",       "C",  3, 0 })
-    aAdd(aFields, { "EMISSAO",    "C", 10, 0 })
-    aAdd(aFields, { "VENCIMENTO", "C", 10, 0 })
-    aAdd(aFields, { "VENCREA",    "C", 10, 0 })
-    aAdd(aFields, { "VLRTIT",     "N", 20, 2 })
-    aAdd(aFields, { "VLRBAIXADO", "N", 20, 2 })
-    aAdd(aFields, { "SALDO",      "N", 20, 2 })
-    aAdd(aFields, { "SITUACAO",   "C", 10, 0 })
+USER FUNCTION ZMEDTELA()
 
+    Local oOK := LoadBitmap(GetResources(),'br_verde')
+    Local oNO := LoadBitmap(GetResources(),'br_vermelho')
+    //Local aList := {}
+    Private _cAlias		 := GetNextAlias()
+    
+
+    MsAguarde({||PegaDados()},"Aguarde","Motando os dados...") 
+    
+    DbSelectArea(_cAlias)
+    (_cAlias)->(DbGoTop())
+ 
+    DEFINE DIALOG oDlg TITLE "Exemplo TCBrowse" FROM 180,180 TO 550,700 PIXEL
+ 
+        aBrowse := {}
 
         
-    //Define as colunas usadas, adiciona indice e cria a temporaria no banco
-    oTempTable:SetFields( aFields )
-    oTempTable:AddIndex("1", {"TITULO"} )
-    oTempTable:Create()
-    
-    //Monta o cabecalho
-    fMontaHead()
-    
-    //Montando os dados, eles devem ser montados antes de ser criado o FWBrowse
-    FWMsgRun(, {|| fMontDados() }, "Processando", "Buscando grupos")
-    //Processa({|| fMontDados()}, "Processando...")
-    
-    //Criando a janela
-    DEFINE MSDIALOG oDlgGrp TITLE "Dados" FROM 000, 000  TO nJanAltu, nJanLarg COLORS 0, 16777215 PIXEL
-        //Labels gerais
-        @ 004, 003 SAY "Titulos"                     SIZE 200, 030 FONT oFontAno  OF oDlgGrp COLORS RGB(149,179,215) PIXEL
-        @ 004, 050 SAY "Listagem de Titulos"    SIZE 200, 030 FONT oFontSub  OF oDlgGrp COLORS RGB(031,073,125) PIXEL
-        @ 014, 050 SAY "Dados Temporários"       SIZE 200, 030 FONT oFontSubN OF oDlgGrp COLORS RGB(031,073,125) PIXEL
-    
-        //Botões
-        @ 006, (nJanLarg/2-001)-(0052*01) BUTTON oBtnFech  PROMPT "Fechar"        SIZE 050, 018 OF oDlgGrp ACTION (oDlgGrp:End())   FONT oFontBtn PIXEL
-    
-        //Dados
-        @ 024, 003 GROUP oGrpDad TO (nJanAltu/2-003), (nJanLarg/2-003) PROMPT "Browse" OF oDlgGrp COLOR 0, 16777215 PIXEL
-        oGrpDad:oFont := oFontBtn
-            oPanGrid := tPanel():New(033, 006, "", oDlgGrp, , , , RGB(000,000,000), RGB(254,254,254), (nJanLarg/2 - 13),     (nJanAltu/2 - 45))
-            oGetGrid := FWBrowse():New()
-            oGetGrid:DisableFilter()
-            oGetGrid:DisableConfig()
-            oGetGrid:DisableReport()
-            oGetGrid:DisableSeek()
-            oGetGrid:DisableSaveConfig()
-            oGetGrid:SetFontBrowse(oFontBtn)
-            oGetGrid:SetAlias(cAliasTab)
-            oGetGrid:SetDataTable()
-            oGetGrid:SetEditCell(.T., {|| .T.}) 
-            oGetGrid:lHeaderClick := .F.
-            oGetGrid:AddLegend(cAliasTab + "->SALDO == 0", "RED", "Titulo Baixado")
-            oGetGrid:AddLegend(cAliasTab + "->SALDO >  0", "GREEN",  "Titulo Aberto")
-            oGetGrid:SetColumns(aColunas)
-            oGetGrid:SetOwner(oPanGrid)
-            oGetGrid:Activate()
-    ACTIVATE MsDialog oDlgGrp CENTERED
-    
-    //Deleta a temporaria
-    oTempTable:Delete()
-    
-    RestArea(aArea)
-Return
-    
-Static Function fMontaHead()
-    Local nAtual
-    Local aHeadAux := {}
-    
-    //Adicionando colunas
-    //[1] - Campo da Temporaria
-    //[2] - Titulo
-    //[3] - Tipo
-    //[4] - Tamanho
-    //[5] - Decimais
-    //[6] - Máscara
-    //[7] - Editável? .T. = sim, .F. = não
-    aAdd(aHeadAux, { "FILIAL",      "Flial",            "C",  6, 0, "@!", .F.})
-    aAdd(aHeadAux, { "PREFIXO",     "Prefixo",          "C",  3, 0, "@!", .F.})
-    aAdd(aHeadAux, { "TITULO",      "Titulo",           "C",  9, 0, "@!", .F.})
-    aAdd(aHeadAux, { "PARCELA",     "Parcela",          "C",  2, 0, "@!", .F.})
-    aAdd(aHeadAux, { "TIPO",        "Tipo",             "C",  3, 0, "@!", .F.})
-    aAdd(aHeadAux, { "EMISSAO",     "Dt. Emissao",      "C", 10, 0, "@!", .F.})
-    aAdd(aHeadAux, { "VENCIMENTO",  "Dt Vencimento",    "C", 10, 0, "@!", .F.})
-    aAdd(aHeadAux, { "VENCREA",     "Venc. Real",       "C", 10, 0, "@!", .F.})
-    aAdd(aHeadAux, { "VLRTIT",      "Valor",            "N", 10, 2, "@E 999,999.99", .F.})
-    aAdd(aHeadAux, { "VLRBAIXADO",  "Vlr. Baixado",     "N", 10, 2, "@E 999,999.99", .F.})
-    aAdd(aHeadAux, { "SALDO",       "Saldo",            "N", 10, 2, "@E 999,999.99", .F.})
-    aAdd(aHeadAux, { "SITUACAO",    "Situacao",         "C", 10, 0, "@!", .F.})
-    
-    //Percorrendo e criando as colunas
-    For nAtual := 1 To Len(aHeadAux)
-        oColumn := FWBrwColumn():New()
-        oColumn:SetData(&("{|| " + cAliasTab + "->" + aHeadAux[nAtual][1] +"}"))
-        oColumn:SetTitle(aHeadAux[nAtual][2])
-        oColumn:SetType(aHeadAux[nAtual][3])
-        oColumn:SetSize(aHeadAux[nAtual][4])
-        oColumn:SetDecimal(aHeadAux[nAtual][5])
-        oColumn:SetPicture(aHeadAux[nAtual][6])
-  
-        //Se for ser possível ter o duplo clique
-        If aHeadAux[nAtual][7]
-            oColumn:SetEdit(.T.)
-            oColumn:SetReadVar(aHeadAux[nAtual][1])
-            //oColumn:SetValid({|| fSuaValid()})
-        EndIf
-  
-        aAdd(aColunas, oColumn)
-    Next
-Return
-    
-Static Function fMontDados()
+        While (_cAlias)->(!Eof())
+        
+            // Vetor com elementos do Browse
+            aAdd(aBrowse, { IF((_cAlias)->STATUSC = 'ATIVO',.T.,.F.),(_cAlias)->FILIAL,(_cAlias)->IDCONTRATO,(_cAlias)->NUMERO,(_cAlias)->PERFIL,(_cAlias)->FORMPAG,(_cAlias)->CONDPAG,(_cAlias)->STATUSC,(_cAlias)->DTBASE,(_cAlias)->VENDEDOR }) // DADOS DA QUERY
+        
+            (_cAlias)->(dBskip())
 
-    Local aArea   := GetArea()
-    local cQueryTit := ""
-    Private cAliasTit := GetNextAlias()
-   
-    cQueryTit +=" SELECT "
-    cQueryTit +=" SE1.E1_FILIAL   	AS FILIAL,  "
-    cQueryTit +=" SE1.E1_PREFIXO  	AS PREFIXO,  "
-    cQueryTit +=" SE1.E1_NUM	        AS TITULO, 	 "
-    cQueryTit +=" SE1.E1_PARCELA  	AS PARCELA,  "
-    cQueryTit +=" SE1.E1_TIPO    	    AS TIPO,  "
-    cQueryTit +=" CONCAT(SUBSTRING(SE1.E1_EMISSAO,7,2),'/',SUBSTRING(SE1.E1_EMISSAO,5,2),'/',SUBSTRING(SE1.E1_EMISSAO,1,4)) AS EMISSAO,   "
-    cQueryTit +=" CONCAT(SUBSTRING(SE1.E1_VENCTO,7,2),'/',SUBSTRING(SE1.E1_VENCTO,5,2),'/',SUBSTRING(SE1.E1_VENCTO,1,4)) AS VENCIMENTO,   "
-    cQueryTit +=" CONCAT(SUBSTRING(SE1.E1_VENCREA,7,2),'/',SUBSTRING(SE1.E1_VENCREA,5,2),'/',SUBSTRING(SE1.E1_VENCREA,1,4)) AS VENCREA,   "
-    cQueryTit +=" SE1.E1_VALOR        AS VLRTIT,  "
-    cQueryTit +=" SE1.E1_VALLIQ       AS VLRBAIXADO,  "
-    cQueryTit +=" (SE1.E1_VALOR - SE1.E1_VALLIQ) AS SALDO,  "
-    cQueryTit +=" CASE  "
-    cQueryTit +="     WHEN (SE1.E1_VALOR - SE1.E1_VALLIQ) = 0 THEN 'BAIXADO'  "
-    cQueryTit +="     ELSE 'ABERTO'  "
-    cQueryTit +=" END                 AS SITUACAO  "
-    cQueryTit +=" FROM SE1010 SE1  "
-    cQueryTit +=" WHERE 1=1    "
-    cQueryTit +=" AND SE1.D_E_L_E_T_ = ''  "
-    cQueryTit +=" AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-')  "
-    cQueryTit +=" AND SE1.E1_CLIENTE = '060395'  "
-    cQueryTit +=" AND SE1.E1_LOJA = '01'  "
-    cQueryTit +=" ORDER BY SE1.E1_VENCREA DESC "
+        EndDo
 
-    //Criar alias temporário
-    TCQUERY cQueryTit NEW ALIAS (cAliasTit)
-    DbSelectArea(cAliasTit)
 
-    (cAliasTit)->(DbGoTop())
+        // Cria Browse
+        oBrowse := TCBrowse():New( 01 , 01, 260, 156,, {'','Filial','Id Contrato','Numero','Perfil','Form. Pg.','Cond.Pg.','Status','Dt. Base','Vendedor'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, )
+ 
+        // Seta vetor para a browse
+        oBrowse:SetArray(aBrowse)
+ 
+        // Monta a linha a ser exibina no Browse
+        //Transform(aBrowse[oBrowse:nAT,04],'@E 99,999,999,999.99') 
+        oBrowse:bLine := {||{ If(aBrowse[oBrowse:nAt,01],oOK,oNO),aBrowse[oBrowse:nAt,02],aBrowse[oBrowse:nAt,03],aBrowse[oBrowse:nAt,04],aBrowse[oBrowse:nAt,05],aBrowse[oBrowse:nAt,06],aBrowse[oBrowse:nAt,07],aBrowse[oBrowse:nAt,08],aBrowse[oBrowse:nAt,09],aBrowse[oBrowse:nAt,10] }}
 
-    While ! (cAliasTit)->(EoF())
+             
+        // Evento de clique no cabeçalho da browse
+        oBrowse:bHeaderClick := {|o, nCol| alert('bHeaderClick') }
+ 
+        // Evento de duplo click na celula
+        oBrowse:bLDblClick := {|| alert('bLDblClick') }
+ 
+        // Cria Botoes com metodos básicos
+        TButton():New( 160, 002, "GoUp()", oDlg,{|| oBrowse:GoUp(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 160, 052, "GoDown()" , oDlg,{|| oBrowse:GoDown(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 160, 102, "GoTop()" , oDlg,{|| oBrowse:GoTop(),oBrowse:setFocus()}, 40, 010,,,.F.,.T.,.F.,,.F.,,,.F.)
+        TButton():New( 160, 152, "GoBottom()", oDlg,{|| oBrowse:GoBottom(),oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
+        TButton():New( 172, 002, "Linha atual", oDlg,{|| alert(oBrowse:nAt) },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 172, 052, "Nr Linhas", oDlg,{|| alert(oBrowse:nLen) },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 172, 102, "Linhas visiveis", oDlg,{|| alert(oBrowse:nRowCount()) },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
+        TButton():New( 172, 152, "Alias", oDlg,{|| alert(oBrowse:cAlias) },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
+ 
+    ACTIVATE DIALOG oDlg CENTERED
 
-        RecLock(cAliasTab, .T.)
-            (cAliasTab)->FILIAL     := (cAliasTit)->FILIAL
-            (cAliasTab)->PREFIXO    := (cAliasTit)->PREFIXO
-            (cAliasTab)->TITULO     := (cAliasTit)->TITULO
-            (cAliasTab)->PARCELA    := (cAliasTit)->PARCELA
-            (cAliasTab)->TIPO       := (cAliasTit)->TIPO
-            (cAliasTab)->EMISSAO    := (cAliasTit)->EMISSAO
-            (cAliasTab)->VENCIMENTO := (cAliasTit)->VENCIMENTO
-            (cAliasTab)->VENCREA    := (cAliasTit)->VENCREA
-            (cAliasTab)->VLRTIT     := (cAliasTit)->VLRTIT
-            (cAliasTab)->VLRBAIXADO := (cAliasTit)->VLRBAIXADO
-            (cAliasTab)->SALDO      := (cAliasTit)->SALDO
-            (cAliasTab)->SITUACAO   := (cAliasTit)->SITUACAO
-        (cAliasTab)->(MsUnlock())
-        (cAliasTit)->(DbSkip())
+    (_cAlias)->(DbCloseArea())
 
-    EndDo
+RETURN
 
-    (cAliasTit)->(DbCloseArea())
-    RestArea(aArea)
 
-Return
+Static Function PegaDados()
+
+	Local cQuery  
+
+            cQuery := " SELECT TOP 15"
+            cQuery += " CASE "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '001' THEN 'Medicar Ribeirao Preto' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '002' THEN 'Medicar Campinas' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '003' THEN 'Medicar Sao Paulo' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '006' THEN 'Medicar Tech' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '008' THEN 'Medicar Litoral' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '016' THEN 'N1 Card' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '021' THEN 'Medicar Rio de Janeiro' "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '014' THEN 'Locamedi Matriz'  "
+            cQuery += "     ELSE '' "
+            cQuery += " END              AS FILIAL, "
+            cQuery += " A.BQC_SUBCON     AS IDCONTRATO, "
+            cQuery += " A.BQC_ANTCON     AS NUMERO, "
+            cQuery += " E.BT5_NOME       AS PERFIL, "
+            cQuery += " F.BQL_DESCRI     AS FORMPAG, "
+            cQuery += " G.ZI0_DESCRI     AS CONDPAG, "
+            cQuery += " CASE "
+            cQuery += "     WHEN A.BQC_TIPBLO = '0' AND A.BQC_DATBLO <> '' THEN 'BLOQUEADO' "
+            cQuery += "     ELSE 'ATIVO' "
+            cQuery += " END             AS STATUSC, "
+            cQuery += " CONCAT(SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),7,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),5,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),1,4)) AS DTBASE, "
+            cQuery += " H.A3_NOME       AS VENDEDOR "
+            cQuery += " FROM BQC010 A "
+            cQuery += " LEFT JOIN BT5010 E ON E.D_E_L_E_T_ = '' AND E.BT5_FILIAL = A.BQC_FILIAL AND E.BT5_CODINT = A.BQC_CODINT AND E.BT5_CODIGO = A.BQC_CODEMP AND E.BT5_NUMCON = A.BQC_NUMCON AND E.BT5_VERSAO = A.BQC_VERCON "
+            cQuery += " LEFT JOIN BQL010 F ON F.D_E_L_E_T_ = '' AND F.BQL_CODIGO = A.BQC_TIPPAG "
+            cQuery += " LEFT JOIN ZI0010 G ON G.D_E_L_E_T_ = '' AND G.ZI0_CODIGO = A.BQC_XCONDI "
+            cQuery += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = A.BQC_CODVEN "
+            cQuery += " WHERE 1=1  "
+            cQuery += " AND A.D_E_L_E_T_ = '' "
+            cQuery += " AND A.BQC_CODEMP IN ('0004','0005')  "
+            cQuery += " AND A.BQC_COBNIV = '1' "
+            //cQuery += " AND A.BQC_CODCLI = '"+cSA1cliente+"'"
+            //cQuery += " AND A.BQC_LOJA = '"+cSA1lojacli+"' "
+            cQuery += " GROUP BY A.BQC_CODINT,A.BQC_CODEMP,A.BQC_NUMCON,A.BQC_VERCON,A.BQC_VERSUB,A.BQC_SUBCON,A.BQC_ANTCON,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI,A.BQC_TIPBLO,A.BQC_DATBLO,A.BQC_DATCON,H.A3_NOME "
+
+       
+            //cQueryCtr += " FROM BQC010 A  "
+            //cQueryCtr += " LEFT JOIN BA3010 B ON B.D_E_L_E_T_ = '' AND B.BA3_CODINT = A.BQC_CODINT AND B.BA3_CODEMP = A.BQC_CODEMP AND B.BA3_CONEMP = A.BQC_NUMCON AND B.BA3_SUBCON = A.BQC_SUBCON   "
+            //cQueryCtr += " LEFT JOIN BA1010 C ON C.D_E_L_E_T_ = '' AND C.BA1_FILIAL = B.BA3_FILIAL AND C.BA1_CODINT = B.BA3_CODINT AND C.BA1_CODEMP = B.BA3_CODEMP AND C.BA1_CONEMP = B.BA3_CONEMP AND C.BA1_SUBCON = B.BA3_SUBCON AND C.BA1_MATEMP = B.BA3_MATEMP AND C.BA1_MATRIC = B.BA3_MATRIC  "
+            //cQueryCtr += " LEFT JOIN BDK010 D ON D.D_E_L_E_T_ = '' AND D.BDK_FILIAL = C.BA1_FILIAL AND D.BDK_CODINT = C.BA1_CODINT AND D.BDK_CODEMP = C.BA1_CODEMP AND D.BDK_MATRIC = C.BA1_MATRIC AND D.BDK_TIPREG = C.BA1_TIPREG   "
+            //cQueryCtr += " LEFT JOIN BT5010 E ON E.D_E_L_E_T_ = '' AND E.BT5_FILIAL = A.BQC_FILIAL AND E.BT5_CODINT = A.BQC_CODINT AND E.BT5_CODIGO = A.BQC_CODEMP AND E.BT5_NUMCON = A.BQC_NUMCON AND E.BT5_VERSAO = A.BQC_VERCON  "
+            //cQueryCtr += " LEFT JOIN BQL010 F ON F.D_E_L_E_T_ = '' AND F.BQL_CODIGO = B.BA3_TIPPAG  "
+            //cQueryCtr += " LEFT JOIN ZI0010 G ON G.D_E_L_E_T_ = '' AND G.ZI0_CODIGO = B.BA3_XCONDI  "
+            //cQueryCtr += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = B.BA3_CODVEN  "
+            //cQueryCtr += " WHERE 1=1  "
+            //cQueryCtr += " AND A.D_E_L_E_T_ = ''  "
+            //cQueryCtr += " AND A.BQC_CODEMP IN ('0003','0006')  "
+            //cQueryCtr += " AND B.BA3_COBNIV = '1'  "
+            //cQueryCtr += " AND B.BA3_CODCLI = '"+cSA1cliente+"' "
+            //cQueryCtr += " AND B.BA3_LOJA = '"+cSA1lojacli+"' "
+            
+    
+	//Criar alias temporário
+	TCQUERY cQuery NEW ALIAS (_cAlias)
+
+Return 
