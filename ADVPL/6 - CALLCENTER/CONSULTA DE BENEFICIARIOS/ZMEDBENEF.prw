@@ -161,7 +161,6 @@ User function ZMEDBENEF()
         oBrwBen:SetAlias(oTableBen:getAlias())
 
         //oBrwBen:AddButton( "Voltar"  ,{|| lRet := .T., oDlgBen:end() } ,, 2 )
-        oBrwBen:AddButton( "Filtro de Tela"  , {|| FiltroTela() } ,, 3 ) 
         oBrwBen:AddButton( "Resumo Contrato"  , {|| U_ZMEDRESCTR((oTableBen:getAlias())->FILIAL,(oTableBen:getAlias())->CODINT,(oTableBen:getAlias())->CODEMP,(oTableBen:getAlias())->CONEMP,(oTableBen:getAlias())->VERCON,(oTableBen:getAlias())->SUBCON,(oTableBen:getAlias())->VERSUB,(oTableBen:getAlias())->MATEMP)} ,, 4 ) 
      
         oBrwBen:SetQueryIndex(aIndex)
@@ -200,9 +199,3 @@ User function ZMEDBENEF()
 
 Return lRet
 
-
-Static Function FiltroTela()
-
-    MsgInfo("Em Desenvolvimento.", "Beneficiarios Medicar")
-
-Return

@@ -7,17 +7,18 @@ User Function FC010BTN()
 
     Local cCli      := ''
     Local cLojacli  := ''
-
-        DbSelectArea("SA1")
-
+    Local cTipCli   := ''
+    
         cCli := SA1->A1_COD
         cLojacli := SA1->A1_LOJA
+        cTipCli := SA1->A1_PESSOA
 
     If Paramixb[1] == 1// Deve retornar o nome a ser exibido no botão
         Return "Contratos"
     ElseIf Paramixb[1] == 3// Deve retornar a ação do contrato
-        Return  U_ZCONTRATCLI(cCli, cLojacli)
+        Return  U_ZCONTRATCLI(cCli, cLojacli, cTipCli)
     Endif
+
 
 Return
 

@@ -1,128 +1,94 @@
-#include "protheus.ch"
-#Include "Totvs.ch"
-#Include "TOPCONN.CH"
-
-
-USER FUNCTION ZMEDTELA()
-
-    Local oOK := LoadBitmap(GetResources(),'br_verde')
-    Local oNO := LoadBitmap(GetResources(),'br_vermelho')
-    //Local aList := {}
-    Private _cAlias		 := GetNextAlias()
-    
-
-    MsAguarde({||PegaDados()},"Aguarde","Motando os dados...") 
-    
-    DbSelectArea(_cAlias)
-    (_cAlias)->(DbGoTop())
+#Include 'Totvs.ch'
  
-    DEFINE DIALOG oDlg TITLE "Exemplo TCBrowse" FROM 180,180 TO 550,700 PIXEL
+User Function ZMEDTELA()
+    Local aStruct    As Array //Fields Struct
+    Local aColumns   As Array //Browse Columns
+    Local aFilter    As Array //Filter Array
+    Local nX         As Numeric //Loop Control
+    Local nOrder     As Numeric //Order
  
-        aBrowse := {}
-
-        
-        While (_cAlias)->(!Eof())
-        
-            // Vetor com elementos do Browse
-            aAdd(aBrowse, { IF((_cAlias)->STATUSC = 'ATIVO',.T.,.F.),(_cAlias)->FILIAL,(_cAlias)->IDCONTRATO,(_cAlias)->NUMERO,(_cAlias)->PERFIL,(_cAlias)->FORMPAG,(_cAlias)->CONDPAG,(_cAlias)->STATUSC,(_cAlias)->DTBASE,(_cAlias)->VENDEDOR }) // DADOS DA QUERY
-        
-            (_cAlias)->(dBskip())
-
-        EndDo
-
-
-        // Cria Browse
-        oBrowse := TCBrowse():New( 01 , 01, 260, 156,, {'','Filial','Id Contrato','Numero','Perfil','Form. Pg.','Cond.Pg.','Status','Dt. Base','Vendedor'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, )
+    aStruct := {}
+    AAdd(aStruct, {"NUMREG"    , "N", 12                       , 00})
+    AAdd(aStruct, {"CT1_CONTA" , "C", TamSX3("CT1_CONTA")[01]  , TamSX3("CT1_CONTA")[02]})
+    AAdd(aStruct, {"CT1_DESC01", "C", TamSX3("CT1_DESC01")[01] , TamSX3("CT1_DESC01")[02]})
+    AAdd(aStruct, {"CT1_CTASUP", "C", TamSX3("CT1_CTASUP")[01] , TamSX3("CT1_CTASUP")[02]})
  
-        // Seta vetor para a browse
-        oBrowse:SetArray(aBrowse)
+    //Set Columns
+    aColumns := {}
+    aFilter  := {}
+    For nX := 03 To Len(aStruct)
+        //Columns
+        AAdd(aColumns,FWBrwColumn():New())
+        aColumns[Len(aColumns)]:SetData( &("{||"+aStruct[nX][1]+"}") )
+        aColumns[Len(aColumns)]:SetTitle(RetTitle(aStruct[nX][1]))
+        aColumns[Len(aColumns)]:SetSize(aStruct[nX][3])
+        aColumns[Len(aColumns)]:SetDecimal(aStruct[nX][4])
+        aColumns[Len(aColumns)]:SetPicture(PesqPict("CT1",aStruct[nX][1]))
+        //Filters
+        aAdd(aFilter, {aStruct[nX][1], RetTitle(aStruct[nX][1]), TamSX3(aStruct[nX][1])[3], TamSX3(aStruct[nX][1])[1], TamSX3(aStruct[nX][1])[2], PesqPict("CT1", aStruct[nX][1])} )
+    Next nX
  
-        // Monta a linha a ser exibina no Browse
-        //Transform(aBrowse[oBrowse:nAT,04],'@E 99,999,999,999.99') 
-        oBrowse:bLine := {||{ If(aBrowse[oBrowse:nAt,01],oOK,oNO),aBrowse[oBrowse:nAt,02],aBrowse[oBrowse:nAt,03],aBrowse[oBrowse:nAt,04],aBrowse[oBrowse:nAt,05],aBrowse[oBrowse:nAt,06],aBrowse[oBrowse:nAt,07],aBrowse[oBrowse:nAt,08],aBrowse[oBrowse:nAt,09],aBrowse[oBrowse:nAt,10] }}
-
-             
-        // Evento de clique no cabeçalho da browse
-        oBrowse:bHeaderClick := {|o, nCol| alert('bHeaderClick') }
+    //Instance of Temporary Table
+    oTempTable := FWTemporaryTable():New()
+    //Set Fields
+    oTempTable:SetFields(aStruct)
+    //Set Indexes
+    oTempTable:AddIndex("INDEX1", {"CT1_CTASUP", "CT1_CONTA"} )
+    oTempTable:AddIndex("INDEX2", {"CT1_CONTA"} )
+    //Create
+    oTempTable:Create()
+    cAliasTmp := oTemptable:GetAlias()
  
-        // Evento de duplo click na celula
-        oBrowse:bLDblClick := {|| alert('bLDblClick') }
+    aHeadCols := {}
+    oBrowse    := NIL
+    aAccounts := {}
+    cQuery := ""
  
-        // Cria Botoes com metodos básicos
-        TButton():New( 160, 002, "GoUp()", oDlg,{|| oBrowse:GoUp(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( 160, 052, "GoDown()" , oDlg,{|| oBrowse:GoDown(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( 160, 102, "GoTop()" , oDlg,{|| oBrowse:GoTop(),oBrowse:setFocus()}, 40, 010,,,.F.,.T.,.F.,,.F.,,,.F.)
-        TButton():New( 160, 152, "GoBottom()", oDlg,{|| oBrowse:GoBottom(),oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
-        TButton():New( 172, 002, "Linha atual", oDlg,{|| alert(oBrowse:nAt) },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( 172, 052, "Nr Linhas", oDlg,{|| alert(oBrowse:nLen) },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( 172, 102, "Linhas visiveis", oDlg,{|| alert(oBrowse:nRowCount()) },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
-        TButton():New( 172, 152, "Alias", oDlg,{|| alert(oBrowse:cAlias) },40,010,,,.F.,.T.,.F.,,.F.,,,.F.)
+    cAliasQry := GetNextAlias()
  
-    ACTIVATE DIALOG oDlg CENTERED
-
-    (_cAlias)->(DbCloseArea())
-
-RETURN
-
-
-Static Function PegaDados()
-
-	Local cQuery  
-
-            cQuery := " SELECT TOP 15"
-            cQuery += " CASE "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '001' THEN 'Medicar Ribeirao Preto' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '002' THEN 'Medicar Campinas' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '003' THEN 'Medicar Sao Paulo' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '006' THEN 'Medicar Tech' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '008' THEN 'Medicar Litoral' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '016' THEN 'N1 Card' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '021' THEN 'Medicar Rio de Janeiro' "
-            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB),'') = '014' THEN 'Locamedi Matriz'  "
-            cQuery += "     ELSE '' "
-            cQuery += " END              AS FILIAL, "
-            cQuery += " A.BQC_SUBCON     AS IDCONTRATO, "
-            cQuery += " A.BQC_ANTCON     AS NUMERO, "
-            cQuery += " E.BT5_NOME       AS PERFIL, "
-            cQuery += " F.BQL_DESCRI     AS FORMPAG, "
-            cQuery += " G.ZI0_DESCRI     AS CONDPAG, "
-            cQuery += " CASE "
-            cQuery += "     WHEN A.BQC_TIPBLO = '0' AND A.BQC_DATBLO <> '' THEN 'BLOQUEADO' "
-            cQuery += "     ELSE 'ATIVO' "
-            cQuery += " END             AS STATUSC, "
-            cQuery += " CONCAT(SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),7,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),5,2),'/',SUBSTRING(CAST(A.BQC_DATCON AS VARCHAR),1,4)) AS DTBASE, "
-            cQuery += " H.A3_NOME       AS VENDEDOR "
-            cQuery += " FROM BQC010 A "
-            cQuery += " LEFT JOIN BT5010 E ON E.D_E_L_E_T_ = '' AND E.BT5_FILIAL = A.BQC_FILIAL AND E.BT5_CODINT = A.BQC_CODINT AND E.BT5_CODIGO = A.BQC_CODEMP AND E.BT5_NUMCON = A.BQC_NUMCON AND E.BT5_VERSAO = A.BQC_VERCON "
-            cQuery += " LEFT JOIN BQL010 F ON F.D_E_L_E_T_ = '' AND F.BQL_CODIGO = A.BQC_TIPPAG "
-            cQuery += " LEFT JOIN ZI0010 G ON G.D_E_L_E_T_ = '' AND G.ZI0_CODIGO = A.BQC_XCONDI "
-            cQuery += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = A.BQC_CODVEN "
-            cQuery += " WHERE 1=1  "
-            cQuery += " AND A.D_E_L_E_T_ = '' "
-            cQuery += " AND A.BQC_CODEMP IN ('0004','0005')  "
-            cQuery += " AND A.BQC_COBNIV = '1' "
-            //cQuery += " AND A.BQC_CODCLI = '"+cSA1cliente+"'"
-            //cQuery += " AND A.BQC_LOJA = '"+cSA1lojacli+"' "
-            cQuery += " GROUP BY A.BQC_CODINT,A.BQC_CODEMP,A.BQC_NUMCON,A.BQC_VERCON,A.BQC_VERSUB,A.BQC_SUBCON,A.BQC_ANTCON,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI,A.BQC_TIPBLO,A.BQC_DATBLO,A.BQC_DATCON,H.A3_NOME "
-
-       
-            //cQueryCtr += " FROM BQC010 A  "
-            //cQueryCtr += " LEFT JOIN BA3010 B ON B.D_E_L_E_T_ = '' AND B.BA3_CODINT = A.BQC_CODINT AND B.BA3_CODEMP = A.BQC_CODEMP AND B.BA3_CONEMP = A.BQC_NUMCON AND B.BA3_SUBCON = A.BQC_SUBCON   "
-            //cQueryCtr += " LEFT JOIN BA1010 C ON C.D_E_L_E_T_ = '' AND C.BA1_FILIAL = B.BA3_FILIAL AND C.BA1_CODINT = B.BA3_CODINT AND C.BA1_CODEMP = B.BA3_CODEMP AND C.BA1_CONEMP = B.BA3_CONEMP AND C.BA1_SUBCON = B.BA3_SUBCON AND C.BA1_MATEMP = B.BA3_MATEMP AND C.BA1_MATRIC = B.BA3_MATRIC  "
-            //cQueryCtr += " LEFT JOIN BDK010 D ON D.D_E_L_E_T_ = '' AND D.BDK_FILIAL = C.BA1_FILIAL AND D.BDK_CODINT = C.BA1_CODINT AND D.BDK_CODEMP = C.BA1_CODEMP AND D.BDK_MATRIC = C.BA1_MATRIC AND D.BDK_TIPREG = C.BA1_TIPREG   "
-            //cQueryCtr += " LEFT JOIN BT5010 E ON E.D_E_L_E_T_ = '' AND E.BT5_FILIAL = A.BQC_FILIAL AND E.BT5_CODINT = A.BQC_CODINT AND E.BT5_CODIGO = A.BQC_CODEMP AND E.BT5_NUMCON = A.BQC_NUMCON AND E.BT5_VERSAO = A.BQC_VERCON  "
-            //cQueryCtr += " LEFT JOIN BQL010 F ON F.D_E_L_E_T_ = '' AND F.BQL_CODIGO = B.BA3_TIPPAG  "
-            //cQueryCtr += " LEFT JOIN ZI0010 G ON G.D_E_L_E_T_ = '' AND G.ZI0_CODIGO = B.BA3_XCONDI  "
-            //cQueryCtr += " LEFT JOIN SA3010 H ON H.D_E_L_E_T_ = '' AND H.A3_COD = B.BA3_CODVEN  "
-            //cQueryCtr += " WHERE 1=1  "
-            //cQueryCtr += " AND A.D_E_L_E_T_ = ''  "
-            //cQueryCtr += " AND A.BQC_CODEMP IN ('0003','0006')  "
-            //cQueryCtr += " AND B.BA3_COBNIV = '1'  "
-            //cQueryCtr += " AND B.BA3_CODCLI = '"+cSA1cliente+"' "
-            //cQueryCtr += " AND B.BA3_LOJA = '"+cSA1lojacli+"' "
-            
-    
-	//Criar alias temporário
-	TCQUERY cQuery NEW ALIAS (_cAlias)
-
-Return 
+    cQuery := "SELECT CT1.CT1_CONTA, CT1.CT1_DESC01, CT1_CTASUP "
+    cQuery += "FROM " + RetSqlName("CT1") + " CT1 "
+    cQuery += "WHERE CT1.CT1_FILIAL = '" + FWxFILIAL("CT1") + "' "
+    cQuery += "  AND CT1.D_E_L_E_T_ = ' ' "
+    cQuery += "ORDER BY CT1.CT1_CTASUP, CT1.CT1_CONTA "
+ 
+    cQuery := ChangeQuery(cQuery)
+ 
+    PlsQuery(cQuery, cAliasQry)
+ 
+    nOrder := 01
+ 
+    DBSelectArea(cAliasTMP)
+    (cAliasQry)->(DbGoTop())
+    While !(cAliasQry)->(Eof())
+        //Add Temporary Table
+        If (RecLock(cAliasTMP, .T.))
+            (cAliasTMP)->NUMREG      := nOrder
+            (cAliasTMP)->CT1_CONTA  := (cAliasQry)->CT1_CONTA
+            (cAliasTMP)->CT1_DESC01 := (cAliasQry)->CT1_DESC01
+            (cAliasTMP)->CT1_CTASUP := (cAliasQry)->CT1_CTASUP
+            (cAliasTMP)->(MsUnlock())
+        EndIf
+        nOrder ++
+        (cAliasQry)->(DBSkip())
+    EndDo
+ 
+    (cAliasTMP)->(DbGoTop())
+ 
+    oBrowse:= FWMBrowse():New()
+ 
+    oBrowse:SetAlias(cAliasTMP) //Temporary Table Alias
+    oBrowse:SetTemporary(.T.) //Using Temporary Table
+    oBrowse:SetUseFilter(.T.) //Using Filter
+    oBrowse:OptionReport(.F.) //Disable Report Print
+    oBrowse:SetColumns(aColumns)
+    oBrowse:SetFieldFilter(aFilter) //Set Filters
+ 
+    oBrowse:Activate(/*oDlg*/) //Caso deseje incluir em um componente de Tela (Dialog, Panel, etc), informar como parâmetro o objeto
+ 
+    oFWFilter := oBrowse:FWFilter()
+    oFWFilter:DisableSave(.T.) //Disable Save Button
+ 
+    //Delete Temporary Table
+    oTempTable:Delete()
+Return
