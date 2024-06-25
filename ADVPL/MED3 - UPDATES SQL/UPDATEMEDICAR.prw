@@ -21,8 +21,8 @@ user function UPDATEMEDICAR()
         @ 025, 025 SAY oTitParametro PROMPT "Query: "                    SIZE 070, 020 OF oDlg PIXEL
         @ 020,050 GET OMEMO VAR cQuery MEMO                              SIZE 200,150 PIXEL OF oDlg
         
-        @ 025,260  BUTTON oBtn1 PROMPT "Executar"                        SIZE 030,011   ACTION (execupdatesqlmedicar(cQuery)) OF oDlg PIXEL 
-        @ 040,260  BUTTON oBtn1 PROMPT "Sair"                            SIZE 030,011   ACTION (oDlg:End()) OF oDlg PIXEL 
+        @ 025,260  BUTTON oBtn1 PROMPT "Executar"                        SIZE 030,011   ACTION (execupdatesqlmedicar(cQuery)) OF oDlg PIXEL
+        @ 040,260  BUTTON oBtn1 PROMPT "Sair"                            SIZE 030,011   ACTION (oDlg:End()) OF oDlg PIXEL
     
 
     ACTIVATE MSDIALOG oDlg CENTER

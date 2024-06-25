@@ -1,8 +1,7 @@
 #INCLUDE "PROTHEUS.CH"
 
-
 /*
- 
+
 - https://tdn.totvs.com/pages/releaseview.action?pageId=309397045
 
 */
@@ -26,9 +25,13 @@ User Function TK062SK1()
         Else
 
             MsgInfo("Cancelado pelo usuario.", "Cobranca Medicar")
-            cFilSK1:= " SK1.K1_TIPO <> 'TMK' "
+            cFilSK1:= " SK1.K1_TIPO <> 'TMK' AND SK1.K1_OPERAD = '' "
 
         Endif
+
+
+
+
 
         /*
         cOper  := aParam[1]
@@ -173,7 +176,7 @@ Static Function fAtualizaTit()
         cQryRSE1PJ += " AND SE1010.E1_FILIAL IN ('003001','008001') "
         cQryRSE1PJ += " AND SE1010.E1_SALDO > 0 "
         cQryRSE1PJ += " AND SE1010.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR', 'TMK') "
-        cQryRSE1PJ += " AND SE1010.E1_VENCREA <= DATEADD(DAY, -1, GETDATE()) "
+        cQryRSE1PJ += " AND SE1010.E1_VENCREA <= DATEADD(DAY, -5, GETDATE()) "
         cQryRSE1PJ += " AND SA1010.A1_PESSOA = 'J' "
 
         //Tenta executar o update
@@ -200,7 +203,7 @@ Static Function fAtualizaTit()
         cQryRSE1PF += " AND SE1010.E1_FILIAL NOT IN ('016001','016002') "
         cQryRSE1PF += " AND SE1010.E1_SALDO > 0 "
         cQryRSE1PF += " AND SE1010.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR', 'TMK') "
-        cQryRSE1PF += " AND SE1010.E1_VENCREA <= DATEADD(DAY, -1, GETDATE()) "
+        cQryRSE1PF += " AND SE1010.E1_VENCREA <= DATEADD(DAY, -5, GETDATE()) "
         cQryRSE1PF += " AND SA1010.A1_PESSOA = 'F' "
 
             //Tenta executar o update
@@ -227,7 +230,7 @@ Static Function fAtualizaTit()
         cQryRSK1PJ += " AND SK1010.K1_FILIAL IN ('003001','008001') "
         cQryRSK1PJ += " AND SK1010.K1_SALDO > 0 "
         cQryRSK1PJ += " AND SK1010.K1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR', 'TMK') "
-        cQryRSK1PJ += " AND SK1010.K1_VENCREA <= DATEADD(DAY, -1, GETDATE()) "
+        cQryRSK1PJ += " AND SK1010.K1_VENCREA <= DATEADD(DAY, -5, GETDATE()) "
         cQryRSK1PJ += " AND SA1010.A1_PESSOA = 'J' "
 
         //Tenta executar o update
@@ -254,7 +257,7 @@ Static Function fAtualizaTit()
         cQryRSK1PF += " AND SK1010.K1_FILIAL NOT IN ('016001','016002') "
         cQryRSK1PF += " AND SK1010.K1_SALDO > 0 "
         cQryRSK1PF += " AND SK1010.K1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR', 'TMK') "
-        cQryRSK1PF += " AND SK1010.K1_VENCREA <= DATEADD(DAY, -1, GETDATE()) "
+        cQryRSK1PF += " AND SK1010.K1_VENCREA <= DATEADD(DAY, -5, GETDATE()) "
         cQryRSK1PF += " AND SA1010.A1_PESSOA = 'F' "
 
         //Tenta executar o update

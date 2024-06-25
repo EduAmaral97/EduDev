@@ -11,8 +11,17 @@ User Function ZRELRZCTB()
     Local cTipArq := ""
     Local cTitulo := "Seleção de Pasta para Salvar arquivo"
     Local lSalvar := .F.
+	Private cPerg  := "ZFILFXC" // Nome do grupo de perguntas
 	
  
+	/* ---------------------------- PERGUNTAS E FILTROS ---------------------------- */
+	
+	If !Empty(cCustBem)
+		Pergunte(cPerg,.F.)
+	ElseIf !Pergunte(cPerg,.T.)
+		Return
+	Endif
+
 	/* ---------------------------- DIRETORIO SALVAR ---------------------------- */
 
 
@@ -143,6 +152,8 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " WHERE 1=1 "
 		cQuery += " AND A.D_E_L_E_T_ = '' "
 		cQuery += " AND A.CT2_TPSALD <> '9' "
+		cQuery += " AND A.CT2_DATA BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
+
 	
 		cQueryE1 := " SELECT "
 		cQueryE1 += " CONCAT(A.E1_FILIAL, ' - ', A.E1_PREFIXO, ' - ', A.E1_NUM) AS CHAVERECEBER, "
@@ -159,7 +170,9 @@ Static Function fMontaExcel(cPasta)
 		cQueryE1 += " LEFT JOIN SD2010 B ON B.D_E_L_E_T_ = '' AND B.D2_FILIAL = A.E1_FILIAL AND B.D2_SERIE = A.E1_PREFIXO AND B.D2_DOC = A.E1_NUM AND B.D2_CLIENTE = A.E1_CLIENTE AND B.D2_LOJA = A.E1_LOJA "
 		cQueryE1 += " WHERE 1=1 "
 		cQueryE1 += " AND A.D_E_L_E_T_ = '' "
+		cQueryE1 += " AND A.E1_EMISSAO BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
 		cQueryE1 += " GROUP BY A.E1_FILIAL,A.E1_PREFIXO,A.E1_NUM,A.E1_CCUSTO,A.E1_CLVL,B.D2_CCUSTO,B.D2_CLVL,A.E1_VALOR "
+
 
 		cQueryE2 := " SELECT "
 		cQueryE2 += " CONCAT(A.E2_FILIAL, ' - ', A.E2_PREFIXO, ' - ', A.E2_NUM) AS CHAVEPAGAR, "
@@ -176,6 +189,7 @@ Static Function fMontaExcel(cPasta)
 		cQueryE2 += " LEFT JOIN SD1010 B ON B.D_E_L_E_T_ = '' AND B.D1_FILIAL = A.E2_FILIAL AND B.D1_SERIE = A.E2_PREFIXO AND B.D1_DOC = A.E2_NUM AND B.D1_FORNECE = A.E2_FORNECE AND B.D1_LOJA = A.E2_LOJA "
 		cQueryE2 += " WHERE 1=1 "
 		cQueryE2 += " AND A.D_E_L_E_T_ = '' "
+		cQueryE2 += " AND A.E2_EMISSAO BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
 		cQueryE2 += " GROUP BY A.E2_FILIAL,A.E2_PREFIXO,A.E2_NUM,A.E2_CCUSTO,A.E2_CLVL,B.D1_CC,B.D1_CLVL,A.E2_VALOR "
 
 

@@ -122,7 +122,7 @@ Static Function ZINC()
 
     aCoors := FWGetDialogSize()
     
-    DEFINE DIALOG oDlg TITLE "Combustivel Frota Medicar - Incluir " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
+    DEFINE DIALOG oDlg TITLE "Despesas Frota Medicar - Incluir " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
         
         aGrade := {}
         //ExistCpo("SC2")
@@ -250,7 +250,7 @@ Static Function ZALT()
     SC7->(DbCloseArea())
 
 
-    DEFINE DIALOG oDlg TITLE "Combustivel Frota Medicar - Alterar " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
+    DEFINE DIALOG oDlg TITLE "Despesas Frota Medicar - Alterar " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
         
         aGrade := {}
         //ExistCpo("SC2")
@@ -402,7 +402,7 @@ Static Function ZVIS()
 
     SC7->(DbCloseArea())
 
-    DEFINE DIALOG oDlg TITLE "Combustivel Frota Medicar - Visualizar " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
+    DEFINE DIALOG oDlg TITLE "Despesas Frota Medicar - Visualizar " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
         
         aGrade := {}
         //ExistCpo("SC2")
@@ -560,7 +560,7 @@ Static Function ZEXC()
 
     SC7->(DbCloseArea())
 
-    DEFINE DIALOG oDlg TITLE "Combustivel Frota Medicar - Excluir " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
+    DEFINE DIALOG oDlg TITLE "Despesas Frota Medicar - Excluir " FROM aCoors[1], aCoors[1] TO aCoors[3], aCoors[4] PIXEL
         
         aGrade := {}
         //ExistCpo("SC2")

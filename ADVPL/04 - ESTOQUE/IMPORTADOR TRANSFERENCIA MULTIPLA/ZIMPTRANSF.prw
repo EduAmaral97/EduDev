@@ -2,6 +2,7 @@
 #INCLUDE "TOTVS.ch"
 #INCLUDE "FWMVCDEF.CH"
 #Include "TopConn.ch"
+#INCLUDE "PRTOPDEF.CH"
 
 
 /* -------------------------------------------------------------------------------
@@ -174,7 +175,8 @@ Static Function fImporta()
                         //ACOLS[1][24]:0    (RECNO SEQUENCIAL ++)
                         //ACOLS[1][25]:.F.
                         //aAdd(acols, { "000013","CAFE 500 GRS","UN","01","","000013","CAFE 500 GRS","UN","02","","","111111","",CTOD("01/01/2000"),0,1,0,"",14752,"111111",CTOD("01/01/2000"),"","SD3",14752,.F. })
-
+                        
+                        //IF( ExistCPO("SB8",FWxFilial('SD3')+StrZero(val(cCodprod),6)+StrZero(val(cArmzOri),2)+CToD(cValidade)+Alltrim(cLote)+"      "), AvKey( StrZero(val(cLote),6), "B8_LOTECTL" ), "" ),;
 
                         aAdd(acols, {IF( ExistCPO("SB1", "" + StrZero(val(cCodprod),6)), AvKey( StrZero(val(cCodprod),6), "B1_COD" ), "" ),;
                             Posicione('SB1', 1, FWxFilial('SB1') + StrZero(val(cCodprod),6), 'B1_DESC'),;
@@ -186,8 +188,8 @@ Static Function fImporta()
                             Posicione('SB1', 1, FWxFilial('SB1') + StrZero(val(cCodprod),6), 'B1_UM'),;
                             StrZero(val(cArmzDest),2),;
                             "",;
-                            "",;
-                            cLote,;
+                            "",;    
+                            PadR(cLote , 20, " "),;
                             "",;
                             CToD(cValidade),;
                             0,;
@@ -195,7 +197,7 @@ Static Function fImporta()
                             0,;
                             "",;
                             "",;
-                            cLote,;
+                            PadR(cLote , 20, " "),;
                             CToD(cValidade),;
                             "",;
                             "",;

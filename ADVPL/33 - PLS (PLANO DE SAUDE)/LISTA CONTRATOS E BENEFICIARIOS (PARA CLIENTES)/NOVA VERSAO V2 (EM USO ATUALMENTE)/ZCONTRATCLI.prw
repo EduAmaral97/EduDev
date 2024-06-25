@@ -208,7 +208,8 @@ Static Function MontaTela(cSA1cliente, cSA1lojacli, cTipCli)
     aCoors := FWGetDialogSize()
 
 
-    DEFINE DIALOG oDlg TITLE "Contratos Cliente" FROM aCoors[1], aCoors[2] TO aCoors[3]/1.76 , aCoors[4] - (aCoors[4]/3)PIXEL
+    //DEFINE DIALOG oDlg TITLE "Contratos Cliente" FROM aCoors[1], aCoors[2] TO aCoors[3]/1.6 , aCoors[4] - (aCoors[4]/3)PIXEL
+    DEFINE DIALOG oDlg TITLE "Contratos Cliente" FROM 0, 0 TO 470 , 980 PIXEL
  
         aBrowse := {}
 
@@ -225,7 +226,7 @@ Static Function MontaTela(cSA1cliente, cSA1lojacli, cTipCli)
         EndDo
 
         // Cria Browse
-        oBrowse := TCBrowse():New( aCoors[1]+25 , aCoors[1], aCoors[3] - (aCoors[3]/2.75), aCoors[3]/4 ,, {'','Filial','Grupo Empresa','Id Contrato','Numero','Perfil','Form. Pg.','Cond.Pg.','Status','Dt. Base','Dt. Bloqueio','Motivo Bloqueio','Vendedor'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, )
+        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Filial','Grupo Empresa','Id Contrato','Numero','Perfil','Form. Pg.','Cond.Pg.','Status','Dt. Base','Dt. Bloqueio','Motivo Bloqueio','Vendedor'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, )
         
         // Seta vetor para a browse
         oBrowse:SetArray(aBrowse)
@@ -243,10 +244,10 @@ Static Function MontaTela(cSA1cliente, cSA1lojacli, cTipCli)
         //oBrowse:bLDblClick := {|| alert('bLDblClick') }
 
         // Cria Botoes com metodos básicos
-        TButton():New( aCoors[1]+10, aCoors[3] - (aCoors[3]/2.77), "Resumo Contrato",   oDlg,{|| MsAguarde({|| ResumoCtr( aBrowse[oBrowse:nAt,14],aBrowse[oBrowse:nAt,15],aBrowse[oBrowse:nAt,16],aBrowse[oBrowse:nAt,17],aBrowse[oBrowse:nAt,18],aBrowse[oBrowse:nAt,19],aBrowse[oBrowse:nAt,20],aBrowse[oBrowse:nAt,21] )  },"Aguarde","Buscando Dados do Contrato...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( aCoors[1]+35, aCoors[3] - (aCoors[3]/2.77), "Beneficiarios ",    oDlg,{|| MsAguarde({|| BenefiCtr( aBrowse[oBrowse:nAt,14],aBrowse[oBrowse:nAt,15],aBrowse[oBrowse:nAt,16],aBrowse[oBrowse:nAt,17],aBrowse[oBrowse:nAt,18],aBrowse[oBrowse:nAt,19],aBrowse[oBrowse:nAt,20],aBrowse[oBrowse:nAt,21] )  },"Aguarde","Buscando Beneficiarios...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( aCoors[1]+60, aCoors[3] - (aCoors[3]/2.77), "Titulos ",          oDlg,{|| MsAguarde({|| fTituloCli(cSA1cliente, cSA1lojacli)  },"Aguarde","Buscando Titulos...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
-        TButton():New( aCoors[1]+85, aCoors[3] - (aCoors[3]/2.77), "Sair",              oDlg, {|| oDlg:End()}, 50,018, ,,,.T.,,,,,,)
+        TButton():New( 010, 430, "Resumo Contrato",   oDlg,{|| MsAguarde({|| ResumoCtr( aBrowse[oBrowse:nAt,14],aBrowse[oBrowse:nAt,15],aBrowse[oBrowse:nAt,16],aBrowse[oBrowse:nAt,17],aBrowse[oBrowse:nAt,18],aBrowse[oBrowse:nAt,19],aBrowse[oBrowse:nAt,20],aBrowse[oBrowse:nAt,21] )  },"Aguarde","Buscando Dados do Contrato...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 035, 430, "Beneficiarios ",    oDlg,{|| MsAguarde({|| BenefiCtr( aBrowse[oBrowse:nAt,14],aBrowse[oBrowse:nAt,15],aBrowse[oBrowse:nAt,16],aBrowse[oBrowse:nAt,17],aBrowse[oBrowse:nAt,18],aBrowse[oBrowse:nAt,19],aBrowse[oBrowse:nAt,20],aBrowse[oBrowse:nAt,21] )  },"Aguarde","Buscando Beneficiarios...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 060, 430, "Titulos ",          oDlg,{|| MsAguarde({|| fTituloCli(cSA1cliente, cSA1lojacli)  },"Aguarde","Buscando Titulos...")  },50,018,,,.F.,.T.,.F.,,.F.,,,.F. )
+        TButton():New( 085, 430, "Sair",              oDlg,{|| oDlg:End()}, 50,018, ,,,.T.,,,,,,)
 
         //TButton():New( 160, 002, "GoUp()", oDlg,{|| oBrowse:GoUp(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
         //TButton():New( 160, 052, "GoDown()" , oDlg,{|| oBrowse:GoDown(), oBrowse:setFocus() },40,010,,,.F.,.T.,.F.,,.F.,,,.F. )
@@ -267,7 +268,7 @@ Return
 
 /* ------------------------------------ RESUMO DE CONTRATO ------------------------------------ */
 
-Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp)
+Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp)   
 
     Local cQueryResumo
     Private AliasCtr	    := GetNextAlias()
@@ -674,7 +675,7 @@ Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
 
     Else
 
-        DEFINE MSDIALOG oDlg FROM 05,10 TO 400,1050 TITLE " Resumo Contrato Medicar " PIXEL
+        DEFINE MSDIALOG oDlg FROM 05,10 TO 415,1050 TITLE " Resumo Contrato Medicar " PIXEL
 
             @ 010,020 TO 185,300 LABEL " Dados do Contrato " OF oDlg PIXEL
 
@@ -810,7 +811,8 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
 
     Else
 
-        DEFINE DIALOG oDlg TITLE "Beneficiarios - Contrato Medicar " FROM aCoors[1], aCoors[2] TO aCoors[3] - (aCoors[3]/4), aCoors[4] - (aCoors[4]/3) PIXEL
+        //DEFINE DIALOG oDlg TITLE "Beneficiarios - Contrato Medicar " FROM aCoors[1], aCoors[2] TO aCoors[3] - (aCoors[3]/4.3), aCoors[4] - (aCoors[4]/3) PIXEL
+        DEFINE DIALOG oDlg TITLE "Beneficiarios - Contrato Medicar " FROM 0, 0 TO 470, 980 PIXEL
         
             aGrade := {}
 
@@ -859,13 +861,13 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
             //lHScroll    lógico              Indica se habilita(.T.)/desabilita(.F.) a barra de rolagem horizontal.
             //lVScroll    lógico              Indica se habilita(.T.)/desabilita(.F.) a barra de rolagem vertical.
         
-            oBrowse := TCBrowse():New( aCoors[1]+30 , aCoors[1], aCoors[3] - (aCoors[3]/2.75), aCoors[3]/3,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
+            oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
             oBrowse:SetArray(aGrade)
             oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
 
-            TButton():New( aCoors[1]+10, aCoors[3] - (aCoors[3]/2.77) , "Pesquisar"         , oDlg, {|| fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,cPesq,cOpc,aGrade,oBrowse) }, 50,018, ,,,.T.,,,,,,)
-            TButton():New( aCoors[1]+35, aCoors[3] - (aCoors[3]/2.77) , "Produtos"          , oDlg, {|| fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,aGrade[oBrowse:nAt,11],aGrade[oBrowse:nAt,12]) }, 50,018, ,,,.T.,,,,,,)
-            TButton():New( aCoors[1]+60, aCoors[3] - (aCoors[3]/2.77) , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( 010, 430 , "Pesquisar"         , oDlg, {|| fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,cPesq,cOpc,aGrade,oBrowse) }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( 035, 430 , "Produtos"          , oDlg, {|| fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,aGrade[oBrowse:nAt,11],aGrade[oBrowse:nAt,12]) }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( 060, 430 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
             
         
         ACTIVATE DIALOG oDlg CENTERED
@@ -939,7 +941,7 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
     
     Elseif empty(alltrim(cPesq))
     
-        oBrowse := TCBrowse():New( aCoors[1]+30 , aCoors[1], aCoors[3] - (aCoors[3]/2.75), aCoors[3]/3,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
+        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
         oBrowse:SetArray(aGrade)
         oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
 
@@ -958,7 +960,7 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
 
         EndDo
 
-        oBrowse := TCBrowse():New( aCoors[1]+30 , aCoors[1], aCoors[3] - (aCoors[3]/2.75), aCoors[3]/3,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
+        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
         oBrowse:SetArray(aGradeTT)
         oBrowse:bLine := {||{ If(aGradeTT[oBrowse:nAt,01],oOK,oNO),aGradeTT[oBrowse:nAt,02],aGradeTT[oBrowse:nAt,03],aGradeTT[oBrowse:nAt,04],aGradeTT[oBrowse:nAt,05],aGradeTT[oBrowse:nAt,06],aGradeTT[oBrowse:nAt,07],aGradeTT[oBrowse:nAt,08],aGradeTT[oBrowse:nAt,09],aGradeTT[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
 
@@ -1022,7 +1024,7 @@ Static Function fTituloCli(cSA1cliente, cSA1lojacli)
     Else
 
 
-        DEFINE DIALOG oDlg TITLE "Titulos Cliente - Contrato Medicar " FROM aCoors[1], aCoors[2] TO aCoors[3] - (aCoors[3]/4), aCoors[4] - (aCoors[4]/3) PIXEL
+        DEFINE DIALOG oDlg TITLE "Titulos Cliente - Contrato Medicar " FROM 0, 0 TO 470, 980 PIXEL
         
             aGradeTit := {}
 
@@ -1038,11 +1040,11 @@ Static Function fTituloCli(cSA1cliente, cSA1lojacli)
 
             EndDo
 
-            oBrowse := TCBrowse():New( aCoors[1]+30 , aCoors[1], aCoors[3] - (aCoors[3]/2.75), aCoors[3]/3,, {'Status','Filial','Prefixo','Titulo','Dt Emissao','Vencimento','Vencimento Real','Valor','Valor Liq','Saldo','Valor Baixado','Dt Baixa'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
+            oBrowse := TCBrowse():New( 5 , 5, 420, 225,, {'Status','Filial','Prefixo','Titulo','Dt Emissao','Vencimento','Vencimento Real','Valor','Valor Liq','Saldo','Valor Baixado','Dt Baixa'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
             oBrowse:SetArray(aGradeTit)
             oBrowse:bLine := {||{ If(aGradeTit[oBrowse:nAt,01],oOK,oNO),aGradeTit[oBrowse:nAt,02],aGradeTit[oBrowse:nAt,03],aGradeTit[oBrowse:nAt,04],aGradeTit[oBrowse:nAt,05],aGradeTit[oBrowse:nAt,06],aGradeTit[oBrowse:nAt,07],aGradeTit[oBrowse:nAt,08],aGradeTit[oBrowse:nAt,09],aGradeTit[oBrowse:nAt,10],aGradeTit[oBrowse:nAt,11],aGradeTit[oBrowse:nAt,12] }} //EXIBICAO DA GRADE
 
-            TButton():New( aCoors[1]+10, aCoors[3] - (aCoors[3]/2.77) , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( aCoors[1]+10, 430 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
         
         ACTIVATE DIALOG oDlg CENTERED
 
@@ -1114,7 +1116,8 @@ Static Function fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,c
 
     Else
 
-        DEFINE DIALOG oDlg TITLE " Produtos Beneficiario " FROM aCoors[1], aCoors[2] TO aCoors[3]/2 , aCoors[3]/1.2  PIXEL
+        //DEFINE DIALOG oDlg TITLE " Produtos Beneficiario " FROM aCoors[1], aCoors[2] TO aCoors[3]/2 , aCoors[3]/1.2  PIXEL
+        DEFINE DIALOG oDlg TITLE " Produtos Beneficiario " FROM aCoors[1], aCoors[2] TO 410 , 750  PIXEL
         
             aGradeProd := {}
 
@@ -1147,7 +1150,7 @@ Static Function fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,c
             oBrowse:bLine := {||{ If(aGradeProd[oBrowse:nAt,01],oOK,oNO),aGradeProd[oBrowse:nAt,02],aGradeProd[oBrowse:nAt,03] }} //EXIBICAO DA GRADE
             
 
-            TButton():New( aCoors[1]+30, aCoors[3]/3 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( aCoors[1]+30, 300 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
             
         
         ACTIVATE DIALOG oDlg CENTERED

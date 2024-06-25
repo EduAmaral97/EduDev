@@ -24,19 +24,18 @@ Objetivo: Rotina desenvolvida para consultar quem incluiu e/ou alterou certos ca
 ------------------------------------------------------------------------------- */
 
 
-
 User function ZMEDAUDITORIA()
 
-    Local aArea   	:= GetArea()
+    Local aArea := GetArea()
 
     //cChama a funcao que monta os dados
     MsAguarde({||fPegaUser(aArea)},"Aguarde","Auditando...")
 
 return()
 
-
 Static Function fPegaUser(aArea)
 
+    // CADASTRO CLIENTES
     If aArea[1] = "SA1"
 
         //Posicionando no cadastro de produtos
@@ -55,9 +54,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("A1_USERLGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
 
+    // CADASTRO FORNECEDORES
     Elseif aArea[1] = "SA2"
 
         DbSelectArea('SA2')
@@ -73,9 +73,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("A2_USERLGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
 
+    // CONTAS A PAGAR
     Elseif aArea[1] = "SE2"
 
         //Posicionando no cadastro de produtos
@@ -92,9 +93,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("E2_USERLGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
 
+    // PEDIDO DE COMPRAS
     Elseif aArea[1] = "SC7"
 
         //Posicionando no cadastro de produtos
@@ -111,9 +113,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("C7_USERLGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
     
+    // SUBCONTRATO 
     Elseif aArea[1] = "BQC"
 
         //Posicionando no cadastro de produtos
@@ -130,9 +133,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("BQC_USERGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
 
+    // FAMILIA/BENEFICIARIOS
     Elseif aArea[1] = "BA1"
 
         //Posicionando no cadastro de produtos
@@ -151,9 +155,10 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("BA3_USERGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
 
+    // DOCUMENTO DE SAIDA
     Elseif aArea[1] = "SF1"
 
         DbSelectArea('SF1')
@@ -169,24 +174,80 @@ Static Function fPegaUser(aArea)
         cDatAlt    := FWLeUserLg("F1_USERLGA", 2)
 
         //Chama a funcao que monta a tela
-        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Motando a tela...")
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
 
-    Else
-   
+
+    // CADASTRO DE BANCOS
+    Elseif aArea[1] = "SA6"
+
+        DbSelectArea('SA6')
+        
+        //LOG INCLUSAO
+        cUsrCodInc := FWLeUserLg("A6_USERLGI", 1)
+        cUsrNomInc := UsrRetName(cUsrCodInc)
+        cDatInc    := FWLeUserLg("A6_USERLGI", 2)
+
+        //LOG ALTERACAO
+        cUsrCodAlt := FWLeUserLg("A6_USERLGA", 1)
+        cUsrNomAlt := UsrRetName(cUsrCodAlt)
+        cDatAlt    := FWLeUserLg("A6_USERLGA", 2)
+
+        //Chama a funcao que monta a tela
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
+
+    
+    // CONTAS A RECEBER
+    Elseif aArea[1] = "SE1"
+
+        DbSelectArea('SE1')
+        
+        //LOG INCLUSAO
+        cUsrCodInc := FWLeUserLg("E1_USERLGI", 1)
+        cUsrNomInc := UsrRetName(cUsrCodInc)
+        cDatInc    := FWLeUserLg("E1_USERLGI", 2)
+
+        //LOG ALTERACAO
+        cUsrCodAlt := FWLeUserLg("E1_USERLGA", 1)
+        cUsrNomAlt := UsrRetName(cUsrCodAlt)
+        cDatAlt    := FWLeUserLg("E1_USERLGA", 2)
+
+        //Chama a funcao que monta a tela
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
+
+    // CADASTRO DE NATUREZA
+    Elseif aArea[1] = "SED"
+
+        DbSelectArea('SED')
+        
+        //LOG INCLUSAO
+        cUsrCodInc := FWLeUserLg("ED_USERLGI", 1)
+        cUsrNomInc := UsrRetName(cUsrCodInc)
+        cDatInc    := FWLeUserLg("ED_USERLGI", 2)
+
+        //LOG ALTERACAO
+        cUsrCodAlt := FWLeUserLg("ED_USERLGA", 1)
+        cUsrNomAlt := UsrRetName(cUsrCodAlt)
+        cDatAlt    := FWLeUserLg("ED_USERLGA", 2)
+
+        //Chama a funcao que monta a tela
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
+        
+
+    Else   
+
         MsgAlert("Auditoria nao cadastrado consulte o administrador.")
-
+        
     Endif
 
     //Limpa a area
-    RestArea( aArea    )
-
+    RestArea( aArea )
 
 Return
 
 
 Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
 
-    DEFINE MSDIALOG oDlg FROM 05,10 TO 170,470 TITLE "Medicar Auditoria: " PIXEL
+    DEFINE MSDIALOG oDlg FROM 05,10 TO 170,470 TITLE "Medicar Auditoria " PIXEL
 
         @ 010,020 TO 060,110 LABEL " Inclusão " OF oDlg PIXEL
 
