@@ -8,6 +8,7 @@ User Function FA565OWN()
     Local lEmpComp      := FWModeAccess("SE2", 1) == "C"
     Local cNatureza     := Space(100)
     Local cTipo         := Space(50)
+    Local cPortador     := Space(3)
     Private cCombo      := " "
     Private aItems 	    := {"Sim","Nao"}   
 
@@ -74,6 +75,11 @@ User Function FA565OWN()
 
             @ 045, 025 SAY oTitParametro PROMPT "Tipo: "                    SIZE 070, 020 OF oDlg PIXEL
             @ 040, 075 MSGET oGrupo VAR cTipo                               SIZE 100, 011 PIXEL OF oDlg WHEN .T. Picture "@!"
+
+            
+            @ 065, 025 SAY oTitParametro PROMPT "Portador: "                    SIZE 070, 020 OF oDlg PIXEL
+            @ 060, 075 MSGET oGrupo VAR cPortador                               SIZE 100, 011 PIXEL OF oDlg WHEN .T. Picture "@!"
+
         
             // 065, 025 SAY oTitDesc PROMPT "Ordenar por Valor? "            SIZE 070, 020 OF oDlg PIXEL
 
@@ -96,11 +102,17 @@ User Function FA565OWN()
             cQuery += " AND E2_TIPO IN ("+alltrim(cTipo)+") "
         EndiF
         
+        IF alltrim(cPortador) <> ""
+            cQuery += " AND E2_PORTADO = '"+alltrim(cPortador)+"' "
+        EndiF
+
+        MsgInfo("Filtro Aplicado.", "Medicar")
+
     EndIf
 
     cQuery += " ORDER BY E2_VALOR DESC "
 
 
- MsgInfo(cQuery, "Query Modificada.")
+    //MsgInfo(cQuery, "Query Modificada.")
  
 Return(cQuery)

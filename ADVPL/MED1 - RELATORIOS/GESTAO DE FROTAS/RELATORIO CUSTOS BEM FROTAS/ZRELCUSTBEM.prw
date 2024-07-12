@@ -199,6 +199,7 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " AND A.TJ_SITUACA IN ('P','C','L') "
 		cQuery += " AND A.TJ_TERMINO IN ('S','N') "
 	ENDIF
+	cQuery += " ORDER BY A.TJ_CODBEM DESC "
 
 	//Criar alias temporário
 	TCQUERY cQuery NEW ALIAS (_cAlias)

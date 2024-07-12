@@ -29,8 +29,9 @@ User Function CRM980MDEF()
     //DbSelectArea("SA1")
     
     aAdd(aRotina,{"Contratos", "U_ZCONTRATCLI(SA1->A1_COD, SA1->A1_LOJA, SA1->A1_PESSOA)", MODEL_OPERATION_VIEW,0})
-    //aAdd(aRotina,{"Contratos", "U_ZMEDCTR(SA1->A1_COD, SA1->A1_LOJA, SA1->A1_PESSOA)", MODEL_OPERATION_VIEW,0})
+    aAdd(aRotina,{"Ocorrencias", "U_ZMEDCLIOCR(SA1->A1_COD, SA1->A1_LOJA)", MODEL_OPERATION_VIEW,0})
     aAdd(aRotina,{"Auditoria", "U_ZMEDAUDITORIA()", MODEL_OPERATION_VIEW,0})
+    
   
     FWRestArea(aArea)
 Return aRotina

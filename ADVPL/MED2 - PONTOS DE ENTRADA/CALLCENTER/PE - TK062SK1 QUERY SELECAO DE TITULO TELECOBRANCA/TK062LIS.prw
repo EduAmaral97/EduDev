@@ -1,6 +1,0 @@
-#INCLUDE "PROTHEUS.CH"
-#INCLUDE "TOTVS.CH"
-
-User Function TK062LIS()
-
-return 

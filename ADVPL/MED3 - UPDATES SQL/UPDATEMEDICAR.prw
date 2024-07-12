@@ -23,7 +23,6 @@ user function UPDATEMEDICAR()
         
         @ 025,260  BUTTON oBtn1 PROMPT "Executar"                        SIZE 030,011   ACTION (execupdatesqlmedicar(cQuery)) OF oDlg PIXEL
         @ 040,260  BUTTON oBtn1 PROMPT "Sair"                            SIZE 030,011   ACTION (oDlg:End()) OF oDlg PIXEL
-    
 
     ACTIVATE MSDIALOG oDlg CENTER
 
@@ -51,6 +50,5 @@ Static function execupdatesqlmedicar(cQuery)
     End Transaction
 
 return
-
 
 

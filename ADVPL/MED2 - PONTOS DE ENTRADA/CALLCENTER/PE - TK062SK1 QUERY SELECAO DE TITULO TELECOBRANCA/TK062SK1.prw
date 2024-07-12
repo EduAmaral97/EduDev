@@ -20,32 +20,16 @@ User Function TK062SK1()
             MsAguarde({||fAtualizaTit()},"Aguarde","Atualizando Titulos para TMK") //Mensagem de aguarde o update
 
         
-            cFilSK1:= " SK1.K1_TIPO = 'TMK' "
+            cFilSK1:= " SK1.K1_ZCOBEXT = 'S' "
 
         Else
 
             MsgInfo("Cancelado pelo usuario.", "Cobranca Medicar")
-            cFilSK1:= " SK1.K1_TIPO <> 'TMK' AND SK1.K1_OPERAD = '' "
+            cFilSK1:= " SK1.K1_ZCOBEXT <> '2' AND SK1.K1_OPERAD = '' "
 
         Endif
 
 
-
-
-
-        /*
-        cOper  := aParam[1]
-        If cOper $'000001|000002|000005'
-            cFilSK1 := ' SK1.K1_SALDO > 10000 '
-         
-        ElseIf cOper $'000003|000004|000007'
-            cFilSK1:= ' SK1.K1_SALDO > 5000 '
-         
-        Else
-            cFilSK1:= ' SK1.K1_SALDO > 50 '
-         
-        EndIf
-        */
     EndIf
  
 Return cFilSK1
@@ -66,7 +50,7 @@ Static Function fAtualizaTit()
     
     Begin Transaction
 
-        cQryUpdSE1 := " UPDATE SE1010 SET SE1010.E1_TIPO = 'TMK' "
+        cQryUpdSE1 := " UPDATE SE1010 SET SE1010.E1_ZSTSLD = '6' "
         cQryUpdSE1 += " FROM SE1010  "
         cQryUpdSE1 += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SE1010.E1_CLIENTE AND SA1010.A1_LOJA = SE1010.E1_LOJA " 
         cQryUpdSE1 += " WHERE 1=1 "
@@ -90,7 +74,7 @@ Static Function fAtualizaTit()
 
     Begin Transaction
 
-        cQryUpdSK1 := " UPDATE SK1010 SET SK1010.K1_TIPO = 'TMK' "
+        cQryUpdSK1 := " UPDATE SK1010 SET SK1010.K1_ZCOBEXT = 'S' "
         cQryUpdSK1 += " FROM SK1010  "
         cQryUpdSK1 += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SK1010.K1_CLIENTE AND SA1010.A1_LOJA = SK1010.K1_LOJA "
         cQryUpdSK1 += " WHERE 1=1 "
@@ -114,7 +98,7 @@ Static Function fAtualizaTit()
 
     Begin Transaction
 
-        cQryUpdSE1PJ := " UPDATE SE1010 SET SE1010.E1_TIPO = 'TMK' "
+        cQryUpdSE1PJ := " UPDATE SE1010 SET SE1010.E1_ZSTSLD = '6' "
         cQryUpdSE1PJ += " FROM SE1010  "
         cQryUpdSE1PJ += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SE1010.E1_CLIENTE AND SA1010.A1_LOJA = SE1010.E1_LOJA " 
         cQryUpdSE1PJ += " WHERE 1=1 "
@@ -139,7 +123,7 @@ Static Function fAtualizaTit()
 
     Begin Transaction
 
-        cQryUpdSK1PJ := " UPDATE SK1010 SET SK1010.K1_TIPO = 'TMK' "
+        cQryUpdSK1PJ := " UPDATE SK1010 SET SK1010.K1_ZCOBEXT = 'S' "
         cQryUpdSK1PJ += " FROM SK1010  "
         cQryUpdSK1PJ += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SK1010.K1_CLIENTE AND SA1010.A1_LOJA = SK1010.K1_LOJA "
         cQryUpdSK1PJ += " WHERE 1=1 "
@@ -167,7 +151,7 @@ Static Function fAtualizaTit()
     Begin Transaction
 
         /* SE1 PJ */
-        cQryRSE1PJ := " UPDATE SE1010 SET SE1010.E1_TIPO = 'TMK' "
+        cQryRSE1PJ := " UPDATE SE1010 SET SE1010.E1_ZSTSLD = '6' "
         cQryRSE1PJ += " FROM SE1010 "
         cQryRSE1PJ += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SE1010.E1_CLIENTE AND SA1010.A1_LOJA = SE1010.E1_LOJA "
         cQryRSE1PJ += " WHERE 1=1 "
@@ -194,7 +178,7 @@ Static Function fAtualizaTit()
     Begin Transaction
 
         /* SE1 PF */
-        cQryRSE1PF := " UPDATE SE1010 SET SE1010.E1_TIPO = 'TMK' "
+        cQryRSE1PF := " UPDATE SE1010 SET SE1010.E1_ZSTSLD = '6' "
         cQryRSE1PF += " FROM SE1010 "
         cQryRSE1PF += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SE1010.E1_CLIENTE AND SA1010.A1_LOJA = SE1010.E1_LOJA "
         cQryRSE1PF += " WHERE 1=1 "
@@ -221,7 +205,7 @@ Static Function fAtualizaTit()
     Begin Transaction
 
         /* SK1 PJ */
-        cQryRSK1PJ := " UPDATE SK1010 SET SK1010.K1_TIPO = 'TMK' "
+        cQryRSK1PJ := " UPDATE SK1010 SET SK1010.K1_ZCOBEXT = 'S' "
         cQryRSK1PJ += " FROM SK1010 "
         cQryRSK1PJ += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SK1010.K1_CLIENTE AND SA1010.A1_LOJA = SK1010.K1_LOJA "
         cQryRSK1PJ += " WHERE 1=1 "
@@ -248,7 +232,7 @@ Static Function fAtualizaTit()
     Begin Transaction
 
         /* SK1 PF */
-        cQryRSK1PF := " UPDATE SK1010 SET SK1010.K1_TIPO = 'TMK' "
+        cQryRSK1PF := " UPDATE SK1010 SET SK1010.K1_ZCOBEXT = 'S' "
         cQryRSK1PF += " FROM SK1010 "
         cQryRSK1PF += " LEFT JOIN SA1010 ON SA1010.D_E_L_E_T_ = '' AND SA1010.A1_COD = SK1010.K1_CLIENTE AND SA1010.A1_LOJA = SK1010.K1_LOJA "
         cQryRSK1PF += " WHERE 1=1 "

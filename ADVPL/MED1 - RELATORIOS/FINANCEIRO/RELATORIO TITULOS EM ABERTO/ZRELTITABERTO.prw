@@ -126,9 +126,6 @@ Static Function fMontaExcel(cPasta)
 		cQuery += "	AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR')  "
 		cQuery += " AND SE1.E1_FILIAL >= '"+MV_PAR01+"' "
 		cQuery += " AND SE1.E1_FILIAL <= '"+MV_PAR02+"' "
-		IF aRotina = "SIGATMK"
-			cQuery += " AND SE1.E1_NATUREZ <> 'PUBLICOS' "
-		ENDIF
 		IF MV_PAR05 = 1
 			cQuery += " AND SE1.E1_EMISSAO BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
 		ELSE

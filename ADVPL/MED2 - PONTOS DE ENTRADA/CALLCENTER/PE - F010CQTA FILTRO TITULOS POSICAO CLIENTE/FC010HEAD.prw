@@ -1,51 +1,22 @@
-#include "protheus.ch"
-
-User function FC010HEAD()
-  
-    Local aHeader  := Paramixb
-    //Local aHeaderX := aHeader
-    
-    /*
-    aHeader := {}
-
-    if MsgYesNo("Ordernar colunas? ")
-
-        AADD(aHeader, aHeaderX[1] )
-        AADD(aHeader, aHeaderX[2] )
-        AADD(aHeader, aHeaderX[3] )
-        AADD(aHeader, aHeaderX[4] )
-        AADD(aHeader, aHeaderX[5] )
-        AADD(aHeader, aHeaderX[6] )
-        AADD(aHeader, aHeaderX[7] )
-        AADD(aHeader, aHeaderX[8] )
-        AADD(aHeader, aHeaderX[9] )
-        AADD(aHeader, aHeaderX[10] )
-        AADD(aHeader, aHeaderX[11] )
-        AADD(aHeader, aHeaderX[12] )
-        AADD(aHeader, aHeaderX[13] )
-        AADD(aHeader, aHeaderX[14] )
-        AADD(aHeader, aHeaderX[15] )
-        AADD(aHeader, aHeaderX[16] )
-        AADD(aHeader, aHeaderX[17] )
-        AADD(aHeader, aHeaderX[18] )
-        AADD(aHeader, aHeaderX[19] )
-        AADD(aHeader, aHeaderX[20] )
-        AADD(aHeader, aHeaderX[21] )
-        AADD(aHeader, aHeaderX[22] )
-        AADD(aHeader, aHeaderX[23] )
-        AADD(aHeader, aHeaderX[24] )
-        AADD(aHeader, aHeaderX[25] )
-        AADD(aHeader, aHeaderX[26] )
-        AADD(aHeader, aHeaderX[27] )
-        AADD(aHeader, aHeaderX[28] )
-        AADD(aHeader, aHeaderX[29] )
+#INCLUDE "PROTHEUS.CH"
  
-    Else
+User function FC010HEAD()
+ 
+    //Local aHeader := Paramixb
+ 
+    // Conteúdo das colunas
+    // AllTrim(X3Titulo())
+    // X3_CAMPO
+    // X3_PICTURE
+    // X3_TAMANHO
+    // X3_DECIMAL
+    // X3_VALID
+    // X3_USADO
+    // X3_TIPO
+    // X3_ARQUIVO
+    // X3_CONTEXT
+    //AADD(aHeader,{"Status Saldo","E1_ZSTSLD","@!",1,0,"","x       x       x       x       x       x       x       x       x       x       x       x       x       x       x x     ","C","SE1"," " } )
+ 
 
-        MsgAlert("Cancelado pelo usuario.")
-
-    EndIf
-    */
-
-
-Return aHeader
+ 
+Return

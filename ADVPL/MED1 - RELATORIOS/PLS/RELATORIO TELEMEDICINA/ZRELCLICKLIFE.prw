@@ -126,18 +126,18 @@ Static Function fExclusao(cPasta)
 	
 	oExcel := FwMsExcelXlsx():New()
 
-	lRet := oExcel:IsWorkSheet("TELEMEDINC")
-	oExcel:AddworkSheet("TELEMEDINC")
+	lRet := oExcel:IsWorkSheet("TELEMEDEXC")
+	oExcel:AddworkSheet("TELEMEDEXC")
 
 	lRet := oExcel:IsWorkSheet("PLANILHA1")
 	//oExcel:AddTable ("TELEMEDINC","TELEMED")
-	oExcel:AddTable ("TELEMEDINC","TELEMED",.F.)
-	oExcel:AddColumn("TELEMEDINC","TELEMED","NOME"			,1,1,.F., "")
-	oExcel:AddColumn("TELEMEDINC","TELEMED","CPF"			,1,1,.F., "")
-	oExcel:AddColumn("TELEMEDINC","TELEMED","CNPJ"			,1,1,.F., "")
-	oExcel:AddColumn("TELEMEDINC","TELEMED","EMPRESACLI"	,1,1,.F., "")
-	oExcel:AddColumn("TELEMEDINC","TELEMED","EMPRESA"		,1,1,.F., "")
-	oExcel:AddColumn("TELEMEDINC","TELEMED","TIPOCONTRATO"	,1,1,.F., "")
+	oExcel:AddTable ("TELEMEDEXC","TELEMED",.F.)
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","NOME"			,1,1,.F., "")
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","CPF"			,1,1,.F., "")
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","CNPJ"			,1,1,.F., "")
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","EMPRESACLI"	,1,1,.F., "")
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","EMPRESA"		,1,1,.F., "")
+	oExcel:AddColumn("TELEMEDEXC","TELEMED","TIPOCONTRATO"	,1,1,.F., "")
 	
 	cQuery := " SELECT   "
 	cQuery += " BA1.BA1_NOMUSR	AS NOME,   "
@@ -175,7 +175,7 @@ Static Function fExclusao(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("TELEMEDINC","TELEMED",{(_cAlias)->NOME,(_cAlias)->CPF,(_cAlias)->CNPJ, (_cAlias)->EMPRESACLI,(_cAlias)->EMPRESA,(_cAlias)->TIPOCONTRATO})
+		oExcel:AddRow("TELEMEDEXC","TELEMED",{(_cAlias)->NOME,(_cAlias)->CPF,(_cAlias)->CNPJ, (_cAlias)->EMPRESACLI,(_cAlias)->EMPRESA,(_cAlias)->TIPOCONTRATO})
 
 		(_cAlias)->(dBskip())
 

@@ -14,6 +14,8 @@ Contrato: 001022393
 
 CLIENTE: 074589
 
+CLIENTE: 106458
+
 */
 
 
@@ -488,7 +490,7 @@ Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         cQueryResumo += " ISNULL(( "
         cQueryResumo += " SELECT TOP 1 "
         cQueryResumo += " CASE  "
-        cQueryResumo += "   WHEN BA3.BA3_ESPTEL = '1' THEN 'SIM'  "
+        cQueryResumo += "   WHEN A.BQC_ESPTEL = '1' THEN 'SIM'  "
         cQueryResumo += " ELSE 'NAO'  "
         cQueryResumo += " END             AS TELEESP "
         cQueryResumo += " FROM BA3010 BA3 "
@@ -778,11 +780,14 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         cQueryBenefi += " SUM(C.BDK_VALOR) AS VALOR, "
         cQueryBenefi += " B.BA1_TIPUSU AS TIPO, "
         cQueryBenefi += " B.BA1_MATRIC AS MATRIC, "
-        cQueryBenefi += " B.BA1_TIPREG AS TIPREG "
+        cQueryBenefi += " B.BA1_TIPREG AS TIPREG, "
+        cQueryBenefi += " E.BXL_CODEQU AS CODEQUIP, "
+        cQueryBenefi += " E.BXL_DESEQU AS REGRACOMI "
         cQueryBenefi += " FROM BA3010 A  "
         cQueryBenefi += " LEFT JOIN BA1010 B ON B.D_E_L_E_T_ = '' AND B.BA1_FILIAL = A.BA3_FILIAL AND B.BA1_CODINT = A.BA3_CODINT AND B.BA1_CODEMP = A.BA3_CODEMP AND B.BA1_CONEMP = A.BA3_CONEMP AND B.BA1_SUBCON = A.BA3_SUBCON AND B.BA1_VERCON = A.BA3_VERCON AND B.BA1_VERSUB = A.BA3_VERSUB AND B.BA1_MATEMP = A.BA3_MATEMP "
         cQueryBenefi += " LEFT JOIN BDK010 C ON C.D_E_L_E_T_ = '' AND C.BDK_FILIAL = B.BA1_FILIAL AND C.BDK_CODINT = B.BA1_CODINT AND C.BDK_CODEMP = B.BA1_CODEMP AND C.BDK_MATRIC = B.BA1_MATRIC AND C.BDK_TIPREG = B.BA1_TIPREG "
         cQueryBenefi += " LEFT JOIN BG1010 D ON D.D_E_L_E_T_ = '' AND D.BG1_FILIAL = B.BA1_FILIAL AND D.BG1_CODBLO = B.BA1_MOTBLO "
+        cQueryBenefi += " LEFT JOIN BXL010 E ON E.D_E_L_E_T_ = '' AND E.BXL_CODEQU = B.BA1_EQUIPE "
         cQueryBenefi += " WHERE 1=1 "
         cQueryBenefi += " AND A.D_E_L_E_T_ = '' "
         cQueryBenefi += " AND A.BA3_FILIAL = '"+cFilialCtr+"' "
@@ -795,7 +800,7 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         IF cSubcon = "000000001"
             cQueryBenefi += " AND A.BA3_MATEMP = '"+cMatemp+"' "
         ENDIF
-        cQueryBenefi += " GROUP BY B.BA1_XCARTE,B.BA1_NOMUSR,B.BA1_CPFUSR,B.BA1_ZATEND,B.BA1_DATBLO,D.BG1_DESBLO,B.BA1_MOTBLO,B.BA1_TIPUSU,B.BA1_MATRIC,B.BA1_TIPREG "
+        cQueryBenefi += " GROUP BY B.BA1_XCARTE,B.BA1_NOMUSR,B.BA1_CPFUSR,B.BA1_ZATEND,B.BA1_DATBLO,D.BG1_DESBLO,B.BA1_MOTBLO,B.BA1_TIPUSU,B.BA1_MATRIC,B.BA1_TIPREG,E.BXL_CODEQU,E.BXL_DESEQU "
 
     TCQUERY cQueryBenefi NEW ALIAS (AliasBeneCtr)
 
@@ -826,7 +831,7 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
                 //Incrementa a mensagem na régua
                 MsProcTxt("Carregando Registros: " + cValToChar(nAtual) + ".")
     
-                aAdd(aGrade, { IF((AliasBeneCtr)->STATUSB = 'ATIVO',.T.,.F.),(AliasBeneCtr)->CARTEIRA,(AliasBeneCtr)->BENEFI,(AliasBeneCtr)->CPF,(AliasBeneCtr)->ATEND,(AliasBeneCtr)->STATUSB,(AliasBeneCtr)->DTBLOQ,(AliasBeneCtr)->DESCBLO,(AliasBeneCtr)->VALOR,(AliasBeneCtr)->TIPO,(AliasBeneCtr)->MATRIC,(AliasBeneCtr)->TIPREG }) // DADOS DA GRADE
+                aAdd(aGrade, { IF((AliasBeneCtr)->STATUSB = 'ATIVO',.T.,.F.),(AliasBeneCtr)->CARTEIRA,(AliasBeneCtr)->BENEFI,(AliasBeneCtr)->CPF,(AliasBeneCtr)->ATEND,(AliasBeneCtr)->STATUSB,(AliasBeneCtr)->DTBLOQ,(AliasBeneCtr)->DESCBLO,(AliasBeneCtr)->VALOR,(AliasBeneCtr)->TIPO,(AliasBeneCtr)->MATRIC,(AliasBeneCtr)->TIPREG,(AliasBeneCtr)->CODEQUIP,(AliasBeneCtr)->REGRACOMI }) // DADOS DA GRADE
             
                 (AliasBeneCtr)->(dBskip())
 
@@ -860,15 +865,15 @@ Static Function BenefiCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
             //bValid      bloco de código     Indica o bloco de código de validação que será executado quando o conteúdo do objeto for modificado. Retorna verdadeiro (.T.), se o conteúdo é válido; caso contrário, falso (.F.).
             //lHScroll    lógico              Indica se habilita(.T.)/desabilita(.F.) a barra de rolagem horizontal.
             //lVScroll    lógico              Indica se habilita(.T.)/desabilita(.F.) a barra de rolagem vertical.
-        
-            oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
+            oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo','Cod. Equipe','Regra Comissao'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
             oBrowse:SetArray(aGrade)
-            oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
+            oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10],aGrade[oBrowse:nAt,13],aGrade[oBrowse:nAt,14] }} //EXIBICAO DA GRADE
 
             TButton():New( 010, 430 , "Pesquisar"         , oDlg, {|| fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,cPesq,cOpc,aGrade,oBrowse) }, 50,018, ,,,.T.,,,,,,)
             TButton():New( 035, 430 , "Produtos"          , oDlg, {|| fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp,aGrade[oBrowse:nAt,11],aGrade[oBrowse:nAt,12]) }, 50,018, ,,,.T.,,,,,,)
-            TButton():New( 060, 430 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
-            
+            TButton():New( 060, 430 , "Regra Comissao"    , oDlg, {|| fRegraComis(aGrade[oBrowse:nAt,13],aGrade[oBrowse:nAt,14]) }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( 085, 430 , "Exportar Excel"    , oDlg, {|| fExcelBenef(aGrade) }, 50,018, ,,,.T.,,,,,,)
+            TButton():New( 110, 430 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
         
         ACTIVATE DIALOG oDlg CENTERED
         
@@ -907,11 +912,14 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         cQueryAtt += " CONCAT(SUBSTRING(CAST(B.BA1_DATBLO AS VARCHAR),7,2),'/',SUBSTRING(CAST(B.BA1_DATBLO AS VARCHAR),5,2),'/',SUBSTRING(CAST(B.BA1_DATBLO AS VARCHAR),1,4)) AS DTBLOQ, "
         cQueryAtt += " D.BG1_DESBLO AS DESCBLO, "
         cQueryAtt += " SUM(C.BDK_VALOR) AS VALOR, "
-        cQueryAtt += " B.BA1_TIPUSU AS TIPO "
+        cQueryAtt += " B.BA1_TIPUSU AS TIPO, "
+        cQueryAtt += " E.BXL_CODEQU AS CODEQUIP, "
+        cQueryAtt += " E.BXL_DESEQU AS REGRACOMI "
         cQueryAtt += " FROM BA3010 A  "
         cQueryAtt += " LEFT JOIN BA1010 B ON B.D_E_L_E_T_ = '' AND B.BA1_FILIAL = A.BA3_FILIAL AND B.BA1_CODINT = A.BA3_CODINT AND B.BA1_CODEMP = A.BA3_CODEMP AND B.BA1_CONEMP = A.BA3_CONEMP AND B.BA1_SUBCON = A.BA3_SUBCON AND B.BA1_VERCON = A.BA3_VERCON AND B.BA1_VERSUB = A.BA3_VERSUB AND B.BA1_MATEMP = A.BA3_MATEMP "
         cQueryAtt += " LEFT JOIN BDK010 C ON C.D_E_L_E_T_ = '' AND C.BDK_FILIAL = B.BA1_FILIAL AND C.BDK_CODINT = B.BA1_CODINT AND C.BDK_CODEMP = B.BA1_CODEMP AND C.BDK_MATRIC = B.BA1_MATRIC AND C.BDK_TIPREG = B.BA1_TIPREG "
         cQueryAtt += " LEFT JOIN BG1010 D ON D.D_E_L_E_T_ = '' AND D.BG1_FILIAL = B.BA1_FILIAL AND D.BG1_CODBLO = B.BA1_MOTBLO "
+        cQueryAtt += " LEFT JOIN BXL010 E ON E.D_E_L_E_T_ = '' AND E.BXL_CODEQU = B.BA1_EQUIPE "
         cQueryAtt += " WHERE 1=1 "
         cQueryAtt += " AND A.D_E_L_E_T_ = '' "
         cQueryAtt += " AND A.BA3_FILIAL = '"+cFilialCtr+"' "
@@ -929,7 +937,7 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         Else
             cQueryAtt += " AND B.BA1_CPFUSR LIKE '%"+ALLTRIM(cPesq)+"%' "
         Endif
-        cQueryAtt += " GROUP BY B.BA1_XCARTE,B.BA1_NOMUSR,B.BA1_CPFUSR,B.BA1_ZATEND,B.BA1_DATBLO,D.BG1_DESBLO,B.BA1_MOTBLO,B.BA1_TIPUSU "
+        cQueryAtt += " GROUP BY B.BA1_XCARTE,B.BA1_NOMUSR,B.BA1_CPFUSR,B.BA1_ZATEND,B.BA1_DATBLO,D.BG1_DESBLO,B.BA1_MOTBLO,B.BA1_TIPUSU,E.BXL_CODEQU,E.BXL_DESEQU "
 
     TCQUERY cQueryAtt NEW ALIAS (AliasAttBene)
 
@@ -941,9 +949,9 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
     
     Elseif empty(alltrim(cPesq))
     
-        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
+        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo','Cod. Equipe','Regra Comissao'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,"aGrade",.T.,,.F.,,, ) //CABECARIO DA GRADE
         oBrowse:SetArray(aGrade)
-        oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
+        oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08],aGrade[oBrowse:nAt,09],aGrade[oBrowse:nAt,10],aGrade[oBrowse:nAt,13],aGrade[oBrowse:nAt,14] }} //EXIBICAO DA GRADE
 
     
     Else
@@ -954,15 +962,15 @@ Static Function fPesquisa(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
 
         While (AliasAttBene)->(!Eof())
 
-            aAdd(aGradeTT, { IF((AliasAttBene)->STATUSB = 'ATIVO',.T.,.F.),(AliasAttBene)->CARTEIRA,(AliasAttBene)->BENEFI,(AliasAttBene)->CPF,(AliasAttBene)->ATEND,(AliasAttBene)->STATUSB,(AliasAttBene)->DTBLOQ,(AliasAttBene)->DESCBLO,(AliasAttBene)->VALOR,(AliasAttBene)->TIPO }) // DADOS DA GRADE
+            aAdd(aGradeTT, { IF((AliasAttBene)->STATUSB = 'ATIVO',.T.,.F.),(AliasAttBene)->CARTEIRA,(AliasAttBene)->BENEFI,(AliasAttBene)->CPF,(AliasAttBene)->ATEND,(AliasAttBene)->STATUSB,(AliasAttBene)->DTBLOQ,(AliasAttBene)->DESCBLO,(AliasAttBene)->VALOR,(AliasAttBene)->TIPO,(AliasAttBene)->CODEQUIP,(AliasAttBene)->REGRACOMI }) // DADOS DA GRADE
         
             (AliasAttBene)->(dBskip())
 
         EndDo
 
-        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo'},{20,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
+        oBrowse := TCBrowse():New( 30 , 5, 420, 200,, {'','Carteira','Beneficiario','Cpf','Tem Atend.','Status','Dt. Bloqueio','Motivo Bloqueio','Valor','Tipo','Cod. Equipe','Regra Comissao'},{20,50,50,50,50,50,50,50,50,50,50,50}, oDlg,,,,,{||},,,,,,,.F.,,.T.,,.F.,,, ) //CABECARIO DA GRADE
         oBrowse:SetArray(aGradeTT)
-        oBrowse:bLine := {||{ If(aGradeTT[oBrowse:nAt,01],oOK,oNO),aGradeTT[oBrowse:nAt,02],aGradeTT[oBrowse:nAt,03],aGradeTT[oBrowse:nAt,04],aGradeTT[oBrowse:nAt,05],aGradeTT[oBrowse:nAt,06],aGradeTT[oBrowse:nAt,07],aGradeTT[oBrowse:nAt,08],aGradeTT[oBrowse:nAt,09],aGradeTT[oBrowse:nAt,10] }} //EXIBICAO DA GRADE
+        oBrowse:bLine := {||{ If(aGradeTT[oBrowse:nAt,01],oOK,oNO),aGradeTT[oBrowse:nAt,02],aGradeTT[oBrowse:nAt,03],aGradeTT[oBrowse:nAt,04],aGradeTT[oBrowse:nAt,05],aGradeTT[oBrowse:nAt,06],aGradeTT[oBrowse:nAt,07],aGradeTT[oBrowse:nAt,08],aGradeTT[oBrowse:nAt,09],aGradeTT[oBrowse:nAt,10],aGradeTT[oBrowse:nAt,11],aGradeTT[oBrowse:nAt,12] }} //EXIBICAO DA GRADE
 
         (AliasAttBene)->(DbCloseArea())
         //oBrowse:bLine := {||{ If(aGrade[oBrowse:nAt,01],oOK,oNO),aGrade[oBrowse:nAt,02],aGrade[oBrowse:nAt,03],aGrade[oBrowse:nAt,04],aGrade[oBrowse:nAt,05],aGrade[oBrowse:nAt,06],aGrade[oBrowse:nAt,07],aGrade[oBrowse:nAt,08] }} //EXIBICAO DA GRADE
@@ -1162,3 +1170,128 @@ Static Function fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,c
 
 Return
 
+
+
+/* ------------------------------------ REGRA DE COMISSAO DOS BENEFICIARIOS ------------------------------------ */
+Static Function fRegraComis(cCodEqui,cCodRegraComi)
+
+    Local oDlg as object
+    Local aCoors as array
+
+    aCoors := FWGetDialogSize()
+
+    IF empty(alltrim(cCodEqui))
+
+        MsgInfo("Beneficiario sem regra de comissao cadastrada.", "Contratos Medicar.")
+
+    Else
+
+        DEFINE DIALOG oDlg TITLE " Regra Comissao - Beneficiario " FROM aCoors[1], aCoors[2] TO 150 , 670  PIXEL
+            
+            @ 010,020 TO 060,250 LABEL " Regra Comissao Cadastrada " OF oDlg PIXEL
+
+            @ 025, 025 SAY oTitParametro PROMPT "Cod. Equipe: "        SIZE 070, 020 OF oDlg PIXEL
+            @ 035, 025 MSGET oGrupo VAR cCodEqui  SIZE 040, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
+
+            @ 025, 075 SAY oTitParametro PROMPT "Regra Comissao: "        SIZE 070, 020 OF oDlg PIXEL
+            @ 035, 075 MSGET oGrupo VAR cCodRegraComi  SIZE 150, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
+
+            TButton():New( aCoors[1]+25, 265 , "Voltar"            , oDlg, {|| oDlg:End() }, 50,018, ,,,.T.,,,,,,)
+            
+        ACTIVATE DIALOG oDlg CENTERED
+
+
+    Endif
+
+
+        
+
+
+Return
+
+
+/* ------------------------------------ EXPORTAR BENEFICIARIOS PARA EXCEL ------------------------------------ */
+Static Function fExcelBenef(aBenefi)
+
+	Local cPasta := ""  
+    Local cDirIni := GetTempPath()
+    Local cTipArq := ""
+    Local cTitulo := "Seleção de Pasta para Salvar arquivo"
+    Local lSalvar := .F.
+
+
+	/* ---------------------------- DIRETORIO SALVAR ---------------------------- */
+    //Se não estiver sendo executado via job
+    If ! IsBlind()
+ 
+        //Chama a função para buscar arquivos
+        cPasta := tFileDialog(;
+            cTipArq,;                  // Filtragem de tipos de arquivos que serão selecionados
+            cTitulo,;                  // Título da Janela para seleção dos arquivos
+            ,;                         // Compatibilidade
+            cDirIni,;                  // Diretório inicial da busca de arquivos
+            lSalvar,;                  // Se for .T., será uma Save Dialog, senão será Open Dialog
+            GETF_RETDIRECTORY;         // Se não passar parâmetro, irá pegar apenas 1 arquivo; Se for informado GETF_MULTISELECT será possível pegar mais de 1 arquivo; Se for informado GETF_RETDIRECTORY será possível selecionar o diretório
+        )
+ 
+    EndIf 
+        
+    IF empty(alltrim(cPasta))
+
+        MsgInfo("Diretorio vazio operacao cancelada", "Contratos Medicar.")
+
+    ELSE
+
+        MsAguarde({|| fGeraExcel(cPasta, aBenefi) },"Aguarde","Gerando Excel...") 
+
+    ENDIF
+
+
+Return
+
+
+Static Function fGeraExcel(cPasta,aBenefi)
+
+	Local cArqBem
+    Local nAtual := 0
+
+        /* ---------------------------- ARQUIVO EXCEL ---------------------------- */
+
+        oExcel := FwMsExcelXlsx():New()
+
+        lRet := oExcel:IsWorkSheet("BENEFMED")
+        oExcel:AddworkSheet("BENEFMED")
+
+        oExcel:AddTable ("BENEFMED","DADOS",.F.)
+        oExcel:AddColumn("BENEFMED","DADOS", "CARTEIRA",	    1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "BENEFICIARIO",    1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "CPF",     	    1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "ATENDIMENTO",	    1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "STATUS",	        1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "DTBLOQ",	        1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "MOTBLOQ",	        1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "VALOR",	        1,3,.F., "@E 99999.99")
+        oExcel:AddColumn("BENEFMED","DADOS", "TIPO",	        1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "CODEQUIP",        1,1,.F., "")
+        oExcel:AddColumn("BENEFMED","DADOS", "REGRACOMIS",      1,1,.F., "")
+
+        For nAtual := 1 To Len(aBenefi)
+
+            oExcel:AddRow("BENEFMED","DADOS",{ aBenefi[nAtual,2],aBenefi[nAtual,3],aBenefi[nAtual,4],aBenefi[nAtual,5],aBenefi[nAtual,6],aBenefi[nAtual,7],aBenefi[nAtual,8],aBenefi[nAtual,9],aBenefi[nAtual,10],aBenefi[nAtual,13],aBenefi[nAtual,14] })
+
+        Next
+
+        oExcel:SetFont("Calibri")
+        oExcel:SetFontSize(11)
+        oExcel:SetItalic(.F.)
+        oExcel:SetBold(.F.)
+        oExcel:SetUnderline(.F.)
+
+        oExcel:Activate()
+        cArqBem := cPasta + '\' + 'BENEFMED' + SubStr( DTOC(Date()),1,2 ) + SubStr( DTOC(Date()),4,2 ) + SubStr( DTOC(Date()),7,4 ) + '.xlsx'
+        oExcel:GetXMLFile(cArqBem)
+
+        oExcel:DeActivate()
+
+
+Return

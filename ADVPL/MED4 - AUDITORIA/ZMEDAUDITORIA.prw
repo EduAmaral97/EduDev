@@ -233,6 +233,27 @@ Static Function fPegaUser(aArea)
         MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
         
 
+    
+    // PLS DEBITO/CREDITO
+    Elseif aArea[1] = "BSQ"
+
+        DbSelectArea('BSQ')
+        
+        //LOG INCLUSAO
+        cUsrCodInc := FWLeUserLg("BSQ_USERGI", 1)
+        cUsrNomInc := UsrRetName(cUsrCodInc)
+        cDatInc    := FWLeUserLg("BSQ_USERGI", 2)
+
+        //LOG ALTERACAO
+        cUsrCodAlt := FWLeUserLg("BSQ_USERGA", 1)
+        cUsrNomAlt := UsrRetName(cUsrCodAlt)
+        cDatAlt    := FWLeUserLg("BSQ_USERGA", 2)
+
+        //Chama a funcao que monta a tela
+        MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
+        
+
+
     Else   
 
         MsgAlert("Auditoria nao cadastrado consulte o administrador.")

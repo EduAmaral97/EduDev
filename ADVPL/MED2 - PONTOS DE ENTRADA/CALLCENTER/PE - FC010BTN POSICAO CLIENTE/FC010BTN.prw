@@ -5,7 +5,7 @@
 
 User Function FC010BTN()
 
-    Local cCli      := ''
+     Local cCli      := ''
     Local cLojacli  := ''
     Local cTipCli   := ''
     
@@ -14,12 +14,11 @@ User Function FC010BTN()
         cTipCli := SA1->A1_PESSOA
 
     If Paramixb[1] == 1// Deve retornar o nome a ser exibido no botão
-        Return "Contratos"
+        Return "Rotinas Medicar"
     ElseIf Paramixb[1] == 3// Deve retornar a ação do contrato
-        Return  U_ZCONTRATCLI(cCli, cLojacli, cTipCli)
+        Return  U_ZROTMEDCC(cCli, cLojacli, cTipCli)
     Endif
 
 
 Return
-
 
