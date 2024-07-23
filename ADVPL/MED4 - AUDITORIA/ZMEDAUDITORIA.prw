@@ -1,19 +1,14 @@
 #INCLUDE 'protheus.ch'
 #INCLUDE "TOPCONN.CH"
 
-/*
-
------------------------------------------------------------------------------# 
-                            U_ZMEDAUDITORIA 						         #
------------------------------------------------------------------------------# 
-Funcao: U_RESUMOCONTATO														 #
-Autor: Eduardo Jorge 													     #
-Data: 15/04/2024														     #
-Descricao: AUDITORIA CADASTROS                                               #
-*****************************************************************************#
-
-*/
-
+//------------------------------------------------------------------------------#
+//                            U_ZMEDAUDITORIA 						            #
+//------------------------------------------------------------------------------#
+//Funcao: U_ZMEDAUDITORIA														#
+//Autor: Eduardo Jorge 													        #
+//Data: 15/04/2024														        #
+//Descricao: AUDITORIA CADASTROS                                                #
+//******************************************************************************#
 
 /* -------------------------------------------------------------------------------
 
@@ -22,7 +17,6 @@ Data: 12/06/2024
 Objetivo: Rotina desenvolvida para consultar quem incluiu e/ou alterou certos cadastros (Nome do usuario e data)
 
 ------------------------------------------------------------------------------- */
-
 
 User function ZMEDAUDITORIA()
 
@@ -145,14 +139,14 @@ Static Function fPegaUser(aArea)
         BA3->(DbSeek(FWxFilial('BA1') + BA1->BA1_CODINT + BA1->BA1_CODEMP + BA1->BA1_MATRIC + BA1->BA1_CONEMP + BA1->BA1_VERCON + BA1->BA1_SUBCON + BA1->BA1_VERSUB))
 
         //LOG INCLUSAO
-        cUsrCodInc := FWLeUserLg("BA3_USERGI", 1)
+        cUsrCodInc := FWLeUserLg(IF(!EMPTY(BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 1)
         cUsrNomInc := UsrRetName(cUsrCodInc)
-        cDatInc    := FWLeUserLg("BA3_USERGI", 2)
+        cDatInc    := FWLeUserLg(IF(!EMPTY(BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 2)
 
         //LOG ALTERACAO
-        cUsrCodAlt := FWLeUserLg("BA3_USERGA", 1)
+        cUsrCodAlt := FWLeUserLg(IF(!EMPTY(BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 1)
         cUsrNomAlt := UsrRetName(cUsrCodAlt)
-        cDatAlt    := FWLeUserLg("BA3_USERGA", 2)
+        cDatAlt    := FWLeUserLg(IF(!EMPTY(BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 2)
 
         //Chama a funcao que monta a tela
         MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
@@ -232,8 +226,6 @@ Static Function fPegaUser(aArea)
         //Chama a funcao que monta a tela
         MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
         
-
-    
     // PLS DEBITO/CREDITO
     Elseif aArea[1] = "BSQ"
 
@@ -251,8 +243,6 @@ Static Function fPegaUser(aArea)
 
         //Chama a funcao que monta a tela
         MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")
-        
-
 
     Else   
 
@@ -264,7 +254,6 @@ Static Function fPegaUser(aArea)
     RestArea( aArea )
 
 Return
-
 
 Static Function fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)
 

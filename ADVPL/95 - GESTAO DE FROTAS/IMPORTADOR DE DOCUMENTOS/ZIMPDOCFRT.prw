@@ -9,24 +9,24 @@ Data: 12/06/2024
 Objetivo: Rotina desenvolvida para importar em massa documentos e placas na rotina de documentos no modulo gestão de frotas.
 
 ------------------------------------------------------------------------------- */
-  
+
 //Posições do Array
-Static nPosFilial       := 1 
-Static nPosCodbem       := 2 
-Static nPosPlaca        := 3 
-Static nPosDocto        := 4 
-Static nPosValor        := 5 
-Static nPosDtEmis       := 6 
-Static nPosDtVenc       := 7 
-Static nPosTipo         := 8 
-Static nPosNatureza     := 9 
-Static nPosPrefixo      := 10 
-Static nPosNumTit       := 11 
+Static nPosFilial       := 1
+Static nPosCodbem       := 2
+Static nPosPlaca        := 3
+Static nPosDocto        := 4
+Static nPosValor        := 5
+Static nPosDtEmis       := 6
+Static nPosDtVenc       := 7
+Static nPosTipo         := 8
+Static nPosNatureza     := 9
+Static nPosPrefixo      := 10
+Static nPosNumTit       := 11
 Static nPosFornecedor   := 12
-Static nPosCondPag      := 13 
-Static nPosParcela      := 14 
-Static nPosCentroCusto  := 15 
-Static nPosClasseVlr    := 16 
+Static nPosCondPag      := 13
+Static nPosParcela      := 14
+Static nPosCentroCusto  := 15
+Static nPosClasseVlr    := 16
 
 
 User Function ZIMPDOCFRT()

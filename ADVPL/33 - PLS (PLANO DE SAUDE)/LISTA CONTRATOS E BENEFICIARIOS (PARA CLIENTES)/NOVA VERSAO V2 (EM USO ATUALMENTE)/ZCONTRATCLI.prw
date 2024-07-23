@@ -4,19 +4,14 @@
 #INCLUDE 'FWBROWSE.CH'
 #INCLUDE "FWMVCDEF.CH"
 
-/*
 
-CLIENTE: 046569
+/* ----------------------------------------------------------------------------
 
-CLIENTE: 060395
+Autor: Eduardo Amaral
+Data: 12/04/2024
+Objetivo: Devenvolvido para facilitar consulta de contratos/beneficiarios e valores por cliente em tela.
 
-Contrato: 001022393
-
-CLIENTE: 074589
-
-CLIENTE: 106458
-
-*/
+---------------------------------------------------------------------------- */
 
 
 /* ------------------------------------ CONTRATOS DO CLIENTE ------------------------------------ */
@@ -54,8 +49,6 @@ RETURN
 Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
 
 	Local cQuery  
-
-    IF cTipCli = 'J'
 
             cQuery := " SELECT "            
             cQuery += " CASE "
@@ -121,9 +114,9 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += " AND A.BQC_LOJA = '"+cSA1lojacli+"' "
             cQuery += " GROUP BY A.BQC_CODINT,A.BQC_CODEMP,A.BQC_NUMCON,A.BQC_VERCON,A.BQC_VERSUB,A.BQC_SUBCON,A.BQC_ANTCON,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI,A.BQC_TIPBLO,A.BQC_DATBLO,A.BQC_DATCON,I.BG1_DESBLO,H.A3_NOME "
 
-    ELSE
+            cQuery += "UNION ALL "
 
-            cQuery := " SELECT "            
+            cQuery += " SELECT "            
             cQuery += " CASE "
             cQuery += "     WHEN B.BA3_FILIAL = '001' THEN 'Medicar Ribeirao Preto' "
             cQuery += "     WHEN B.BA3_FILIAL = '002' THEN 'Medicar Campinas' "
@@ -177,8 +170,6 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += " AND B.BA3_CODCLI = '"+cSA1cliente+"' "
             cQuery += " AND B.BA3_LOJA = '"+cSA1lojacli+"' "
             cQuery += " GROUP BY B.BA3_FILIAL,B.BA3_XCARTE,E.BT5_NOME,F.BQL_DESCRI,G.ZI0_DESCRI,B.BA3_MOTBLO,B.BA3_DATBLO,B.BA3_DATBAS,I.BG1_DESBLO,H.A3_NOME,B.BA3_CODINT,B.BA3_CODEMP,B.BA3_CONEMP,B.BA3_VERCON,B.BA3_SUBCON,B.BA3_VERSUB,B.BA3_MATEMP "
-    
-    ENDIF
     
 	//Criar alias temporário
 	TCQUERY cQuery NEW ALIAS (_cAlias)
@@ -273,7 +264,7 @@ Return
 Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVersub,cMatemp)   
 
     Local cQueryResumo
-    Private AliasCtr	    := GetNextAlias()
+    Private AliasCtr := GetNextAlias()
 
     IF cSubcon = '000000001' 
 

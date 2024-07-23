@@ -1088,7 +1088,7 @@ Return
 
 
 /* -------------------------- IMPORTADOR DE PLACAS -------------------------- */
-  
+
 Static Function fImportaPlaca(cFilialFtr,cSerie,cDoc,cFornecedor,cLoja)
 
     Local aArea      := GetArea()

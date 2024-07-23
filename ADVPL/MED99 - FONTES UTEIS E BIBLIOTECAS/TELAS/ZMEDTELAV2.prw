@@ -1,102 +1,79 @@
-#Include 'Totvs.ch'
- 
-User Function exFWMBrw()
+#Include "Protheus.ch"
 
-    Local aStruct    As Array //Fields Struct
-    Local aColumns   As Array //Browse Columns
-    Local aFilter    As Array //Filter Array
-    Local nX         As Numeric //Loop Control
-    Local nOrder     As Numeric //Order
- 
-    aStruct := {}
-    AAdd(aStruct, {"NUMREG"    , "N", 12                       , 00})
-    AAdd(aStruct, {"CT1_CONTA" , "C", TamSX3("CT1_CONTA")[01]  , TamSX3("CT1_CONTA")[02]})
-    AAdd(aStruct, {"CT1_DESC01", "C", TamSX3("CT1_DESC01")[01] , TamSX3("CT1_DESC01")[02]})
-    AAdd(aStruct, {"CT1_CTASUP", "C", TamSX3("CT1_CTASUP")[01] , TamSX3("CT1_CTASUP")[02]})
- 
-    //Set Columns
-    aColumns := {}
-    aFilter  := {}
+User Function ZMEDTELA()
 
-    For nX := 03 To Len(aStruct)
-        
-        //Columns
-        AAdd(aColumns,FWBrwColumn():New())
-        aColumns[Len(aColumns)]:SetData( &("{||"+aStruct[nX][1]+"}") )
-        aColumns[Len(aColumns)]:SetTitle(RetTitle(aStruct[nX][1]))
-        aColumns[Len(aColumns)]:SetSize(aStruct[nX][3])
-        aColumns[Len(aColumns)]:SetDecimal(aStruct[nX][4])
-        aColumns[Len(aColumns)]:SetPicture(PesqPict("CT1",aStruct[nX][1]))
-       
-        //Filters
-        aAdd(aFilter, {aStruct[nX][1], RetTitle(aStruct[nX][1]), TamSX3(aStruct[nX][1])[3], TamSX3(aStruct[nX][1])[1], TamSX3(aStruct[nX][1])[2], PesqPict("CT1", aStruct[nX][1])} )
+    Local cAlias := "BSQ"
+    Local aCores := {}
+    //Local cFiltra := "BSQ_SUBCON == '001025642' "
+   
+    Private cCadastro := "Debito e Credito Medicar"
+    Private aRotina := {}
+    Private aIndexSA2 := {}
+    Private bFiltraBrw:= { || FilBrowse(cAlias,@aIndexSA2,@cFiltra) }
+
+
+    /*
+    -- CORES DISPONIVEIS PARA LEGENDA --
+    BR_AMARELO
+    BR_AZUL
+    BR_BRANCO
+    BR_CINZA
+    BR_LARANJA
+    BR_MARRON
+    BR_VERDE
+    BR_VERMELHO
+    BR_PINK
+    BR_PRETO
+    */
+
+    aAdd(aRotina,{"Legenda",    "fLegenda()", 0, 6})
+
+    AADD(aCores,{"BSQ_NUMTIT == '         '" ,"BR_VERDE" })
+    AADD(aCores,{"BSQ_NUMTIT != ' '"         ,"BR_VERMELHO" })
+    AADD(aCores,{"BSQ_TABORI == '1'"         ,"BR_PRETO" })
+    dbSelectArea(cAlias)
+    SET DELETED OFF
+    dbSetOrder(1)
+//+------------------------------------------------------------
+//| Cria o filtro na MBrowse utilizando a função FilBrowse
+//+------------------------------------------------------------
+    //Eval(bFiltraBrw)
+    //dbSelectArea(cAlias)
+    //SET DELETED OFF
+    dbGoTop()
+    //SetBlkBackColor({|| IIf(BSQ->BSQ_TABORI == "1" , CLR_HMAGENTA , Nil )})
+    mBrowse(6,1,22,75,cAlias,,,,,,aCores)
+
+    MsgInfo("Ponto de parada", "Teste")
     
-    Next nX
- 
-    //Instance of Temporary Table
-    oTempTable := FWTemporaryTable():New()
-    
-    //Set Fields
-    oTempTable:SetFields(aStruct)
-    
-    //Set Indexes
-    oTempTable:AddIndex("INDEX1", {"CT1_CTASUP", "CT1_CONTA"} )
-    oTempTable:AddIndex("INDEX2", {"CT1_CONTA"} )
-    
-    //Create
-    oTempTable:Create()
-    cAliasTmp := oTemptable:GetAlias()
- 
-    aHeadCols := {}
-    oBrowse    := NIL
-    aAccounts := {}
-    cQuery := ""
- 
-    cAliasQry := GetNextAlias()
- 
-    cQuery := "SELECT CT1.CT1_CONTA, CT1.CT1_DESC01, CT1_CTASUP "
-    cQuery += "FROM " + RetSqlName("CT1") + " CT1 "
-    cQuery += "WHERE CT1.CT1_FILIAL = '" + FWxFILIAL("CT1") + "' "
-    cQuery += "  AND CT1.D_E_L_E_T_ = ' ' "
-    cQuery += "ORDER BY CT1.CT1_CTASUP, CT1.CT1_CONTA "
- 
-    cQuery := ChangeQuery(cQuery)
- 
-    PlsQuery(cQuery, cAliasQry)
- 
-    nOrder := 01
- 
-    DBSelectArea(cAliasTMP)
-    (cAliasQry)->(DbGoTop())
-    While !(cAliasQry)->(Eof())
-        //Add Temporary Table
-        If (RecLock(cAliasTMP, .T.))
-            (cAliasTMP)->NUMREG      := nOrder
-            (cAliasTMP)->CT1_CONTA  := (cAliasQry)->CT1_CONTA
-            (cAliasTMP)->CT1_DESC01 := (cAliasQry)->CT1_DESC01
-            (cAliasTMP)->CT1_CTASUP := (cAliasQry)->CT1_CTASUP
-            (cAliasTMP)->(MsUnlock())
-        EndIf
-        nOrder ++
-        (cAliasQry)->(DBSkip())
-    EndDo
- 
-    (cAliasTMP)->(DbGoTop())
- 
-    oBrowse:= FWMBrowse():New()
- 
-    oBrowse:SetAlias(cAliasTMP) //Temporary Table Alias
-    oBrowse:SetTemporary(.T.) //Using Temporary Table
-    oBrowse:SetUseFilter(.T.) //Using Filter
-    oBrowse:OptionReport(.F.) //Disable Report Print
-    oBrowse:SetColumns(aColumns)
-    oBrowse:SetFieldFilter(aFilter) //Set Filters
- 
-    oBrowse:Activate(/*oDlg*/) //Caso deseje incluir em um componente de Tela (Dialog, Panel, etc), informar como parâmetro o objeto
- 
-    oFWFilter := oBrowse:FWFilter()
-    oFWFilter:DisableSave(.T.) //Disable Save Button
- 
-    //Delete Temporary Table
-    oTempTable:Delete()
+//+------------------------------------------------
+//| Deleta o filtro utilizado na função FilBrowse
+//+------------------------------------------------
+    EndFilBrw(cAlias,aIndexSA2)
+Return Nil
+//+---------------------------------------
+//|Função: BInclui - Rotina de Inclusão
+//+---------------------------------------
+User Function BInclui(cAlias,nReg,nOpc)
+    Local nOpcao := 0
+    nOpcao := AxInclui(cAlias,nReg,nOpc)
+    If nOpcao == 1
+        MsgInfo("Inclusão efetuada com sucesso!")
+    Else
+        MsgInfo("Inclusão cancelada!")
+    Endif
+Return Nil
+
+
+Static Function fLegenda()
+
+    MsgInfo("Teste", "Debito e Credito Medicar")
+
 Return
+
+
+
+
+
+
+
