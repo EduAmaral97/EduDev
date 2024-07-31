@@ -2,8 +2,11 @@
  
 User Function F010CQTA()
 
-    Local cQuery := paramixb [1]
+    Local cQuery := paramixb[1]
     Local aArea := GetArea()
+    Local aHeadBKP := aHeader
+    //Local nCount
+    
 
     IF MsgYesNo("Deseja remover titulos ('RA','PR') da listagem? ")
 
@@ -133,6 +136,68 @@ User Function F010CQTA()
 
     EndIf
 
+    /* ------------------------------- REORDENA AS COLUNAS DA TABELA ------------------------------- */
+
+    aHeader := {}
+    //aHeader[30] - STATTIT
+
+    aadd(aHeader, aHeadBKP[1])
+    aadd(aHeader, aHeadBKP[2])
+    aadd(aHeader, aHeadBKP[3])
+    aadd(aHeader, aHeadBKP[4])
+    aadd(aHeader, aHeadBKP[5])
+    aadd(aHeader, aHeadBKP[30])
+    aadd(aHeader, aHeadBKP[6])
+    aadd(aHeader, aHeadBKP[7])
+    aadd(aHeader, aHeadBKP[8])
+    aadd(aHeader, aHeadBKP[9])
+    aadd(aHeader, aHeadBKP[10])
+    aadd(aHeader, aHeadBKP[11])
+    aadd(aHeader, aHeadBKP[13])
+    aadd(aHeader, aHeadBKP[14])
+    aadd(aHeader, aHeadBKP[15])
+    aadd(aHeader, aHeadBKP[16])
+    aadd(aHeader, aHeadBKP[17])
+    aadd(aHeader, aHeadBKP[18])
+    aadd(aHeader, aHeadBKP[19])
+    aadd(aHeader, aHeadBKP[20])
+    aadd(aHeader, aHeadBKP[21])
+    aadd(aHeader, aHeadBKP[22])
+    aadd(aHeader, aHeadBKP[23])
+    aadd(aHeader, aHeadBKP[24])
+    aadd(aHeader, aHeadBKP[25])
+    aadd(aHeader, aHeadBKP[26])
+    aadd(aHeader, aHeadBKP[27])
+    aadd(aHeader, aHeadBKP[28])
+    aadd(aHeader, aHeadBKP[29])
+    aadd(aHeader, aHeadBKP[12])
+
+
+
+    /*
+    For nCount := 1 to len(aHeadBKP)
+
+        if  nCount < 6
+            
+            aadd(aHeader, aHeadBKP[nCount])
+
+        elseif  nCount = 6
+
+            aadd(aHeader, aHeadBKP[30])
+
+        else
+            
+            aadd(aHeader, aHeadBKP[nCount-1])
+
+        endif
+    
+    Next
+    */
+
     RestArea(aArea)
 
 Return cQuery
+
+
+
+

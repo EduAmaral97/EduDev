@@ -2,6 +2,15 @@
 #INCLUDE "PROTHEUS.CH"
 #include "topconn.ch"
 
+/*
+
+Objetivo: Relatorio geral de clientes em aberto para o callcenter/cobrança
+Autor: Eduardo Amaral
+Data: 17/05/2024
+
+*/
+
+
 User Function ZRELCLIABERTO()
 
 	Local cPasta := ""  
@@ -47,13 +56,13 @@ Static Function fMontaRel(cPasta)
 	oExcel:AddworkSheet("ZRELCLIABERTO")
 
 	lRet := oExcel:IsWorkSheet("ZRELCLIABERTO")
-	//oExcel:AddTable ("TELEMEDINC","TELEMED")
 	oExcel:AddTable ("ZRELCLIABERTO","CLIABERT",.F.)
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","FILIAL"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","PREFIXO"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","TITULO"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","PARCELA"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","TIPO"			,1,1,.F., "")
+	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","NUMNF"			,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","CODCLI"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","RAZAOSOC"		,1,1,.F., "")
 	oExcel:AddColumn("ZRELCLIABERTO","CLIABERT","NOMEFANT"		,1,1,.F., "")
@@ -70,6 +79,7 @@ Static Function fMontaRel(cPasta)
 	cQuery += " B.E1_NUM		AS TITULO,  "
 	cQuery += " B.E1_PARCELA	AS PARCELA,  "
 	cQuery += " B.E1_TIPO		AS TIPO,  "
+	cQuery += " C.F2_NFELETR	AS NUMNF,  "
     cQuery += " A.A1_COD  		AS CODCLI, "
 	cQuery += " A.A1_NOME	 	AS RAZAOSOC,  "
 	cQuery += " A.A1_NREDUZ	 	AS NOMEFANT,  "
@@ -91,12 +101,13 @@ Static Function fMontaRel(cPasta)
 	cQuery += " END AS STATUSCTR "
 	cQuery += " FROM SA1010 A  "
 	cQuery += " LEFT JOIN SE1010 B ON B.D_E_L_E_T_ = '' AND B.E1_CLIENTE = A.A1_COD AND B.E1_LOJA = A.A1_LOJA "
+	cQuery += " LEFT JOIN SF2010 C ON C.D_E_L_E_T_ = '' AND C.F2_FILIAL = B.E1_FILIAL AND C.F2_SERIE = B.E1_PREFIXO AND C.F2_DOC = B.E1_NUM AND C.F2_CLIENTE = B.E1_CLIENTE AND C.F2_LOJA = B.E1_LOJA  "
 	cQuery += " WHERE 1=1  "
 	cQuery += " AND A.D_E_L_E_T_ = ''  "
     cQuery += " AND B.E1_SALDO > 0 "
 	cQuery += " AND B.E1_VENCREA <= GETDATE()  "
 	cQuery += " AND B.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR') "
-	cQuery += " AND ISNULL(( SELECT COUNT(*) FROM SE1010 E1	WHERE 1=1 AND E1.D_E_L_E_T_ = '' AND E1.E1_SALDO > 0 AND E1.E1_VENCREA <= GETDATE()	AND B.E1_TIPO NOT IN ('CF-','PI-','CS-') AND E1.E1_CLIENTE = A.A1_COD AND E1.E1_LOJA = A.A1_LOJA ),0) > 1 "
+	//cQuery += " AND ISNULL(( SELECT COUNT(*) FROM SE1010 E1	WHERE 1=1 AND E1.D_E_L_E_T_ = '' AND E1.E1_SALDO > 0 AND E1.E1_VENCREA <= GETDATE()	AND B.E1_TIPO NOT IN ('CF-','PI-','CS-') AND E1.E1_CLIENTE = A.A1_COD AND E1.E1_LOJA = A.A1_LOJA ),0) > 1 "
 	cQuery += " ORDER BY 3 "
 
 
@@ -107,7 +118,7 @@ Static Function fMontaRel(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("ZRELCLIABERTO","CLIABERT",{(_cAlias)->FILIAL,(_cAlias)->PREFIXO,(_cAlias)->TITULO,(_cAlias)->PARCELA,(_cAlias)->TIPO,(_cAlias)->CODCLI,(_cAlias)->RAZAOSOC,(_cAlias)->NOMEFANT,(_cAlias)->VENCIMENTO,(_cAlias)->VLRTIT,(_cAlias)->SALDO,(_cAlias)->DIASVENC,(_cAlias)->VENDEDOR,(_cAlias)->STATUSCTR})
+		oExcel:AddRow("ZRELCLIABERTO","CLIABERT",{(_cAlias)->FILIAL,(_cAlias)->PREFIXO,(_cAlias)->TITULO,(_cAlias)->PARCELA,(_cAlias)->TIPO,(_cAlias)->NUMNF,(_cAlias)->CODCLI,(_cAlias)->RAZAOSOC,(_cAlias)->NOMEFANT,(_cAlias)->VENCIMENTO,(_cAlias)->VLRTIT,(_cAlias)->SALDO,(_cAlias)->DIASVENC,(_cAlias)->VENDEDOR,(_cAlias)->STATUSCTR})
 		
 		(_cAlias)->(dBskip())
 

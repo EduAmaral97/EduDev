@@ -68,8 +68,10 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("CONTABIL","LISTCTB", "CTACRD", 		1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "VALOR", 		1,3,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "HISTORICO", 	1,1,.F.,"")
+	oExcel:AddColumn("CONTABIL","LISTCTB", "KEYCTB",		1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "ROTINA", 		1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "TITULO", 		1,1,.F.,"")
+	oExcel:AddColumn("CONTABIL","LISTCTB", "CLIFOR",		1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "IDENT", 		1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "IDENTCANC", 	1,1,.F.,"")
 	oExcel:AddColumn("CONTABIL","LISTCTB", "CLVLDB", 		1,1,.F.,"")
@@ -99,6 +101,7 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " A.CT2_CREDIT		AS CTACRD, "
 		cQuery += " A.CT2_VALOR			AS VALOR, "
 		cQuery += " A.CT2_HIST			AS HISTORICO, "
+		cQuery += " A.CT2_KEY			AS KEYCTB, "
 		cQuery += " A.CT2_ROTINA		AS ROTINA, "
 		cQuery += " CASE "
 		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA460' THEN CONCAT( SUBSTRING(A.CT2_KEY,1,6), ' - ', SUBSTRING(A.CT2_KEY,15,3), ' - ', SUBSTRING(A.CT2_KEY,18,9)) "
@@ -127,6 +130,23 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " 	ELSE '' "
 		cQuery += " END 						AS TITULO, "
 		cQuery += " CASE "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA050' THEN SUBSTRING(A.CT2_KEY,26,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA070' THEN SUBSTRING(A.CT2_KEY,36,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA200' THEN SUBSTRING(A.CT2_KEY,36,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA080' THEN SUBSTRING(A.CT2_KEY,36,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA370' THEN SUBSTRING(A.CT2_KEY,36,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA090' THEN SUBSTRING(A.CT2_KEY,36,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'MATA103' THEN SUBSTRING(A.CT2_KEY,19,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'CTBANFS' THEN SUBSTRING(A.CT2_KEY,19,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA460' THEN SUBSTRING(A.CT2_KEY,7,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA460' THEN SUBSTRING(A.CT2_KEY,7,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'CTBANFE' THEN SUBSTRING(A.CT2_KEY,19,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA340' THEN SUBSTRING(A.CT2_KEY,37,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA040' THEN SUBSTRING(A.CT2_KEY,18,6) "
+		cQuery += " 	WHEN A.CT2_ROTINA = 'FINA290' THEN SUBSTRING(A.CT2_KEY,26,6) "
+		cQuery += " 	ELSE '' "
+		cQuery += " END 					AS CLIFOR, "
+		cQuery += " CASE "
 		cQuery += " 	WHEN SUBSTRING(CT2_CREDIT,1,1) = '3' AND CTCR.CT1_NORMAL = '2' THEN 'RECEBER - SE1' "
 		cQuery += " 	WHEN SUBSTRING(CT2_DEBITO,1,1) = '4' AND CTCR.CT1_NORMAL = '1' THEN 'PAGAR - SE2' "
 		cQuery += " 	WHEN SUBSTRING(CT2_DEBITO,1,1) = '3' AND CTCR.CT1_NORMAL = '1' THEN 'PAGAR - SE2' "
@@ -153,8 +173,10 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " AND A.D_E_L_E_T_ = '' "
 		cQuery += " AND A.CT2_TPSALD <> '9' "
 		cQuery += " AND A.CT2_DATA BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
+		
+		
 
-	
+		
 		cQueryE1 := " SELECT "
 		cQueryE1 += " CONCAT(A.E1_FILIAL, ' - ', A.E1_PREFIXO, ' - ', A.E1_NUM) AS CHAVERECEBER, "
 		cQueryE1 += " CASE "
@@ -173,7 +195,9 @@ Static Function fMontaExcel(cPasta)
 		cQueryE1 += " AND A.E1_EMISSAO BETWEEN '"+Dtos(MV_PAR01)+"' AND '"+Dtos(MV_PAR02)+"' "
 		cQueryE1 += " GROUP BY A.E1_FILIAL,A.E1_PREFIXO,A.E1_NUM,A.E1_CCUSTO,A.E1_CLVL,B.D2_CCUSTO,B.D2_CLVL,A.E1_VALOR "
 
-
+	
+	
+	
 		cQueryE2 := " SELECT "
 		cQueryE2 += " CONCAT(A.E2_FILIAL, ' - ', A.E2_PREFIXO, ' - ', A.E2_NUM) AS CHAVEPAGAR, "
 		cQueryE2 += " CASE "
@@ -205,7 +229,7 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("CONTABIL","LISTCTB",{(_cAlias)->FILIAL,(_cAlias)->DTLANC,(_cAlias)->CTADEB,(_cAlias)->CTACRD,(_cAlias)->VALOR,(_cAlias)->HISTORICO,(_cAlias)->ROTINA,(_cAlias)->TITULO,(_cAlias)->IDENT,(_cAlias)->IDENTCANC,(_cAlias)->CLVLDB,(_cAlias)->CLVLCR,(_cAlias)->CCD,(_cAlias)->CCC})
+		oExcel:AddRow("CONTABIL","LISTCTB",{(_cAlias)->FILIAL,(_cAlias)->DTLANC,(_cAlias)->CTADEB,(_cAlias)->CTACRD,(_cAlias)->VALOR,(_cAlias)->HISTORICO,(_cAlias)->KEYCTB,(_cAlias)->ROTINA,(_cAlias)->TITULO,(_cAlias)->CLIFOR,(_cAlias)->IDENT,(_cAlias)->IDENTCANC,(_cAlias)->CLVLDB,(_cAlias)->CLVLCR,(_cAlias)->CCD,(_cAlias)->CCC})
 
 		(_cAlias)->(dBskip())
 

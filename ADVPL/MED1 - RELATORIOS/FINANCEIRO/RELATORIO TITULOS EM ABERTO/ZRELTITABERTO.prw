@@ -73,6 +73,7 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("TITABERTO","TITULOS", "NUMTIT",		,1,1,.F., "")
 	oExcel:AddColumn("TITABERTO","TITULOS", "PREFIXO",		,1,1,.F., "")
 	oExcel:AddColumn("TITABERTO","TITULOS", "PARCELA",		,1,1,.F., "")
+	oExcel:AddColumn("TITABERTO","TITULOS", "NUMRPS",		,1,1,.F., "")
 	oExcel:AddColumn("TITABERTO","TITULOS", "SERIENF",		,1,1,.F., "")
 	oExcel:AddColumn("TITABERTO","TITULOS", "NUMNF",		,1,1,.F., "")
 	oExcel:AddColumn("TITABERTO","TITULOS", "HISTORICO",	,1,1,.F., "")
@@ -100,8 +101,9 @@ Static Function fMontaExcel(cPasta)
 		cQuery += "	SE1.E1_NUM	    	AS NUMTIT,  "
 		cQuery += "	SE1.E1_PREFIXO  	AS PREFIXO,  "
 		cQuery += "	SE1.E1_PARCELA  	AS PARCELA,  "
+		cQuery += "	SD2.D2_DOC    		AS NUMRPS,  "
 		cQuery += "	SD2.D2_SERIE  		AS SERIENF,  "
-		cQuery += "	SD2.D2_DOC    		AS NUMNF,  "
+		cQuery += "	SF2.F2_NFELETR		AS NUMNF,  "
 		cQuery += "	SE1.E1_HIST  		AS HISTORICO,  "
 		cQuery += "	CONCAT(SUBSTRING(SE1.E1_EMISSAO,7,2),'/',SUBSTRING(SE1.E1_EMISSAO,5,2),'/',SUBSTRING(SE1.E1_EMISSAO,1,4)) AS EMISSAO,   "
 		cQuery += "	CONCAT(SUBSTRING(SE1.E1_VENCREA,7,2),'/',SUBSTRING(SE1.E1_VENCREA,5,2),'/',SUBSTRING(SE1.E1_VENCREA,1,4)) AS VENCIMENTO,   "
@@ -121,6 +123,7 @@ Static Function fMontaExcel(cPasta)
 		cQuery += "	LEFT JOIN CTT010 CTT ON CTT.D_E_L_E_T_ = '' AND CTT.CTT_CUSTO = SD2.D2_CCUSTO  "
 		cQuery += "	LEFT JOIN CTH010 CTH ON CTH.D_E_L_E_T_ = '' AND CTH.CTH_CLVL = SD2.D2_CLVL  "
 		cQuery += "	LEFT JOIN SED010 SED ON SED.D_E_L_E_T_ = '' AND SED.ED_CODIGO = SE1.E1_NATUREZ  "
+		cQuery += " LEFT JOIN SF2010 SF2 ON SF2.D_E_L_E_T_ = '' AND SF2.F2_FILIAL = SD2.D2_FILIAL AND SF2.F2_SERIE = SD2.D2_SERIE AND SF2.F2_DOC = SD2.D2_DOC AND SF2.F2_CLIENTE = SD2.D2_CLIENTE AND SF2.F2_LOJA = SD2.D2_LOJA "
 		cQuery += "	WHERE 1=1    "
 		cQuery += "	AND SE1.D_E_L_E_T_ = ''  "
 		cQuery += "	AND SE1.E1_TIPO NOT IN ('RA','CF-','PI-','CS-','IN-','IS-','IR-','PR')  "
@@ -142,7 +145,7 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("TITABERTO","TITULOS",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,(_cAlias)->CGC,(_cAlias)->NUMTIT,(_cAlias)->PREFIXO,(_cAlias)->PARCELA,(_cAlias)->SERIENF,(_cAlias)->NUMNF,(_cAlias)->HISTORICO,(_cAlias)->EMISSAO,(_cAlias)->VENCIMENTO,(_cAlias)->VALORTIT,(_cAlias)->VALORNF,(_cAlias)->VALORLIQ,(_cAlias)->SALDO,(_cAlias)->CCUSTO,(_cAlias)->DESCCC,(_cAlias)->CLVL,(_cAlias)->DESCCLVL,(_cAlias)->NATUREZA,(_cAlias)->DESCNATURE})
+		oExcel:AddRow("TITABERTO","TITULOS",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,(_cAlias)->CGC,(_cAlias)->NUMTIT,(_cAlias)->PREFIXO,(_cAlias)->PARCELA,(_cAlias)->NUMRPS,(_cAlias)->SERIENF,(_cAlias)->NUMNF,(_cAlias)->HISTORICO,(_cAlias)->EMISSAO,(_cAlias)->VENCIMENTO,(_cAlias)->VALORTIT,(_cAlias)->VALORNF,(_cAlias)->VALORLIQ,(_cAlias)->SALDO,(_cAlias)->CCUSTO,(_cAlias)->DESCCC,(_cAlias)->CLVL,(_cAlias)->DESCCLVL,(_cAlias)->NATUREZA,(_cAlias)->DESCNATURE})
 
 		(_cAlias)->(dBskip())
 

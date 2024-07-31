@@ -55,6 +55,8 @@ User Function ZAPRFINPG(cFilialTit,cPrefixo,cTitulo,cTipo,cForn,cLojaForn)
         cQuery += " AND A.E2_TIPO = '"+cTipo+"' "
         cQuery += " AND A.E2_FORNECE = '"+cForn+"' "
         cQuery += " AND A.E2_LOJA = '"+cLojaForn+"' "
+        cQuery += " GROUP BY J.M0_FILIAL,A.E2_PREFIXO,A.E2_NUM,A.E2_TIPO,A.E2_VALOR,C.D1_PEDIDO,D.CR_USER,E.USR_CODIGO,C.D1_CC,G.CTT_DESC01,C.D1_CLVL,H.CTH_DESC01 "
+
 
     TCQUERY cQuery NEW ALIAS (cAlias)
 

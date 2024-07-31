@@ -1852,3 +1852,114 @@ AND A.BQC_SUBCON IN (
 '001026105',
 '001026437'
 )
+
+
+
+SELECT
+B.BA1_NOMUSR AS BENEFI, 
+CONCAT(SUBSTRING(B.BA1_DATNAS,7,2),'/',SUBSTRING(B.BA1_DATNAS,5,2),'/',SUBSTRING(B.BA1_DATNAS,1,4)) AS DTNASC,
+B.BA1_MATRIC AS MATRICULA, 
+B.BA1_TIPREG AS TIPREG, 
+B.BA1_DATBLO AS DTBLOQ,
+A.BA3_CODPLA AS CODPROD, 
+PROD.BI3_DESCRI AS PRODUTO, 
+D.BF4_CODPRO AS CODPRODOPC, 
+OPC.BI3_DESCRI AS PRODOPC 
+FROM BA3010 A  
+LEFT JOIN BA1010 B ON B.D_E_L_E_T_ = '' AND B.BA1_FILIAL = A.BA3_FILIAL AND B.BA1_CODINT = A.BA3_CODINT AND B.BA1_CODEMP = A.BA3_CODEMP AND B.BA1_CONEMP = A.BA3_CONEMP AND B.BA1_SUBCON = A.BA3_SUBCON AND B.BA1_VERCON = A.BA3_VERCON AND B.BA1_VERSUB = A.BA3_VERSUB AND B.BA1_MATEMP = A.BA3_MATEMP 
+LEFT JOIN BF4010 D ON D.D_E_L_E_T_ = '' AND D.BF4_FILIAL = B.BA1_FILIAL AND D.BF4_CODINT = B.BA1_CODINT AND D.BF4_CODEMP = B.BA1_CODEMP AND D.BF4_MATRIC = B.BA1_MATRIC AND D.BF4_TIPREG = B.BA1_TIPREG 
+LEFT JOIN BI3010 PROD ON PROD.D_E_L_E_T_ = '' AND PROD.BI3_CODIGO = A.BA3_CODPLA AND PROD.BI3_CODINT = A.BA3_CODINT 
+LEFT JOIN BI3010 OPC ON OPC.D_E_L_E_T_ = '' AND OPC.BI3_CODIGO = D.BF4_CODPRO AND OPC.BI3_CODINT = D.BF4_CODINT 
+WHERE 1=1 
+AND A.D_E_L_E_T_ = '' 
+AND A.BA3_SUBCON = '001001587' 
+
+
+
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+
+
+
+
+1.	Link com a legislação
+
+    - https://homol-rps.ima.sp.gov.br/notafiscal/paginas/portal/#/legislacao
+
+2.	Link com o layout / modelo a ser desenvolvido
+
+    - https://abrasf.org.br/biblioteca/arquivos-publicos/nfs-e-manual-de-integracao-versao-2-03-alteracoes/download
+
+3.	CNPJ
+
+    - 03.563.718/0001-84
+
+4.	Inscrição Municipal
+
+    - 74164-7
+
+5.	Código de Atividade (CNAE)
+
+    - 86.10-1-01
+
+6.	Itens da Lista de Serviço que a empresa utiliza
+
+    
+    - 04.21 - 8621-6/02-00 - SERVICOS MOVEIS DE ATENDIMENTO A URGENCIAS, EXCETO POR UTI MOVEL
+    - 04.21 - 8712-3/00-00 - ATIVIDADES DE FORNECIMENTO DE INFRA-ESTRUTURA DE APOIO E ASSISTENCIA A PACIENTE NO DOMICILIO
+    - 04.03 - 8610-1/02-00 - ATIVIDADES DE ATENDIMENTO EM PRONTO-SOCORRO E UNIDADES HOSPITALARES PARA ATENDIMENTO A URGENCIAS
+    - 04.21 - 8621-6/01-00 - UTI MOVEL
+    - 04.21 - 8622-4/00-00 - SERVICOS DE REMOCAO DE PACIENTES, EXCETO OS SERVICOS MOVEIS DE ATENDIMENTO A URGENCIAS
+
+
+7.	Código do município
+
+    - 3509502
+
+8.	ERP/versão utilizado
+
+    - Protheus (1.22.10 ou 1.23.10 depende de quando vai mandar os dados).
+
+9.	TSS/Versão utilizada
+
+    - 
+
+10.	Login e senha do sistema da prefeitura nos ambientes de homologação e produção (a empresa deve estar credenciada no sistema da prefeitura)
+
+      PRODUÇÃO  
+    - Login: 03.563.718/0001-84
+    - Senha: MED03563
+
+      HOMOLOGAÇÃO  
+    - Login: NAO POSSUI
+    - Senha: NAO POSSUI
+
+
+11.	Sigamat.emp (contendo a empresa do município em questão) **Item válido apenas ERP Protheus
+
+    - Segue em anexo.
+
+12.	Certificado digital (com validade superior a 60 dias)
+
+    - Segue em anexo.
+
+13.	Senha do certificado digital
+
+    - Senha Certificado: Camp0356
+
+14.	Autorização para utilização do ambiente de Produção da prefeitura, para emissão e cancelamento de notas com valores simbólicos
+
+    - Autorizado.
+
+15.	Endereços de URL dos portais de acesso ao ambiente de produção e homologação
+
+    - Produção: https://nfse.campinas.sp.gov.br/NotaFiscal/index.php
+    - Homologação: NAO POSSUI
+
+16.	Endereços de URL dos Webservices de produção e homologação disponibilizadas pelo Município
+
+    - Produção:
+    - Homologação:
+

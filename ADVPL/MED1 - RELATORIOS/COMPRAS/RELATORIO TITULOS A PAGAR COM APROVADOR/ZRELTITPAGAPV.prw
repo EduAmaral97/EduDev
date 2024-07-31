@@ -4,6 +4,11 @@
 
 /*
 
+Objetivo: Relatorio de conferencia de aprovação dos pedidos de compras no contas a pagar
+Autor: Eduardo Amaral
+Data: 15/04/2024
+
+
 TABELAS:
 SE2 - CONTAS A PAGAR
 SD1/SF1 - DOCUMENTO DE ENTRADA
@@ -76,6 +81,7 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddworkSheet("TITPGAPV")
 	
 	oExcel:AddTable ("TITPGAPV","TITULOS",.F.)
+	oExcel:AddColumn("TITPGAPV","TITULOS", "CODFILIAL",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "FILIAL",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "PREFIXO",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "NUMTIT",		1,1,.F.,"")
@@ -89,6 +95,8 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("TITPGAPV","TITULOS", "EMISSAO",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "VENCIMENTO",	1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "EMISSAOPC",		1,1,.F.,"")
+	oExcel:AddColumn("TITPGAPV","TITULOS", "DTCLASSIF",		1,1,.F.,"")
+	oExcel:AddColumn("TITPGAPV","TITULOS", "DTINCPC",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "VALOR",			1,3,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "HISTORICO",		1,1,.F.,"")
 	oExcel:AddColumn("TITPGAPV","TITULOS", "PEDIDO",		1,1,.F.,"")
@@ -100,6 +108,7 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("TITPGAPV","TITULOS", "DESCCLVL",		1,1,.F.,"")
 
 		cQuery := " SELECT "
+		cQuery += " A.E2_FILIAL		AS CODFILIAL, "
 		cQuery += " J.M0_FILIAL		AS FILIAL, "
 		cQuery += " A.E2_PREFIXO	AS PREFIXO, "
 		cQuery += " A.E2_NUM		AS NUMTIT, "
@@ -116,6 +125,11 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " CONCAT(SUBSTRING(A.E2_EMISSAO,7,2),'/',SUBSTRING(A.E2_EMISSAO,5,2),'/',SUBSTRING(A.E2_EMISSAO,1,4)) AS EMISSAO,  "
 		cQuery += " CONCAT(SUBSTRING(A.E2_VENCREA,7,2),'/',SUBSTRING(A.E2_VENCREA,5,2),'/',SUBSTRING(A.E2_VENCREA,1,4)) AS VENCIMENTO, "
 		cQuery += " CONCAT(SUBSTRING(I.C7_EMISSAO,7,2),'/',SUBSTRING(I.C7_EMISSAO,5,2),'/',SUBSTRING(I.C7_EMISSAO,1,4)) AS EMISSAOPC, "
+		cQuery += " CONCAT(SUBSTRING(C.D1_DTDIGIT,7,2),'/',SUBSTRING(C.D1_DTDIGIT,5,2),'/',SUBSTRING(C.D1_DTDIGIT,1,4)) AS DTCLASSIF, "
+ 		cQuery += " CASE WHEN SUBSTRING(I.C7_USERLGI, 03, 1) != ' ' AND I.C7_USERLGI != '' THEN "
+    	cQuery += "     CONVERT(VARCHAR,DATEADD(DAY,CONVERT(INT,CONCAT(ASCII(SUBSTRING(I.C7_USERLGI,12,1)) - 50, ASCII(SUBSTRING(I.C7_USERLGI,16,1)) - 50) + IIF(SUBSTRING(I.C7_USERLGI,08,1) = '<',10000,0)),'1996-01-01'), 103) "
+    	cQuery += " ELSE '' "
+    	cQuery += " END AS DTINCPC, "
 		cQuery += " (A.E2_VALOR + A.E2_ACRESC) - A.E2_DECRESC	AS VALOR, "
 		cQuery += " A.E2_HIST		AS HISTORICO, "
 		cQuery += " C.D1_PEDIDO		AS PEDIDO, "
@@ -141,7 +155,7 @@ Static Function fMontaExcel(cPasta)
 		cQuery += " AND A.E2_FILIAL >= '"+MV_PAR01+"' "
 		cQuery += " AND A.E2_FILIAL <= '"+MV_PAR02+"' "
 		cQuery += " AND A.E2_VENCREA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
-		cQuery += " GROUP BY J.M0_FILIAL,A.E2_PREFIXO,A.E2_NUM,A.E2_PARCELA,A.E2_TIPO,A.E2_PORTADO,B.A2_TIPO,B.A2_CGC,B.A2_COD,B.A2_NOME,B.A2_NREDUZ,A.E2_EMISSAO,A.E2_VENCREA,I.C7_EMISSAO,A.E2_VALOR,A.E2_ACRESC,A.E2_DECRESC,A.E2_HIST,C.D1_PEDIDO,D.CR_USER,E.USR_CODIGO,C.D1_CC,G.CTT_DESC01,C.D1_CLVL,H.CTH_DESC01 "
+		cQuery += " GROUP BY A.E2_FILIAL,J.M0_FILIAL,A.E2_PREFIXO,A.E2_NUM,A.E2_PARCELA,A.E2_TIPO,A.E2_PORTADO,B.A2_TIPO,B.A2_CGC,B.A2_COD,B.A2_NOME,B.A2_NREDUZ,A.E2_EMISSAO,A.E2_VENCREA,I.C7_EMISSAO,C.D1_DTDIGIT,I.C7_USERLGI,A.E2_VALOR,A.E2_ACRESC,A.E2_DECRESC,A.E2_HIST,C.D1_PEDIDO,D.CR_USER,E.USR_CODIGO,C.D1_CC,G.CTT_DESC01,C.D1_CLVL,H.CTH_DESC01 "
 
 
 	//Criar alias temporário
@@ -151,7 +165,7 @@ Static Function fMontaExcel(cPasta)
 
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("TITPGAPV","TITULOS",{(_cAlias)->FILIAL,(_cAlias)->PREFIXO,(_cAlias)->NUMTIT,(_cAlias)->PARCELA,(_cAlias)->TIPO,(_cAlias)->CGC,(_cAlias)->PORTADO,(_cAlias)->CODFOR,(_cAlias)->RAZSOC,(_cAlias)->NOMFANT,(_cAlias)->EMISSAO,(_cAlias)->VENCIMENTO,(_cAlias)->EMISSAOPC,(_cAlias)->VALOR,(_cAlias)->HISTORICO,(_cAlias)->PEDIDO,(_cAlias)->CODUSSER,(_cAlias)->APROVADOR,(_cAlias)->CCUSTO,(_cAlias)->DESCCC,(_cAlias)->CLVL,(_cAlias)->DESCCLVL})
+		oExcel:AddRow("TITPGAPV","TITULOS",{(_cAlias)->CODFILIAL,(_cAlias)->FILIAL,(_cAlias)->PREFIXO,(_cAlias)->NUMTIT,(_cAlias)->PARCELA,(_cAlias)->TIPO,(_cAlias)->CGC,(_cAlias)->PORTADO,(_cAlias)->CODFOR,(_cAlias)->RAZSOC,(_cAlias)->NOMFANT,(_cAlias)->EMISSAO,(_cAlias)->VENCIMENTO,(_cAlias)->EMISSAOPC,(_cAlias)->DTCLASSIF,(_cAlias)->DTINCPC,(_cAlias)->VALOR,(_cAlias)->HISTORICO,(_cAlias)->PEDIDO,(_cAlias)->CODUSSER,(_cAlias)->APROVADOR,(_cAlias)->CCUSTO,(_cAlias)->DESCCC,(_cAlias)->CLVL,(_cAlias)->DESCCLVL})
 
 		(_cAlias)->(dBskip())
 

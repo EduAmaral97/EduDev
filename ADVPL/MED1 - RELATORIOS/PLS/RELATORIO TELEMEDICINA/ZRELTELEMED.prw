@@ -64,6 +64,8 @@ Static Function fInclusao()
 	oExcel:AddColumn("TELEMEDINC","TELEMED","DTINI"			,1,1,.F., "")
 	oExcel:AddColumn("TELEMEDINC","TELEMED","DTFIM"			,1,1,.F., "")
 	
+
+	// PESSOA FISICA
 	cQuery := " SELECT  "
 	cQuery += " BA1.BA1_NOMUSR	AS NOME,  "
 	cQuery += " BA1.BA1_CPFUSR	AS CPF,  "
@@ -102,6 +104,7 @@ Static Function fInclusao()
 
 	cQuery += " UNION  "
 
+	// PESSOA JURIDICA
 	cQuery += " SELECT  "
 	cQuery += " BA1.BA1_NOMUSR	AS NOME,  "
 	cQuery += " BA1.BA1_CPFUSR	AS CPF,  "
@@ -140,6 +143,7 @@ Static Function fInclusao()
 
 	cQuery += " UNION "
 
+	// PESSOA FISICA
 	cQuery += " SELECT  "
 	cQuery += " BA1.BA1_NOMUSR	AS NOME,  "
 	cQuery += " BA1.BA1_CPFUSR	AS CPF,  "
@@ -180,6 +184,7 @@ Static Function fInclusao()
 
 	cQuery += " UNION  "
 
+	// PESSOA JURIDICA
 	cQuery += " SELECT  "
 	cQuery += " BA1.BA1_NOMUSR	AS NOME,  "
 	cQuery += " BA1.BA1_CPFUSR	AS CPF,  "

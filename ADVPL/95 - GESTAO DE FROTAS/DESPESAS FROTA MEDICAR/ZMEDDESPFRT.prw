@@ -106,7 +106,7 @@ Static Function ZINC()
     Local cSerie        := Space(3)    
     Local cDoc          := Space(9)
     Local cFornecedor   := Space(6)
-    Local cLoja         := Space(2)
+    Local cLoja         := "01"
     Local cProduto      := Space(6)
     Local cDescProd     := Space(40)
     Local cCondpg       := Space(3)
@@ -1217,13 +1217,27 @@ Return
 Static Function fGeraPedido(cFunc,cFilialFtr,cSerie,cDoc,cFornecedor,cLoja,cTotalPlaca,cTotalQtd,cTotalValor,cProduto,cCondpg)
 
     Local cQueryRateio
+    Local cQueryPed
     Local cItem := 1
-    Local cNumPed := GetSXENum('SC7', 'C7_NUM')
+    //Local cNumPed := GetSXENum('SC7', 'C7_NUM')
+    //Local cNumPed := GetSx8Num("SC7","C_NUM")
+    Local cNumPed
     Private cAliasRat := GetNextAlias()
+    Private cAliasPed := GetNextAlias()
+
+
+    cQueryPed := " SELECT C7_NUM AS PEDIDO FROM SC7010 WHERE C7_FILIAL = '"+cFilialFtr+"' AND R_E_C_N_O_ = ISNULL((SELECT TOP 1 MAX(R_E_C_N_O_) FROM SC7010 WHERE C7_FILIAL = '"+cFilialFtr+"'),'') "
+
+    //Criar alias temporário
+    TCQUERY cQueryPed NEW ALIAS (cAliasPed)
+    DbSelectArea(cAliasPed)
+
+    cNumPed := Soma1((cAliasPed)->PEDIDO)
+
 
     If ZC2->(DbSeek(ZC1->ZC1_FILIAL+ZC1->ZC1_SERIE+ZC1->ZC1_DOC+ZC1->ZC1_FORNEC+ZC1->ZC1_LOJA))
 
-        RecLock("SC7", .T.)
+        IF RecLock("SC7", .T.)
             
             SC7->C7_FILIAL  := cFilialFtr
             SC7->C7_TIPO    := 1
@@ -1245,9 +1259,14 @@ Static Function fGeraPedido(cFunc,cFilialFtr,cSerie,cDoc,cFornecedor,cLoja,cTota
             SC7->C7_FLUXO   := 'S'
             SC7->C7_USER    := RetCodUsr()
 
-        SC7->(MsUnlock())
-        ConfirmSX8() 
+            SC7->(MsUnlock())
+            ConfirmSX8() 
+        
+        ELSE
+            
+            RollbackSx8()
 
+        EndIF
 
         cQueryRateio := " SELECT  "
         cQueryRateio += " A.ZC2_CC   AS CC, "

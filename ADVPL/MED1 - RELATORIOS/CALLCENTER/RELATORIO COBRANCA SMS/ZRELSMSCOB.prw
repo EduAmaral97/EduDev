@@ -87,7 +87,7 @@ Static Function fMontaExcel(cPasta)
 		cQuery += "     WHEN SE1.E1_FILIAL = '003001' THEN 'Medicar Sao Paulo' "
 		cQuery += "     WHEN SE1.E1_FILIAL = '006001' THEN 'Medicar Tech' "
 		cQuery += "     WHEN SE1.E1_FILIAL = '008001' THEN 'Medicar Litoral' "
-		cQuery += "     WHEN SE1.E1_FILIAL = '016001' THEN 'N1 Card' "
+		cQuery += "     WHEN SE1.E1_FILIAL = '016002' THEN 'N1 Card' "
 		cQuery += "     WHEN SE1.E1_FILIAL = '021001' THEN 'Medicar Rio de Janeiro' "
 		cQuery += "     WHEN SE1.E1_FILIAL = '014001' THEN 'Locamedi Matriz'  "
 		cQuery += "     ELSE '' "

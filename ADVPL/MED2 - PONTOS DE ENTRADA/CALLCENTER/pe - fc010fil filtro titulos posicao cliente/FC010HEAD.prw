@@ -2,7 +2,7 @@
  
 User function FC010HEAD()
  
-    Local aHeader := Paramixb
+    Local aHeader := {}
  
      //Conteúdo das colunas
      //AllTrim(X3Titulo())
@@ -15,8 +15,6 @@ User function FC010HEAD()
      //X3_TIPO
      //X3_ARQUIVO
      //X3_CONTEXT
-    AADD(aHeader,{"StatusSaldo","STATTIT","@!",16,0,"","","C","",""} )
- 
-
+    AADD(aHeader,{"Status Titulo","STATTIT","@!",16,0,"","","C","",""} )
  
 Return aHeader

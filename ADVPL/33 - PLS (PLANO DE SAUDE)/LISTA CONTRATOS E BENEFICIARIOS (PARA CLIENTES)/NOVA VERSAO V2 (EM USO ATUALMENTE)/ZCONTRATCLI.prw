@@ -60,6 +60,9 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '016' THEN 'N1 Card' "
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '021' THEN 'Medicar Rio de Janeiro' "
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '014' THEN 'Locamedi Matriz'  "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '022' THEN 'Medicar Goiania'  "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '023' THEN 'Medicar Belo Horizonte'  "
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '024' THEN 'Medicar Brasilia'  "
             cQuery += "     ELSE '' "
             cQuery += " END              AS FILIAL, "
             cQuery += " CASE "
@@ -71,6 +74,9 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '016' THEN '016'
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '021' THEN '021'
             cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '014' THEN '014'
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '022' THEN '022'
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '023' THEN '023'
+            cQuery += "     WHEN ISNULL((SELECT TOP 1 BA1.BA1_FILIAL FROM BA1010 BA1 WHERE 1=1 AND BA1.D_E_L_E_T_ = ''  AND BA1.BA1_CODINT = A.BQC_CODINT AND BA1.BA1_CODEMP = A.BQC_CODEMP AND BA1.BA1_CONEMP = A.BQC_NUMCON AND BA1.BA1_VERCON = A.BQC_VERCON AND BA1.BA1_SUBCON = A.BQC_SUBCON AND BA1.BA1_VERSUB = A.BQC_VERSUB AND BA1.BA1_DATBLO = ''),'') = '024' THEN '024'  
             cQuery += "     ELSE '' "
             cQuery += " END              AS FILIALCTR, "
             cQuery += " CASE "
@@ -126,10 +132,12 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += "     WHEN B.BA3_FILIAL = '016' THEN 'N1 Card' "
             cQuery += "     WHEN B.BA3_FILIAL = '021' THEN 'Medicar Rio de Janeiro' "
             cQuery += "     WHEN B.BA3_FILIAL = '014' THEN 'Locamedi Matriz'  "
+            cQuery += "     WHEN B.BA3_FILIAL = '022' THEN 'Medicar Goiania'  "
+            cQuery += "     WHEN B.BA3_FILIAL = '023' THEN 'Medicar Belo Horizonte'  "
+            cQuery += "     WHEN B.BA3_FILIAL = '024' THEN 'Medicar Brasilia'  "
             cQuery += "     ELSE '' "
             cQuery += " END               AS FILIAL, "
             cQuery += " B.BA3_FILIAL      AS FILIALCTR, "
-            cQuery += " B.BA3_MATEMP     AS IDCONTRATO,  "
             cQuery += " CASE "
             cQuery += "     WHEN B.BA3_CODEMP = '0003' THEN '0003 - PESSOA FISICA' "
             cQuery += "     WHEN B.BA3_CODEMP = '0004' THEN '0004 - PESSOA JURIDICA' "
@@ -137,6 +145,7 @@ Static Function PegaDados(cSA1cliente, cSA1lojacli, cTipCli)
             cQuery += "     WHEN B.BA3_CODEMP = '0006' THEN '0006 - PESSOA FISICA EXCESSAO' "
             cQuery += " ELSE '' "
             cQuery += " END              AS GRUPOEMP, " 
+            cQuery += " B.BA3_MATEMP     AS IDCONTRATO,  "
             cQuery += " B.BA3_XCARTE     AS NUMERO,  "
             cQuery += " E.BT5_NOME       AS PERFIL, "
             cQuery += " F.BQL_DESCRI     AS FORMPAG, "
@@ -278,6 +287,9 @@ Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         cQueryResumo += "   WHEN B.BA3_FILIAL = '014' THEN '014 - LOCAMEDI'  "
         cQueryResumo += "   WHEN B.BA3_FILIAL = '016' THEN '016 - N1 CARD'  "
         cQueryResumo += "   WHEN B.BA3_FILIAL = '021' THEN '021 - MEDICAR RJ'  "
+        cQueryResumo += "   WHEN B.BA3_FILIAL = '022' THEN '022 - MEDICAR GOIANIA'  "
+        cQueryResumo += "   WHEN B.BA3_FILIAL = '023' THEN '023 - MEDICAR BH'  "
+        cQueryResumo += "   WHEN B.BA3_FILIAL = '024' THEN '024 - MEDICAR BRASILIA'  "
         cQueryResumo += " ELSE ''  "
         cQueryResumo += " END             AS FILIAL, "
         cQueryResumo += " CASE  "
@@ -466,6 +478,9 @@ Static Function ResumoCtr(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,cVe
         cQueryResumo += "   WHEN BA3.BA3_FILIAL = '014' THEN '014 - LOCAMEDI'  "
         cQueryResumo += "   WHEN BA3.BA3_FILIAL = '016' THEN '016 - N1 CARD'  "
         cQueryResumo += "   WHEN BA3.BA3_FILIAL = '021' THEN '021 - MEDICAR RJ'  "
+        cQueryResumo += "   WHEN BA3.BA3_FILIAL = '022' THEN '022 - MEDICAR GOIANIA'  "
+        cQueryResumo += "   WHEN BA3.BA3_FILIAL = '023' THEN '023 - MEDICAR BH'  "
+        cQueryResumo += "   WHEN BA3.BA3_FILIAL = '024' THEN '024 - MEDICAR BRASILIA'  "
         cQueryResumo += " ELSE ''  "
         cQueryResumo += " END             AS FIL "
         cQueryResumo += " FROM BA3010 BA3 "
@@ -1160,7 +1175,6 @@ Static Function fProdBenefi(cFilialCtr,cCodint,cCodemp,cConemp,cVercon,cSubcon,c
 
 
 Return
-
 
 
 /* ------------------------------------ REGRA DE COMISSAO DOS BENEFICIARIOS ------------------------------------ */
