@@ -139,14 +139,14 @@ Static Function fPegaUser(aArea)
         BA3->(DbSeek(FWxFilial('BA1') + BA1->BA1_CODINT + BA1->BA1_CODEMP + BA1->BA1_MATRIC + BA1->BA1_CONEMP + BA1->BA1_VERCON + BA1->BA1_SUBCON + BA1->BA1_VERSUB))
 
         //LOG INCLUSAO
-        cUsrCodInc := FWLeUserLg(IF(!EMPTY(BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 1)
+        cUsrCodInc := FWLeUserLg(IF(!EMPTY(BA3->BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 1)
         cUsrNomInc := UsrRetName(cUsrCodInc)
-        cDatInc    := FWLeUserLg(IF(!EMPTY(BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 2)
+        cDatInc    := FWLeUserLg(IF(!EMPTY(BA3->BA3_USERGI),"BA3_USERGI","BA1_USERGI"), 2)
 
         //LOG ALTERACAO
-        cUsrCodAlt := FWLeUserLg(IF(!EMPTY(BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 1)
+        cUsrCodAlt := FWLeUserLg(IF(!EMPTY(BA3->BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 1)
         cUsrNomAlt := UsrRetName(cUsrCodAlt)
-        cDatAlt    := FWLeUserLg(IF(!EMPTY(BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 2)
+        cDatAlt    := FWLeUserLg(IF(!EMPTY(BA3->BA3_USERGA),"BA3_USERGA","BA1_USERGA"), 2)
 
         //Chama a funcao que monta a tela
         MsAguarde({||fMontatela(cUsrCodInc,cDatInc,cUsrCodAlt,cDatAlt)},"Aguarde","Auditando...")

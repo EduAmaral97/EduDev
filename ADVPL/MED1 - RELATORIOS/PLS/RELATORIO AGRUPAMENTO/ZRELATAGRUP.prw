@@ -121,7 +121,7 @@ Static Function Imprime()
 	//Start de impressão
 	Private oPrn:= TMSPrinter():New()
 
-	oPrn:SetPortrait()  // SetPortrait() - Formato retrato   SetLandscape() - Formato Paisagem
+	oPrn:SetLandscape()  // SetPortrait() - Formato retrato   SetLandscape() - Formato Paisagem
 	oPrn:setPaperSize( DMPAPER_A4 )
 
 	//cabecalho da pagina
@@ -131,7 +131,7 @@ Static Function Imprime()
 
 	While (_cAlias)->(!Eof())
 		
-		If _nCont >= 50
+		If _nCont >= 32
 		
 			_nCont		:= 0
 			_nPag 		+= 1
@@ -141,47 +141,18 @@ Static Function Imprime()
 
 		EndIf 
 		
-		//cSaldoInI := cSaldoInI - (_cAlias)->SAIDAS + (_cAlias)->ENTRADAS
-
-		//SubStr((_cAlias)->E1_VENCREA,1,4)+"/"+SubStr((_cAlias)->E1_VENCREA,5,2)+"/"SubStr((_cAlias)->E1_VENCREA,7,2)
-
-		//oPrn:say (0300,2800,"Saldo Inicial: " + Transform(MV_PAR06,"@E 999,999,999.99"), oFont08) 	//"Saldo Inicial"
-		//oPrn:say(nLin,0450,	Transform((_cAlias)->E1_VALOR,"@E 999,999,999.99"),oFont08)		//VALOR
-		//oPrn:say(nLin,0165,DTOC((_cAlias)->E1_VENCREA),oFont08)								//VENCIMENTO
+		oPrn:say(nLin,0035,(_cAlias)->CLIENTE,oFont10N)
+		oPrn:say(nLin,1280,(_cAlias)->MUNICIPIO,oFont10N)
+		oPrn:say(nLin,1650, SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),oFont10N)										//VENCIMENTO
+		oPrn:say(nLin,1980, "R$" + Str((_cAlias)->VALOR,10,2),oFont10N)
+		oPrn:say(nLin,2330, "R$" + Str((_cAlias)->VALORES_BAIXADOS,10,2),oFont10N)
+		oPrn:say(nLin,2680, "R$" + Str((_cAlias)->SALDO,10,2),oFont10N)
+		oPrn:say(nLin,3030,(_cAlias)->SITUACAO,oFont10N)
 		
+		nLin += 60   //pula linha
+		cTotalValor := cTotalValor + (_cAlias)->VALOR
+		cTotalBaixado := cTotalBaixado + (_cAlias)->VALORES_BAIXADOS
 
-		IF  (_cAlias)->TIPODOC_SE5 == "JR" .or. (_cAlias)->TIPODOC_SE5 == "RA"
-		else
-			IF (_cAlias)->MOTBX == "SMV" .or. (_cAlias)->MOTBX =="PER" 
-			else
-
-				If (_cAlias)->SALDO = 0 .AND. (_cAlias)->VALORES_BAIXADOS >= (_cAlias)->VALOR
-					oPrn:say(nLin,0035,(_cAlias)->CLIENTE,oFont10N)										//EMPRESA
-					oPrn:say(nLin,1320, SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),oFont10N)										//VENCIMENTO
-					oPrn:say(nLin,1620, "R$" + Str((_cAlias)->VALOR,10,2),oFont10N)						//VALOR
-					oPrn:say(nLin,1920, "R$" + Str((_cAlias)->VALORES_BAIXADOS,10,2),oFont10N)			//VALOR BAIXADO
-					oPrn:say(nLin,2200,"LIQUIDADO",oFont10N)											//SITUACAO
-					//oPrn:say(nLin,2400,(_cAlias)->TIPODOC_SE5,oFont10N)											//SITUACAO
-					nLin += 60   //pula linha
-					cTotalValor := cTotalValor + (_cAlias)->VALOR
-					cTotalBaixado := cTotalBaixado + (_cAlias)->VALORES_BAIXADOS
-				Else
-					oPrn:say(nLin,0035,(_cAlias)->CLIENTE,oFont10)										//EMPRESA
-					oPrn:say(nLin,1320, SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),oFont10)										//VENCIMENTO
-					oPrn:say(nLin,1620, "R$" + Str((_cAlias)->VALOR,10,2),oFont10)						//VALOR
-					oPrn:say(nLin,1920, "R$" + Str((_cAlias)->VALORES_BAIXADOS,10,2),oFont10)			//VALOR BAIXADO
-					oPrn:say(nLin,2200,"EM ABERTO",oFont10)												//SITUACAO
-					//oPrn:say(nLin,2400,(_cAlias)->TIPODOC_SE5,oFont10N)									//SITUACAO			
-					nLin += 60   //pula linha
-					cTotalValor := cTotalValor + (_cAlias)->VALOR
-					cTotalBaixado := cTotalBaixado + (_cAlias)->VALORES_BAIXADOS
-				EndIF
-
-			EndIF
-
-		EndIF
-		
-		
 		_nCont += 1
 		//Verifica a quebra de pagina
 		(_cAlias)->(dBskip())
@@ -189,9 +160,8 @@ Static Function Imprime()
 
 	EndDo
 
-		//cSaldoFinal := MV_PAR06 + cTotalEntrada - cTotalSaida
-
-	If _nCont <= 50
+	
+	If _nCont <= 32
 		(_cAlias)->(DbGoTop())
 		//		Infoger()
 		Rodap()
@@ -205,7 +175,7 @@ Static Function Imprime()
 		Rodap()
 		//   		WordImp()
 	EndIF
-
+	
 
 	oPrn:Preview() //Preview DO RELATORIO
 
@@ -233,12 +203,12 @@ Static Function  Cabec(_lCabec)
 
 	oPrn:SayBitmap(0045,0060,_cFileLogo,0400,0125)
 
-	oPrn:say(0070,0750, "RELATORIO DE AGRUPAMENTO",oFont17N)
+	oPrn:say(0070,1500, "RELATORIO DE AGRUPAMENTO",oFont17N)
 
 	//oPrn:line(210,1200,430,1200) 	//1 Linha Vertical Cabecalho
 
-	oPrn:line(305,0015,305,2520)    //Linha Horizontal Cabecalho Inferior
-	oPrn:line(405,0015,405,2520)    //Linha Horizontal Cabecalho Inferior
+	oPrn:line(305,0015,305,3450)    //Linha Horizontal Cabecalho Inferior
+	oPrn:line(405,0015,405,3450)    //Linha Horizontal Cabecalho Inferior
 
 
 		//********************************************************************************************
@@ -285,15 +255,17 @@ Static Function  Cabec(_lCabec)
 	nLin := 330
 	// Subtitulo do Corpo
 
-	oPrn:say (nLin,0035,"EMPRESA",oFont10N) 					//"EMPRESA"
-	oPrn:say (nLin,1300,"VENCIMENTO",oFont10N) 					//"VENCIMENTO"
-	oPrn:say (nLin,1600,"VALOR LIQUIDO",oFont10N) 				//"VALOR LIQUIDO"
-	oPrn:say (nLin,1900,"VALORES BAIXADOS",oFont10N) 			//"VALOR BAIXADO"
-	oPrn:say (nLin,2200,"SITUACAO",oFont10N) 					//"SITUACAO"
+	oPrn:say (nLin,0035,"EMPRESA",oFont10N) 	
+	oPrn:say (nLin,1300,"MUNICIPIO",oFont10N) 	
+	oPrn:say (nLin,1650,"VENCIMENTO",oFont10N) 	
+	oPrn:say (nLin,2000,"VALOR",oFont10N) 		
+	oPrn:say (nLin,2350,"BAIXADO",oFont10N) 	
+	oPrn:say (nLin,2700,"SALDO",oFont10N) 		
+	oPrn:say (nLin,3000,"SITUACAO",oFont10N) 	
 
 
 	nLin := 510
-	oPrn:say (0070,2150,"Pag. " + Transform(_nPag,"@R 999"),oFont08I)    //Impressão do numero da página
+	oPrn:say (0070,3300,"Pag. " + Transform(_nPag,"@R 999"),oFont08I)    //Impressão do numero da página
 	//oPrn:say (0070,3200,nHorzRes(),oFont08I)
 	//oPrn:say (0070,3200,nLogPixelX(),oFont08I)
 
@@ -313,9 +285,9 @@ Static Function Rodap()
 	//										Rodape
 	//********************************************************************************************
 
-	nLin := 3200
+	nLin := 2300
 									
-	oPrn:line(nLin,0015,nLin,2520)    //Linha Horizontal Cabecalho Inferior
+	oPrn:line(nLin,0015,nLin,3400)    //Linha Horizontal Cabecalho Inferior
 	nLin += 30
 	oPrn:say(nLin,0050,"VALOR LIQUIDO TOTAL: " +  "R$" + Str(cTotalValor,10,2), oFont10N)		
 	nLin += 60
@@ -341,22 +313,22 @@ Static Function MontaQuery
 	local cQueryAgrup
 
 		cQuery := " SELECT  "
-		cQuery += " SE1.E1_FILIAL   AS FILIAL, "
-		cQuery += " SE1.E1_NUM	    AS NUMERO, "
-		cQuery += " SE1.E1_PREFIXO  AS PREFIXO, "
-		cQuery += " SE1.E1_PARCELA  AS PARCELA, "
-		cQuery += " SA1.A1_NREDUZ   AS CLIENTE,	  "
-		cQuery += " SE1.E1_VENCREA  AS VENCIMENTO,  "
-		cQuery += " SE5.E5_TIPODOC  AS TIPODOC_SE5, "
-		cQuery += " SE5.E5_MOTBX    AS MOTBX, "
+		cQuery += " SE1.E1_FILIAL   	AS FILIAL, "
+		cQuery += " SE1.E1_NUM	    	AS NUMERO, "
+		cQuery += " SE1.E1_PREFIXO  	AS PREFIXO, "
+		cQuery += " SE1.E1_PARCELA  	AS PARCELA, "
+		cQuery += " SA1.A1_NREDUZ   	AS CLIENTE,	  "
+		cQuery += " SA1.A1_MUN	    	AS MUNICIPIO,	  "
+		cQuery += " SE1.E1_VENCREA  	AS VENCIMENTO,  "
+		cQuery += " SE1.E1_VALOR 		AS VALOR, "
+		cQuery += " (SE1.E1_VALOR - SE1.E1_SALDO)   AS VALORES_BAIXADOS, "
+		cQuery += " SE1.E1_SALDO  		AS SALDO, "
 		cQuery += " CASE "
-		cQuery += "     WHEN SUM(SE1.E1_VALLIQ) = 0 THEN SUM(SE1.E1_VALOR) "
-		cQuery += "     ELSE SUM(SE1.E1_VALLIQ) "
-		cQuery += " END             AS VALOR, "
-		cQuery += " SUM(SE5.E5_VALOR)    AS VALORES_BAIXADOS, "
-		cQuery += " SUM(SE1.E1_SALDO)    AS SALDO "
+		cQuery += " 	WHEN SE1.E1_BAIXA <> '' AND SE1.E1_SALDO = 0 THEN 'LIQUIDADO' "
+		cQuery += " 	WHEN SE1.E1_SALDO > 0 THEN 'EM ABERTO' "
+		cQuery += " ELSE '' "
+		cQuery += " END AS SITUACAO "
 		cQuery += " FROM SE1010 SE1 "
-		cQuery += " LEFT JOIN SE5010 SE5 ON SE5.D_E_L_E_T_ = '' AND SE5.E5_FILIAL = SE1.E1_FILIAL AND SE5.E5_PREFIXO = SE1.E1_PREFIXO AND SE5.E5_NUMERO = SE1.E1_NUM AND SE5.E5_PARCELA = SE1.E1_PARCELA AND SE5.E5_CLIFOR = SE1.E1_CLIENTE AND SE5.E5_LOJA = SE1.E1_LOJA  "
 		cQuery += " LEFT JOIN SA1010 SA1 ON SA1.D_E_L_E_T_ = '' AND SA1.A1_COD = SE1.E1_CLIENTE AND SA1.A1_LOJA = SE1.E1_LOJA   "
 		cQuery += " WHERE 1=1   "
 		cQuery += " AND SE1.D_E_L_E_T_ = '' "
@@ -371,8 +343,6 @@ Static Function MontaQuery
 		ELSE
 			cQuery += " AND SE1.E1_BAIXA BETWEEN '"+Dtos(MV_PAR03)+"' AND '"+Dtos(MV_PAR04)+"' "
 		EndIF
-		cQuery += " GROUP BY SE1.E1_FILIAL ,SE1.E1_NUM,SE1.E1_PREFIXO,SE1.E1_PARCELA,SA1.A1_NREDUZ ,SE1.E1_VENCREA,SE5.E5_TIPODOC,SE5.E5_MOTBX  "
-		cQuery += "ORDER BY 5,6 "
 
 		cQueryAgrup := "SELECT AOV.AOV_DESSEG FROM AOV010 AOV WHERE 1=1 AND AOV.D_E_L_E_T_ = '' AND AOV.AOV_CODSEG = '"+(MV_PAR05)+"' "
 
@@ -478,27 +448,21 @@ Static Function fMontaExcel(cPasta)
 
 	lRet := oExcel:IsWorkSheet("AGRUPAMENTO")
 	oExcel:AddworkSheet("AGRUPAMENTO")
-
-	//lRet := oExcel:IsWorkSheet("PLANILHA1")
-	//oExcel:AddTable ("TELEMEDINC","TELEMED")
 	oExcel:AddTable ("AGRUPAMENTO","RELAGRUP",.F.)
-
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","FILIAL"			,1,1,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","EMPRESA"			,1,1,.F., "")
+	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","MUNICIPIO"		,1,1,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VENCIMENTO"		,1,1,.F., "")
-	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VALORLIQ"		,1,3,.F., "")
+	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VALOR"			,1,3,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","VALOBAIXADO"		,1,3,.F., "")
+	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","SALDO"			,1,3,.F., "")
 	oExcel:AddColumn("AGRUPAMENTO","RELAGRUP","SITUACAO"		,1,1,.F., "")
 	
 
 	While (_cAlias)->(!Eof())
-
-		If (_cAlias)->SALDO = 0 .AND. (_cAlias)->VALORES_BAIXADOS >= (_cAlias)->VALOR
-			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'LIQUIDADO'})
-		ELSE
-			oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->SALDO,(_cAlias)->VALORES_BAIXADOS,'EM ABERTO'})
-		EndIF
-
+	
+		oExcel:AddRow("AGRUPAMENTO","RELAGRUP",{(_cAlias)->FILIAL,(_cAlias)->CLIENTE,(_cAlias)->MUNICIPIO,SubStr((_cAlias)->VENCIMENTO,7,2) + "/" + SubStr((_cAlias)->VENCIMENTO,5,2) + "/" + SubStr((_cAlias)->VENCIMENTO,1,4),(_cAlias)->VALOR,(_cAlias)->VALORES_BAIXADOS,(_cAlias)->SALDO,(_cAlias)->SITUACAO})
+		
 		(_cAlias)->(dBskip())
 
 	EndDo

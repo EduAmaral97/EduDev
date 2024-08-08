@@ -67,17 +67,16 @@ Static Function fMontatela()
 
         @ 025, 025 SAY oTitParametro PROMPT "Parametro: "               SIZE 070, 020 OF oDlg PIXEL
         @ 020, 060 MSGET oGrupo VAR (AliasParam)->PARAMETRO             SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
-        
+
         @ 045, 025 SAY oTitDesc PROMPT "Descricao: "                    SIZE 070, 020 OF oDlg PIXEL
         @ 040, 060 MSGET oGrupo VAR (AliasParam)->DESCRICAO             SIZE 170, 011 PIXEL OF oDlg WHEN .F. Picture "@!"
-        
+
         @ 065, 025 SAY oTitDtAtual PROMPT "Data atual: "                SIZE 070, 020 OF oDlg PIXEL
         @ 060, 060 MSGET oGrupo VAR cDtAtu                              SIZE 050, 011 PIXEL OF oDlg WHEN .F. Picture "@!"        
 
-
         @ 085, 025 SAY oTitNovaData PROMPT "Nova Data: "                SIZE 070, 020 OF oDlg PIXEL
         @ 080, 060 MSGET oGrupo VAR dDtFin                              SIZE 050, 011 PIXEL OF oDlg WHEN .T. Picture "@!"
-       
+
         @ 080,175  BUTTON oBtn1 PROMPT "Salvar"                         SIZE 030,011   ACTION (UpdateDt(cDtAtu,dDtFin)) OF oDlg PIXEL 
 
     DEFINE SBUTTON FROM 080,215 TYPE 2 ACTION ( oDlg:End()) ENABLE OF oDlg

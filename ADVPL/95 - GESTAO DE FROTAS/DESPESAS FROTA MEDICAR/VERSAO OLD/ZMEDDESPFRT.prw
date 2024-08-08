@@ -20,8 +20,8 @@ Static nPosPosto        := 9
 /* ----------------------------------------------------------------------------
 
 ------------- TABELAS -------------
-ZMCF1 - CABECARIO IMP. COMBUSTIVEL
-ZMCF2 - ITENS/PLACA IMP. COMBUSTIVEL
+ZC1010 - CABECARIO IMP. COMBUSTIVEL
+ZC2010 - ITENS/PLACA IMP. COMBUSTIVEL
 SC7010 - PEDIDO DE COMPRAS
 SCH010 - RATEIO POR CC/CLVL
 

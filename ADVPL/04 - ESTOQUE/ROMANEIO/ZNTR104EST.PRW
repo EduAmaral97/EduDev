@@ -172,7 +172,7 @@ VerImp()
      Endif
      
      IF SF2->F2_TIPO = "N" .OR. SF2->F2_TIPO = "C" .OR. SF2->F2_TIPO = "P" .OR. SF2->F2_TIPO = "I" .OR. SF2->F2_TIPO = "S" .OR. SF2->F2_TIPO = "T" .OR. SF2->F2_TIPO = "O" 
-     
+
         //Arquivo de Cliente
 
         DbSelectArea("SA1")

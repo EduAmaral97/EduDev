@@ -89,6 +89,7 @@ Static Function fMontaExcel(cPasta)
 	oExcel:AddColumn("MVBANC","TABMVBC", "CLVLDEBITO",	 1,1,.F., "")
 	oExcel:AddColumn("MVBANC","TABMVBC", "MOVIMENTACAO", 1,1,.F., "")
 	oExcel:AddColumn("MVBANC","TABMVBC", "HISTORICO",	 1,1,.F., "")
+	oExcel:AddColumn("MVBANC","TABMVBC", "HISTTIT",	 	 1,1,.F., "")
 	oExcel:AddColumn("MVBANC","TABMVBC", "DOCUMENTO",	 1,1,.F., "")
 
 
@@ -144,6 +145,11 @@ Static Function fMontaExcel(cPasta)
 	cQuery += " 	ELSE '' "
 	cQuery += " END 			AS MOVIMENTACAO, "
 	cQuery += " A.E5_HISTOR		AS HISTORICO, "
+	cQuery += " CASE "
+	cQuery += " 	WHEN A.E5_RECPAG = 'R' THEN ISNULL((SELECT TOP 1 SE1.E1_HIST FROM SE1010 SE1 WHERE SE1.D_E_L_E_T_ = '' AND SE1.E1_FILIAL = A.E5_FILIAL AND SE1.E1_PREFIXO = A.E5_PREFIXO AND SE1.E1_NUM = A.E5_NUMERO AND SE1.E1_CLIENTE = A.E5_CLIFOR AND SE1.E1_LOJA = A.E5_LOJA), '') "
+	cQuery += " 	WHEN A.E5_RECPAG = 'P' THEN ISNULL((SELECT TOP 1 SE2.E2_HIST FROM SE2010 SE2 WHERE SE2.D_E_L_E_T_ = '' AND SE2.E2_FILIAL = A.E5_FILIAL AND SE2.E2_PREFIXO = A.E5_PREFIXO AND SE2.E2_NUM = A.E5_NUMERO AND SE2.E2_FORNECE = A.E5_CLIFOR AND SE2.E2_LOJA = A.E5_LOJA), '') "
+	cQuery += " 	ELSE '' "
+	cQuery += " END 			AS HISTTIT, "
 	cQuery += " A.E5_DOCUMEN	AS DOCUMENTO "
 	cQuery += " FROM SE5010 A "
 	cQuery += " LEFT JOIN SA1010 B ON B.D_E_L_E_T_ = '' AND B.A1_COD = A.E5_CLIFOR AND B.A1_LOJA = A.E5_LOJA AND A.E5_RECPAG = 'R' "
@@ -164,11 +170,9 @@ Static Function fMontaExcel(cPasta)
 
 	DbSelectArea(_cAlias)
 
-
-
 	While (_cAlias)->(!Eof())
 
-		oExcel:AddRow("MVBANC","MVBANCMED",{ (_cAlias)->FILIAL,(_cAlias)->DTMVBANC,(_cAlias)->BANCO,(_cAlias)->AGENCIA,(_cAlias)->CONTA,(_cAlias)->CODCLIFOR,(_cAlias)->CLIFOR,(_cAlias)->CGCCLIFOR,(_cAlias)->NATUREZA,(_cAlias)->TITULO,(_cAlias)->TIPO,(_cAlias)->NFRA,(_cAlias)->VALOR,(_cAlias)->CCCREDITO,(_cAlias)->CLVLCREDITO,(_cAlias)->CCDEBITO,(_cAlias)->CLVLDEBITO,(_cAlias)->MOVIMENTACAO,(_cAlias)->HISTORICO,(_cAlias)->DOCUMENTO })
+		oExcel:AddRow("MVBANC","MVBANCMED",{ (_cAlias)->FILIAL,(_cAlias)->DTMVBANC,(_cAlias)->BANCO,(_cAlias)->AGENCIA,(_cAlias)->CONTA,(_cAlias)->CODCLIFOR,(_cAlias)->CLIFOR,(_cAlias)->CGCCLIFOR,(_cAlias)->NATUREZA,(_cAlias)->TITULO,(_cAlias)->TIPO,(_cAlias)->NFRA,(_cAlias)->VALOR,(_cAlias)->CCCREDITO,(_cAlias)->CLVLCREDITO,(_cAlias)->CCDEBITO,(_cAlias)->CLVLDEBITO,(_cAlias)->MOVIMENTACAO,(_cAlias)->HISTORICO,(_cAlias)->HISTTIT,(_cAlias)->DOCUMENTO })
 
 		(_cAlias)->(dBskip())
 
